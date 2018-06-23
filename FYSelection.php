@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
 //new comment
+//one more comment
  		include('checksession.php');
  		include('config.php');
  		if ($conn->connect_error)
