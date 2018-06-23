@@ -1,10 +1,20 @@
 <?php
 include('config.php');
+include('checksession.php');
+
+$cname = $_SESSION['cname'];
+$query0 = "select id from company where companyName='$cname'";
+$result0 = mysqli_query($conn, $query0);
+$row0 = mysqli_fetch_array($result0);
+$cid = $row0['id'];
+echo $fyid;
+
 
 if ($conn->connect_error)
 	{
 		 die("Connection failed: " . $conn->connect_error);
-	} 
+	}
+
 
 	if(@isset($_POST["btnsubmit"]))
 	{
@@ -20,7 +30,7 @@ if ($conn->connect_error)
 if($startdate!="" && $enddate!="" && $financialyear!="")
 		{
 			
-			$query="insert into financialyear(startDate,endDate,fy,status)values('$startdate','$enddate','$financialyear','$status')";
+			$query="insert into financialyear(startDate,endDate,fy,companyId,status)values('$startdate','$enddate','$financialyear','$cid', '$status')";
            
             $result =mysqli_query($conn,$query) or die(mysqli_error($conn));
 

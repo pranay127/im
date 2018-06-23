@@ -82,6 +82,7 @@
 								<!-- PAGE CONTENT BEGINS -->
 								<div class="row">
 									<div class="col-sm-12">
+										
 										<form class="form-horizontal" method="POST" action="addfinanceprocess.php" class="pull-right">
 
 									<h5 class="header blue lighter bigger"><b>
@@ -133,6 +134,8 @@
 													
 												</div>
 											</div>
+
+
 										</div>
 
 										<div class="form-group">
