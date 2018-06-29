@@ -8,6 +8,7 @@
   if(isset($_SESSION['Allvalues']) && !empty($_SESSION['Allvalues']))
   {
   	$Allvalues=$_SESSION['Allvalues'];
+
   	$values = explode(',', $Allvalues);
   }
   else
@@ -24,8 +25,9 @@
 		$sql = "SELECT newCode FROM production where balanceWt!=0 ";
 		$result = $conn->query($sql);
 		$count=0;
-
+		
 		$sql1 = "SELECT * FROM production where newCode='$values[0]'";
+		echo $sql1;
 		$result1 = $conn->query($sql1);
 		$count1=0;
 		
@@ -33,6 +35,7 @@
 		{
 			$id=$row['id'];
 			$rmsize=$row['rmsize'];
+			//echo "akshay "; echo$rmsize;
 			
 			
 		}
@@ -174,7 +177,7 @@
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-													<?php if($values[1]){?>
+													<?php if($values[1]){ ?>
 													<input type="text" id="datepicker1" name="date1" value="<?php echo $values[1];?>" class="form-control"  style="width: 230px;height: 32px;" readonly/>
 													<?php } else{?>
 													<input type="text" id="datepicker1" name="date1" value="" class="form-control"  style="width: 230px;height: 32px;" readonly/>
@@ -194,6 +197,8 @@
 												<div class="input-group input-group-sm">
 											<?php if($values[6]){
 												$sql20 = "SELECT name FROM m_surface where id='$values[6]'";
+
+												//echo $sql20;
 												$result20 = $conn->query($sql20);
 												while($row=mysqli_fetch_array($result20))
 												{
@@ -279,6 +284,8 @@
 												<div class="input-group input-group-sm">
 											<?php if($values[2]){
 												$sql21 = "SELECT name FROM m_grade where id='$values[2]'";
+												
+
 												$result21 = $conn->query($sql21);
 												while($row=mysqli_fetch_array($result21))
 												{
