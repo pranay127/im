@@ -29,6 +29,38 @@
 		
 		$id=$_POST['id'];
 		$date=$_POST['date'];
+		// $query1= SELECT * from production where id ="$id" ;
+		// $result1=mysqli_query($conn,$query1);
+		// $count=mysqli_fetch_array($result1);
+		// if($count>0)
+		// {
+ 
+  //       echo"
+  //   	<script> 
+  //   	if(confirm('It can't be changed it is already in use'))
+  //   	{
+  //         window.location='editpurchase.php';
+  //   	}
+  //   	</script>";
+
+		// }
+
+  //       $query2=SELECT * from trade where id ="$id" ;
+		// $result2=mysqli_query($conn,$query2);
+		// $count2=mysqli_fetch_array($result2);
+		// if($count2>0)
+		// {
+		// 	echo"
+  //   	<script> 
+  //   	if(confirm('It can't be changed it is already in use'))
+  //   	{
+  //         window.location='editpurchase.php';
+  //   	}
+  //   	</script>";
+
+
+		//}
+
 		$code=$_POST['code'];
 		$party=$_POST['party'];
 		$grade=$_POST['grade'];
@@ -44,8 +76,7 @@
 		$lorryno=$_POST['lorryno'];
 		$invwgt=$_POST['invwgt'];
 		$freightfixed=$_POST['freightfixed'];
-		$cnffob=$_POST['cnffob'];
-		$remark=$_POST['remark'];
+    	$remark=$_POST['remark'];
 		$size1=$_POST['size1'];
 		$size2=$_POST['size2'];
 			

@@ -55,26 +55,30 @@ $res1 = $conn->query($sql1);
 				}
 				
 			}
-			
-			$date=$_POST['date'];
+			if(isset($_POST['warehouse']))
+                $warehouse=$_POST['warehouse'];
+			else
+			$warehouse="none";echo $warehouse;
+
+			$datee=$_POST['date'];
 			$party=$_POST['party'];
 			$billno=$_POST['billno'];
 			$make=$_POST['make'];
 			$lotno=$_POST['lotno'];
-			$warehouse=$_POST['warehouse'];
 			$transporter=$_POST['transporter'];
 			$lorryno=$_POST['lorryno'];
 			$freightfixed=$_POST['freightfixed'];
 			$cnffob=$_POST['cnffob'];
 			$remark=$_POST['remark'];
 
-			if($date!="" && $party!="" && $billno!="" && $make!="" && $lotno!="" && $warehouse!="")  
+			if($datee!="" && $party!="" && $billno!="" && $make!="" && $lotno!="" )  
 			{
 				for($i=1;$i<=$items;$i++)
 				{
 					if(${"code".$i}!="" && ${"grade".$i}!="" && ${"shape".$i}!="" && ${"condition".$i}!="" && ${"surface".$i}!="" && ${"inhwgt".$i}!="" && ${"invwgt".$i}!="" && ${"size".$i}!="" )
 					{
-						${"query".$i}="insert into newpurchase(fyId,companyId,lotNo,date,billNo,party,make,code,grade,shape,size,purchaseWeight,actualWeight,surface,warehouseId,transporterId,lorryNo,freightFixed,cnfFobId,remarks,conditn)values($fin,$com,$lotno,'$date','$billno','$party','$make','${"code".$i}',${"grade".$i},${"shape".$i},'${"size".$i}','${"invwgt".$i}','${"inhwgt".$i}',${"surface".$i},$warehouse,'$transporter','$lorryno','$freightfixed','$cnffob','$remark','${"condition".$i}')";
+						${"query".$i}="insert into newpurchase(fyId,companyId,lotNo,date,billNo,party,make,code,grade,shape,size,purchaseWeight,actualWeight,surface,warehouseId,transporterId,lorryNo,freightFixed,cnfFobId,remarks,conditn)values($fin,$com,$lotno,'$datee','$billno','$party','$make','${"code".$i}',${"grade".$i},${"shape".$i},'${"size".$i}','${"invwgt".$i}','${"inhwgt".$i}',${"surface".$i},$warehouse,'$transporter','$lorryno','$freightfixed','$cnffob','$remark','${"condition".$i}')";
+						echo ${"query".$i};
 			           	
 		           		 ${"result".$i} =mysqli_query($conn,${"query".$i}) or die(mysqli_error($conn));
 		           		
