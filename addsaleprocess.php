@@ -75,7 +75,7 @@ $res1 = $conn->query($sql1);
 				{
 					if(${"code".$i}!="" && ${"grade".$i}!="" && ${"shape".$i}!="" && ${"condition".$i}!="" && ${"surface".$i}!="" && ${"inhwgt".$i}!="" && ${"invwgt".$i}!="" && ${"size".$i}!="" && ${"heatno".$i} && ${"make".$i} && ${"lotno".$i} )
 					{
-						${"query".$i}="insert into trade(fyId,companyId,lotNo,date,heatNo,party,make,code,grade,shape,size,actualWeight,surface,transporterId,lorryNo,freightFixed,cnfFobId,remarks,billNo,conditn,invoiceWt)values($fin,$com,${"lotno".$i},'$date',${"heatno".$i},'$party','${"make".$i}','${"code".$i}',${"grade".$i},${"shape".$i},'${"size".$i}','${"inhwgt".$i}',${"surface".$i},'$transporter','$lorryno','$freightfixed','$cnffob','$remark','$billno','${"condition".$i}','${"invwgt".$i}')";
+						${"query".$i}="insert into trade(fyId,companyId,lotNo,date,heatNo,party,make,code,grade,shape,size,actualWeight,surface,transporterId,lorryNo,freightFixed,cnfFobId,remarks,billNo,conditn,invoiceWt,remain)values($fin,$com,${"lotno".$i},'$date',${"heatno".$i},'$party','${"make".$i}','${"code".$i}',${"grade".$i},${"shape".$i},'${"size".$i}','${"inhwgt".$i}',${"surface".$i},'$transporter','$lorryno','$freightfixed','$cnffob','$remark','$billno','${"condition".$i}','${"invwgt".$i}')";
 			           	
 		           		 ${"result".$i} =mysqli_query($conn,${"query".$i}) or die(mysqli_error($conn));
 		           		

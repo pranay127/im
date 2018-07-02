@@ -66,13 +66,6 @@
 														<i class="ace-icon fa fa-plus-circle bigger-120 green"></i>
 													</a>
 												</div>
-
-												<div class="btn btn-white btn-primary btn-bold">
-												
-													<a class="blue" href="" data-toggle="tooltip" title="Delete">
-														<i class="ace-icon fa fa-trash-o bigger-120 red"></i>
-													</a>
-												</div>
 											</div>
 										</div>	
 										<script>
@@ -229,7 +222,7 @@
 																<a class="green" href="editjobwork1.php?id=<?php echo $id ?>">
 																	<i class="ace-icon fa fa-pencil bigger-130"></i>
 																</a>
-																<a class="red" href="">
+																<a class="red" href="deleteproduction.php?id=<?php echo $id ?>">
 																	<i class="ace-icon fa fa-trash-o bigger-130"></i>
 																</a>
 																

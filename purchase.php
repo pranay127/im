@@ -67,12 +67,7 @@
 													</a>
 												</div>
 
-												<div class="btn btn-white btn-primary btn-bold">
 												
-													<a class="blue" href="" data-toggle="tooltip" title="Delete">
-														<i class="ace-icon fa fa-trash-o bigger-120 red"></i>
-													</a>
-												</div>
 											</div>
 										</div>
 										<script>
@@ -147,8 +142,8 @@
 																$make=$row['make'];
 																/*$lotno=$row['lotNo'];*/
 																$codeno=$row['code'];
-																$invweight=$row['actualWeight'];
-																$inhweight=$row['purchaseWeight'];
+																$inhweight=$row['actualWeight'];
+																$invweight=$row['purchaseWeight'];
 																$balweight=$row['remainingWeight'];
 																/*$transname=$row['party'];*/
 																$lorryno=$row['lorryNo'];

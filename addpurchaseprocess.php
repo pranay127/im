@@ -58,8 +58,7 @@ $res1 = $conn->query($sql1);
 			if(isset($_POST['warehouse']))
                 $warehouse=$_POST['warehouse'];
 			else
-			$warehouse="none";echo $warehouse;
-
+			$warehouse="none";
 			$datee=$_POST['date'];
 			$party=$_POST['party'];
 			$billno=$_POST['billno'];
@@ -77,12 +76,20 @@ $res1 = $conn->query($sql1);
 				{
 					if(${"code".$i}!="" && ${"grade".$i}!="" && ${"shape".$i}!="" && ${"condition".$i}!="" && ${"surface".$i}!="" && ${"inhwgt".$i}!="" && ${"invwgt".$i}!="" && ${"size".$i}!="" )
 					{
-						${"query".$i}="insert into newpurchase(fyId,companyId,lotNo,date,billNo,party,make,code,grade,shape,size,purchaseWeight,actualWeight,surface,warehouseId,transporterId,lorryNo,freightFixed,cnfFobId,remarks,conditn)values($fin,$com,$lotno,'$datee','$billno','$party','$make','${"code".$i}',${"grade".$i},${"shape".$i},'${"size".$i}','${"invwgt".$i}','${"inhwgt".$i}',${"surface".$i},$warehouse,'$transporter','$lorryno','$freightfixed','$cnffob','$remark','${"condition".$i}')";
-						echo ${"query".$i};
-			           	
+						${"query".$i}="insert into newpurchase(fyId,companyId,lotNo,date,billNo,party,make,code,grade,shape,size,purchaseWeight,actualWeight,remainingWeight,surface,warehouseId,transporterId,lorryNo,freightFixed,cnfFobId,remarks,conditn)values($fin,$com,$lotno,'$datee','$billno','$party','$make','${"code".$i}',${"grade".$i},${"shape".$i},'${"size".$i}','${"invwgt".$i}','${"inhwgt".$i}','${"inhwgt".$i}',${"surface".$i},$warehouse,'$transporter','$lorryno','$freightfixed','$cnffob','$remark','${"condition".$i}')";
+						//echo ${"query"$i};
+						${"query1".$i}="insert into production(date,previousCode,newCode,lotNo,make,grade,shape,size,rmsize,heatNo,actualWeight,balanceWt,openingbalwt,inweight,surface,flag,fyId,companyId,remark,checkCode,pur_fk_id,billNo)values('$datee','${"code".$i}','${"code".$i}','$lotno','$make',${"grade".$i},${"shape".$i},'${"size".$i}','0','0','${"inhwgt".$i}','${"inhwgt".$i}','${"inhwgt".$i}','${"invwgt".$i}',${"surface".$i},0,$fin,$com,'0','0',0,'0')";
+						
+			           	${"query2".$i}="insert into balance(prevCode,newCode,balance)values('${"code".$i}','${"code".$i}','${"inhwgt".$i}')";
+
+
+
 		           		 ${"result".$i} =mysqli_query($conn,${"query".$i}) or die(mysqli_error($conn));
-		           		
-		            		if(${"result".$i})
+							
+						${"result1".$i} =mysqli_query($conn,${"query1".$i}) or die(mysqli_error($conn));
+							
+						 ${"result2".$i} =mysqli_query($conn,${"query2".$i}) or die(mysqli_error($conn));          		
+		            		if(${"result".$i} && ${"result1".$i} && ${"result2".$i} )
 							{
 								header('Location:purchase.php');
 									

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php
+<?php  
   include('config.php');
   include('checksession.php');
   $fy=$_SESSION['fy'];
@@ -24,10 +24,11 @@
 		}
 		$sql = "SELECT newCode FROM production where balanceWt!=0 ";
 		$result = $conn->query($sql);
+
 		$count=0;
 		
 		$sql1 = "SELECT * FROM production where newCode='$values[0]'";
-		echo $sql1;
+		
 		$result1 = $conn->query($sql1);
 		$count1=0;
 		
@@ -85,6 +86,7 @@
 		$result14 = $conn->query($sql14);
 		$count14=0;
 
+		
 		$sql24 = "SELECT * FROM financialyear where fy='$fy'";
 		$result24 = $conn->query($sql24);
 		while($row=mysqli_fetch_array($result24))
@@ -92,7 +94,6 @@
 			$ST=$row['startDate'];
 			$EN=$row['endDate'];
 		}
-		
 ?>
 <html lang="en">
 	<head>
@@ -221,9 +222,9 @@
 												
 												<div class="input-group input-group-sm">
 													<?php if($values[0]){?>
-													<input list="Ncode" name="Ncode" style="width: 230px;height: 32px;" value="<?php echo $values[0];?>" placeholder="Select Code" class="form-control">
-													<?php } else{?>	
-													<input list="Ncode" name="Ncode" style="width: 230px;height: 32px;" value="" placeholder="Select Code" class="form-control">
+													<input required list="Ncode" name="Ncode" style="width: 230px;height: 32px;" value="<?php echo $values[0];?>" placeholder="Select Code" class="form-control">
+													<?php   } else{?>	
+													<input required list="Ncode" name="Ncode" style="width: 230px;height: 32px;" value="" placeholder="Select Code" class="form-control">
 													<?php } ?>
 													<datalist id="Ncode" name="Ncode" style="width: 230px;height: 32px;" >
 
@@ -241,12 +242,22 @@
 																	}	
 																?>
 													</datalist>
+													 
 											
 												</div>
 											</div>
+											<button type="button" align="left" onclick="refresh()">Change</button>
 										</div>
 									</div>
 									<script>
+										function refresh(){
+											<?php 
+											$_SESSION['Allvalues']='';
+  											//$values=0;
+  											?>
+  											window.location="addproduction.php";
+										}
+
 							         $(document).ready(function(){
 							           $(document).on('change', 'input', function(){
 										    var options = $('datalist')[0].options;
@@ -311,7 +322,7 @@
 												<?php if($values[8]){?>		
 													<input type="text" id="heatno" name="heatno" value="<?php echo $values[8];?>" class="form-control" style="width: 230px;height: 32px;" readonly />
 												<?php } else{?>
-												<input type="text" id="heatno" name="heatno" value="" class="form-control" style="width: 230px;height: 32px;"  readonly />	
+												<input type="text" id="heatno" name="heatno" value="none" default="None" class="form-control" style="width: 230px;height: 32px;"  readonly />	
 												<?php } ?>		
 												</div>
 											</div>
@@ -429,7 +440,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													<?php if($values[1]){?>
-													<input type="text" id="datepicker2" name="date2" class="form-control" value="<?php echo $values[1]; ?>"  style="width: 230px;height: 32px;"/>
+													<input required type="text" id="datepicker2" name="date2" class="form-control" value="<?php echo $values[1]; ?>"  style="width: 230px;height: 32px;"/>
 													<?php } else{?>
 													<input type="text" id="datepicker2" name="date2" class="form-control" value="" style="width: 230px;height: 32px;"/>
 													<?php } ?>
@@ -448,7 +459,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<select id="LotNo2" name ="lotno2" style="width: 230px;height: 32px; margin-right: 5px;">
+													<select required id="LotNo2" name ="lotno2" style="width: 230px;height: 32px; margin-right: 5px;">
 														<?php
 													if($result22){
 														while($row=mysqli_fetch_array($result22))
@@ -524,7 +535,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<select id="process" name="process" class="process" style="width: 230px;height: 32px;" >
+													<select required id="process" name="process" class="process" style="width: 230px;height: 32px;" >
 
 														<option value="">Select Process</option>
 															<?php 
@@ -634,24 +645,25 @@
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-													
+													<?php if(isset($rmsize)){ ?>
 													<input type="text" id="size3" name="size3" value="<?php echo $rmsize;?>" class="form-control" style="width: 230px;height: 32px; margin-right: 20px;"/>
-													
-													
+													<?php }else { ?>
+														<input type="text" id="size3" name="size3" value="0.0" default="0.0" class="form-control" style="width: 230px;height: 32px; margin-right: 20px;"/>
+													<?php } ?>
 												</div>
 											</div>
 										</div>
 									</div>
 
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Heat No <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Heat No  </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 												<?php if($values[8]){?>		
 													<input type="text" id="heatno1" name="heatno1" value="<?php echo $values[8];?>" class="form-control" style="width: 230px;height: 32px;"  />
 												<?php } else{?>
-												<input type="text" id="heatno1" name="heatno1" value="" class="form-control" style="width: 230px;height: 32px;"  />	
+												<input type="text" id="heatno1" name="heatno1" value="none" default="None"  class="form-control" style="width: 230px;height: 32px;"  />	
 												<?php } ?>		
 												</div>
 											</div>
@@ -666,7 +678,7 @@
 													<?php if($values[10]){?>	
 													<input type="text" id="make2" value="<?php echo $values[10];?>" name="make2" class="form-control" style="width: 230px;height: 32px;"  />
 													<?php } else{?>	
-													<input type="text" id="make2" value="" name="make2" class="form-control" style="width: 230px;height: 32px;"  />
+													<input required type="text" id="make2" value="" name="make2" class="form-control" style="width: 230px;height: 32px;"  />
 													<?php } ?>
 												</div>
 											</div>
@@ -679,7 +691,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="inwgt" name="inwgt" class="form-control" style="width: 230px;height: 32px;" />
+													<input required type="text" id="inwgt" name="inwgt" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
@@ -720,7 +732,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<select id="shape2" name="shape2" style="width: 230px;height: 32px; ">
+													<select required id="shape2" name="shape2" style="width: 230px;height: 32px; ">
 														<?php
 													if($result23){
 														while($row=mysqli_fetch_array($result23))
@@ -757,7 +769,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="outwgt" name="outwgt" class="form-control" style="width: 230px;height: 32px;" />
+													<input required type="text" id="outwgt" name="outwgt" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
@@ -770,6 +782,7 @@
 
 											$inwt=document.getElementById('inwgt').value;
 											$outwt=document.getElementById('outwgt').value;
+											
 											
 											if(Number($outwt) > Number($inwt))
 											{
@@ -800,12 +813,12 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<select id="surface2" name="surface2"  style="width: 230px;height: 32px;">
+													<select required id="surface2" name="surface2"  style="width: 230px;height: 32px;">
 														<?php
 													if($result20){
 														while($row=mysqli_fetch_array($result20))
 															{
-																$id=$values[6];
+					 											$id=$values[6];
 																$surname=$row['name'];
 															
 														?>
@@ -838,12 +851,12 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="reclos" name="reclos"  value="0" class="form-control" style="width: 230px;height: 32px;" />
+													<input  type="text" id="reclos" name="reclos"  value="0" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
 										</div>
-									</div>
+					 				</div>
 
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Condition <span style="color:red">*</span> </label>
@@ -851,7 +864,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<select id="condition2" name="condition2" style="width: 230px;height: 32px;">
+													<select required id="condition2" name="condition2" style="width: 230px;height: 32px;">
 														<?php if($values[7]){?>
 														<option value="<?php echo $values[7];?>"><?php echo $values[7];?></option>
 														<?php }  else { ?>
@@ -968,12 +981,14 @@
 			$date='<?php echo $values[1];?>';
 			$startdate='<?php echo $ST;?>';
 			$enddate='<?php echo $EN;?>';
+			$purchase_date = '<?php echo $values[1]; ?>';
+
 				
 			$( "#datepicker2" ).datepicker({
 					showOtherMonths: true,
 					selectOtherMonths: false,
 					dateFormat: 'yy-mm-dd',
-					minDate: $date,
+					minDate: $purchase_date,
 					maxDate: $enddate,
 				});
 			$('#date2p').click(function() {

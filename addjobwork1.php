@@ -257,9 +257,17 @@
 											
 												</div>
 											</div>
+											<button type="button" align="left" onclick="refresh()">Change</button>
 										</div>
 									</div>
 									<script>
+										function refresh(){
+											<?php 
+											$_SESSION['Allvalues']='';
+  											//$values=0;
+  											?>
+  											window.location="addproduction.php";
+										}
 							         $(document).ready(function(){
 							           $(document).on('change', 'input', function(){
 										    var options = $('datalist')[0].options;
@@ -689,14 +697,14 @@
 									
 
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Heat No <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Heat No </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 												<?php if($values[8]){?>		
 													<input type="text" id="heatno" name="heatno" value="<?php echo $values[8];?>" class="form-control" style="width: 230px;height: 32px;">
 												<?php } else{?>
-												<input type="text" id="heatno" name="heatno" value="" class="form-control" style="width: 230px;height: 32px;" >	
+												<input type="text" id="heatno" name="heatno" value="None" default="None"   class="form-control" style="width: 230px;height: 32px;" >	
 												<?php } ?>		
 												</div>
 											</div>

@@ -4,6 +4,8 @@
   include('checksession.php');
   $fy=$_SESSION['fy'];
   $company=$_SESSION['cname'];
+  $_SESSION['Allvalues']='';
+  	$values=0;
 ?>
 
 <html lang="en">
@@ -58,6 +60,9 @@
 												Financial Year:&nbsp; <?php echo $fy ?> </b>
 								
 										</h5>
+										<h5 class="header red lighter bigger"><b>
+												<?php if(@isset($_GET['error'])){echo $_GET['error'];} else{echo '';} ?></b> 
+											</h5>
 										
 										<div class="clearfix">
 											<div class="pull-right tableTools-container">
@@ -67,12 +72,7 @@
 													</a>
 												</div>
 
-												<div class="btn btn-white btn-primary btn-bold">
 												
-													<a class="blue" href="" data-toggle="tooltip" title="Delete">
-														<i class="ace-icon fa fa-trash-o bigger-120 red"></i>
-													</a>
-												</div>
 											</div>
 										</div>	
 										<script>
@@ -229,7 +229,7 @@
 																	<i class="ace-icon fa fa-pencil bigger-130"></i>
 																</a>
 
-																<a class="red" href="">
+																<a class="red" href="deleteproduction.php?id=<?php echo $id ?>">
 																	<i class="ace-icon fa fa-trash-o bigger-130"></i>
 																</a>
 															</div>

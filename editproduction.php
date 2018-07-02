@@ -92,6 +92,7 @@
 		<![endif]-->
 		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
 		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="assets/css/jquery-confirm.css" />
 
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
@@ -151,6 +152,7 @@
 													{
 														$id=$row['id'];
 														$date=$row['date'];
+														$previousCode=$row['previousCode'];
 														$code=$row['newCode'];
 														$grade=$row['grade'];
 														$size=$row['size'];
@@ -169,6 +171,20 @@
 
 
 														}
+														$query1 = "select * from production where newCode='$previousCode'";
+														$result1 = mysqli_query($conn,$query1);
+														$row1 = mysqli_fetch_array($result1);
+														$balwgt = $row1['balanceWt'];
+														$parent_date=$row1['date'];
+														echo $parent_date;
+
+														$sql2 = "SELECT * FROM financialyear where fy='$fy'";
+														$result2 = $conn->query($sql2);		while($row=mysqli_fetch_array($result2))
+														{
+															$ST=$row['startDate'];
+															$EN=$row['endDate'];
+														}
+
 
 													?>
 								<div class="row">
@@ -177,7 +193,7 @@
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-													<input type="text" id="datepicker1" name="date1"   value="<?php echo $date ; ?>" class="form-control"  style="width: 230px;height: 32px;"/>
+													<input disabled type="text" id="datepicker1" name="date1"   value="<?php echo $date ; ?>" class="form-control"  style="width: 230px;height: 32px;"/>
 													<span class="input-group-addon">
 														<i class="ace-icon fa fa-calendar" id='date1p'></i>
 													</span>
@@ -194,7 +210,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<select id="surface1" name="surface1"   style="width: 230px;height: 32px;">
+													<select disabled id="surface1" name="surface1"   style="width: 230px;height: 32px;">
 
 														
 
@@ -211,7 +227,7 @@
 
 																	
 														?>
-														<option value="<?php echo $id ?>"><?php echo $surface ?></option>
+														<option  value="<?php echo $id ?>"><?php echo $surface ?></option>
 															<?php 
 															}
 															else
@@ -244,7 +260,7 @@
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-													<input type="text" id="code" name="code"   value="<?php echo $code; ?>" class="form-control" style="width: 230px;height: 32px;" />
+													<input readonly type="text" id="code" name="code"   value="<?php echo $code; ?>" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
@@ -259,7 +275,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<select id="condition1" name="condition1" style="width: 230px;height: 32px; ">
+													<select disabled id="condition1" name="condition1" style="width: 230px;height: 32px; ">
 														<?php
 														 if($condition)
 														 {
@@ -301,7 +317,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<select id="grade1" name="grade1"  style="width: 230px;height: 32px;">
+													<select disabled id="grade1" name="grade1"  style="width: 230px;height: 32px;">
 
 														<?php 
 
@@ -355,7 +371,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<input type="text" id="heatno" name="heatno" value="<?php echo $heatno; ?>" class="form-control" style="width: 230px;height: 32px;" />
+													<input readonly type="text" id="heatno" name="heatno" value="<?php echo $heatno; ?>" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
@@ -383,11 +399,11 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													<?php if($part1 && $part2){ ?>
-													<input type="text" name="size1" class="form-control" value="<?php echo $part1; ?>" style="width: 110px;height: 32px; margin-right: 5px"/>
+													<input readonly type="text" name="size1" class="form-control" value="<?php echo $part1; ?>" style="width: 110px;height: 32px; margin-right: 5px"/>
 													<input type="text" name="size2" class="form-control" value="<?php echo $part2; ?>" style="width: 110px;height: 32px; margin-left: 5px" />
 													<?php }
 													else if ($part1){ ?>
-													<input type="text" name="size1" class="form-control" value="<?php echo $part1;?>" style="width: 110px;height: 32px; margin-right: 5px"/>
+													<input readonly type="text" name="size1" class="form-control" value="<?php echo $part1;?>" style="width: 110px;height: 32px; margin-right: 5px"/>
 													<input type="text" name="size2" class="form-control" value="0" style="width: 110px;height: 32px; margin-left: 5px" />
 													<?php } 
 													else {?>
@@ -408,7 +424,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<select id="LotNo1"  name="lotno1" style="width: 230px;height: 32px; margin-right: 5px;">
+													<select disabled id="LotNo1"  name="lotno1" style="width: 230px;height: 32px; margin-right: 5px;">
 
 														<?php
 
@@ -460,7 +476,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<select id="shape1" name="shape1" style="width: 230px;height: 32px; ">
+													<select disabled id="shape1" name="shape1" style="width: 230px;height: 32px; ">
 
 														<?php
 
@@ -509,7 +525,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<input type="text" id="make1" value="<?php echo $make; ?> " name="make1" class="form-control" style="width: 230px;height: 32px;" />
+													<input readonly type="text" id="make1" value="<?php echo $make; ?> " name="make1" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
@@ -524,12 +540,27 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="inhwgt" name="inhwgt"  value="<?php echo $inwgt ; ?>"  class="form-control" style="width: 230px;height: 32px;" />
+													<input readonly type="text" id="inhwgt" name="inhwgt"  value="<?php echo $inwgt ; ?>"  class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
 										</div>
 									</div>
+
+									<div class="col-sm-6" style="margin-top: 12px;">
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Parent Balance Weight(In Kg.)  </label>
+										<div class="row">
+											<div class="col-xs-6">
+												<div class="input-group input-group-sm">
+													
+													<input readonly type="text" id="balwgt" name="balwgt"  value="<?php echo $balwgt ; ?>"  class="form-control" style="width: 230px;height: 32px;" />
+													
+												</div>
+											</div>
+										</div>
+									</div>
+
+
 
 								</div><!-- ./row -->
 
@@ -663,6 +694,35 @@
 										</div>
 									</div>
 
+									<script type="text/javascript">
+										$('input[name=inwgt]').change(function() { 
+
+											$inwt=document.getElementById('inwgt').value;
+											$balwt=document.getElementById('balwgt').value;
+											
+											if(Number($inwt) > Number($balwt))
+											{
+												$.confirm({
+												    title: 'Message!',
+												    content: 'In weight should be less than Balance weight.!',
+												    buttons: {
+												        OK: function () {
+												            close();
+												            document.getElementById('inwgt').value='';
+												        },
+												       
+												    }
+												});
+											}
+											else
+											{
+												document.getElementById('inwgt').value=$inwt;
+											}	
+											
+										 });
+
+									</script>
+
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Shape <span style="color:red">*</span> </label>
 										<div class="row">
@@ -703,6 +763,39 @@
 											</div>
 										</div>
 									</div>
+
+
+									<script type="text/javascript">
+										$('input[name=outwgt]').change(function() { 
+
+											$inwt=document.getElementById('inwgt').value;
+											$outwt=document.getElementById('outwgt').value;
+											
+											
+											if(Number($outwt) > Number($inwt))
+											{
+												$.confirm({
+												    title: 'Message!',
+												    content: 'Out weight should be less than In weight.!',
+												    buttons: {
+												        OK: function () {
+												            close();
+												            document.getElementById('outwgt').value='';
+												        },
+												       
+												    }
+												});
+											}
+											else
+											{
+												$reclos=$inwt-$outwt;
+												document.getElementById('reclos').value=$reclos;
+											}	
+											
+										 });
+
+									</script>
+
 
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Surface <span style="color:red">*</span> </label>
@@ -854,6 +947,7 @@
 		<!-- page specific plugin scripts -->
 		<script src="assets/js/jquery-ui.min.js"></script>
 		<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="assets/js/jquery-confirm.js"></script>
 		
 		<!-- ace scripts -->
 		<script src="assets/js/ace-elements.min.js"></script>
@@ -863,12 +957,16 @@
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
 			jQuery(function($) {
-			
+
+				$startdate='<?php echo $ST;?>';
+				$enddate='<?php echo $EN;?>';
+				$parent_date = '<?php echo $parent_date; ?>';
 				$( "#datepicker1" ).datepicker({
 					showOtherMonths: true,
 					selectOtherMonths: false,
 					dateFormat: 'yy-mm-dd',
-		
+					
+
 				});
 				$('#date1p').click(function() {
   				  $("#datepicker1").focus();
@@ -878,6 +976,8 @@
 					showOtherMonths: true,
 					selectOtherMonths: false,
 					dateFormat: 'yy-mm-dd',
+					minDate: $parent_date,
+					maxDate: $enddate,
 		
 				});
 			$('#date2p').click(function() {

@@ -6,7 +6,19 @@
 	if(@isset($_POST["btnsubmit"]))
 	{
 		$_SESSION['fy']=$_POST['financialyear'];
+		$fy = $_SESSION['fy'];
 		$_SESSION['cname']=$_POST['companyname'];
+		$cname = $_SESSION['cname'];
+		$query = "select id from financialyear where fy='$fy'";
+		$result = mysqli_query($conn, $query);
+		$row = mysqli_fetch_array($result);
+		$_SESSION['fyId']= $row['id'];
+		
+		$query1 = "select id from company where companyName='$cname'";
+		$result1 = mysqli_query($conn, $query1);
+		$row1 = mysqli_fetch_array($result1);
+		$_SESSION['cId']= $row1['id'];
+		
 		header('Location:dashboard.php');
 
 	}
