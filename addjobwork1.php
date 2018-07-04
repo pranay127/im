@@ -912,7 +912,7 @@
 														   
 														   {
 														   	?>
-																<option value="<?phps echo $values[7];?>"><?php echo $values[7];?></option>
+																<option value="<?php echo $values[7];?>"><?php echo $values[7];?></option>
 																<?php
 														   }
 															 else 

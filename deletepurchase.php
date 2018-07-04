@@ -11,6 +11,8 @@ if ($conn->connect_error)
 	$query1 = "select * from production where pur_fk_id = '$id' ";
 	$result1 = mysqli_query($conn, $query1);
 	$count1 = mysqli_num_rows($result1);
+	//echo $query1;
+
 	if($count1==0){
 
 	$query="delete from newpurchase where purchaseId='$id'";
@@ -19,6 +21,7 @@ if ($conn->connect_error)
 
      if($result)
 		{
+			//echo "success";
 			header('Location:purchase.php');
 							
 		}

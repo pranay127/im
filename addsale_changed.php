@@ -5,42 +5,27 @@
 	$fy=$_SESSION['fy'];
 	$company=$_SESSION['cname'];
 
-	$sql = "SELECT id,p_name FROM party";
+
+	$sql0 = "SELECT id,p_name FROM party";
+		$result0 = $conn->query($sql0);
+		$count0=0; 
+
+		$sql10 = "SELECT venorid,companyName FROM transporter";
+		$result10 = $conn->query($sql10);
+		$count10=0;
+
+		$sql30 = "SELECT * FROM m_cnforfob";
+		$result30 = $conn->query($sql30);
+		$count30=0;
+
+
+		$sql = "SELECT newCode FROM production where balanceWt!=0 ";
 		$result = $conn->query($sql);
+
 		$count=0;
-
-		$sql1 = "SELECT venorid,companyName FROM transporter";
-		$result1 = $conn->query($sql1);
-		$count1=0;
-
-		$sql2 = "SELECT id,lotNo FROM lotno";
-		$result2 = $conn->query($sql2);
-		$count2=0;
-
-		$sql3 = "SELECT * FROM m_cnforfob";
-		$result3 = $conn->query($sql3);
-		$count3=0;
 		
+	
 
-		$sql4 = "SELECT * FROM m_grade";
-		$result4 = $conn->query($sql4);
-		$count4=0;
-
-		$sql5 = "SELECT * FROM m_shape";
-		$result5 = $conn->query($sql5);
-		$count5=0;
-
-		$sql6 = "SELECT * FROM m_surface";
-		$result6 = $conn->query($sql6);
-		$count6=0;
-
-		$sql7 = "SELECT * FROM m_condition";
-		$result7 = $conn->query($sql7);
-		$count7=0;
-
-		$sql8 = "SELECT * FROM m_code";
-		$result8 = $conn->query($sql8);
-		$count8=0;
 
 		$sql24 = "SELECT * FROM financialyear where fy='$fy'";
 		$result24 = $conn->query($sql24);
@@ -102,6 +87,44 @@
 		<script src="assets/js/html5shiv.min.js"></script>
 		<script src="assets/js/respond.min.js"></script>
 		<![endif]-->
+
+
+
+
+		<script type="text/javascript">
+		//add code for select"	
+		function codeChange(str) {
+			console.log(str);
+			var abc = document.getElementById("codeInfo");
+			console.log(abc);
+    		if (str == "") {
+        		document.getElementById("codeInfo").innerHTML = "";
+        		console.log(document.getElementById(codeInfo).innerHTML)
+        		return;
+    		}
+    		else { 
+        		if (window.XMLHttpRequest) {
+            	// code for IE7+, Firefox, Chrome, Opera, Safari
+            	xmlhttp = new XMLHttpRequest();
+        	} 
+        	else {
+            // code for IE6, IE5 
+            	xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("codeInfo").innerHTML = this.responseText;
+            }
+        };
+        //document.write(str);
+        xmlhttp.open("GET","getCodeInfo.php ?code="+str,true);
+        xmlhttp.send();
+    }
+}
+
+</script>
+
+
 	</head>
 
 	<body class="no-skin">
@@ -173,7 +196,7 @@
 													<select id="party" name="party" style="width: 230px;height: 32px;">
 																<option value="">Select Party</option>
 																<?php 
-																	while($row=mysqli_fetch_array($result))
+																	while($row=mysqli_fetch_array($result0))
 																	{
 																		$id=$row['id'];
 																		$pname=$row['p_name'];
@@ -229,7 +252,7 @@
 
 														<option value="">Select CNF/FOB</option>
 																<?php 
-																	while($row=mysqli_fetch_array($result3))
+																	while($row=mysqli_fetch_array($result30))
 																	{
 																		$id=$row['id'];
 																		$cfname=$row['name'];
@@ -257,7 +280,7 @@
 
 														<option value="">Select Transporter</option>
 																<?php 
-																	while($row=mysqli_fetch_array($result1))
+																	while($row=mysqli_fetch_array($result10))
 																	{
 																		$id=$row['venorid'];
 																		$tname=$row['companyName'];
@@ -292,7 +315,8 @@
 									
 								<pre style="background-color: white; border-color: white;border-bottom-color:#87b87f; width:1130px; padding-bottom: 50px;padding-top: 0px;"></pre>
 
-							
+							<!-- Add item code -->
+
 								<div class="col-sm-6" style="margin-top: 12px;width: 474px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 200px;"> Enter total no. of items</label>
 										<div class="col-xs-6" >
@@ -329,173 +353,7 @@
 													for($i=1;$i<=$items;$i++)
 													{
 														
-													additems+='<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;margin-top:12px;"> Code <span style="color:red;margin-top:12px;">*</span> </label>';
-													additems+='<div class="row">';
-														additems+='<div class="col-xs-6">';
-															additems+='<div class="input-group input-group-sm">';
-																	additems+='<input list="code'+$i+'" name="code'+$i+'" style="width:230px;height:32px;margin-top:12px;" placeholder="Select Code" class="form-control">';
-																	additems+='<datalist id="code'+$i+'" name="code'+$i+'" style="width: 230px;height:32px;" >';
-
-																		additems+='<?php 
-																					while($row=mysqli_fetch_array($result8))
-																					{
-																						$id=$row['id'];
-																						$codename=$row['name'];
-																						$count++;
-																						
-																				?>';
-																				additems+='<option value="<?php echo $codename;?>"><?php echo $codename;?></option>';
-																				additems+='<?php			
-																					}	
-																				?>';
-																	additems+='</datalist>';
-																
-															additems+='</div>';
-														additems+='</div>';
-													additems+='</div>';
 												
-													additems+='<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;margin-top:12px;"> Grade <span style="color:red;margin-top:12px;">*</span> </label>';
-													additems+='<div class="row">';
-														additems+='<div class="col-xs-6">';
-															additems+='<div class="input-group input-group-sm">';
-																
-																additems+='<select id="grade" name="grade'+$i+'" style="width: 230px;height: 32px;margin-top:12px;">';
-
-																
-																	additems+='<option value="">Select Grade</option>';
-																		additems+='<?php 
-																				while($row=mysqli_fetch_array($result4))
-																				{
-																					$id=$row['id'];
-																					$gname=$row['name'];
-																					$count4++;
-																					
-																			?>';
-																			additems+='<option value="<?php echo $id;?>"><?php echo $gname;?></option>';
-																			additems+='<?php			
-																				}	
-																			?>';
-														
-																additems+='</select>';
-														
-															additems+='</div>';
-														additems+='</div>';
-													additems+='</div>';
-												
-
-
-												 
-													additems+='<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;margin-top:12px;"> Size <span style="color:red;margin-top:12px;">*</span> </label>';
-													additems+='<div class="row">';
-														additems+='<div class="col-xs-6">';
-															additems+='<div class="input-group input-group-sm">';
-																
-																additems+='<input type="text" id="size1" name="size1'+$i+'" class="form-control" style="width: 110px;height: 32px; margin-right: 20px;margin-top:12px;"/>';
-																additems+='<input type="text" id="size2" name="size2'+$i+'" class="form-control" style="width: 100px;height: 32px;margin-top:12px;" />';
-																
-															additems+='</div>';
-														additems+='</div>';
-													additems+='</div>';
-											
-
-
-												
-													additems+='<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;margin-top:12px;"> Shape <span style="color:red;margin-top:12px;">*</span> </label>';
-													additems+='<div class="row">';
-														additems+='<div class="col-xs-6">';
-															additems+='<div class="input-group input-group-sm">';
-																
-																additems+='<select id="shape" name= "shape'+$i+'" style="width: 230px;height: 32px;margin-top:12px; ">';
-
-																	additems+='<option value="">Select Shape</option>';
-																			additems+='<?php 
-																				while($row=mysqli_fetch_array($result5))
-																				{
-																					$id=$row['id'];
-																					$shname=$row['name'];
-																					$count5++;
-																					
-																			?>';
-																			additems+='<option value="<?php echo $id;?>"><?php echo $shname;?></option>';
-																			additems+='<?php			
-																				}	
-																			?>';
-														
-																additems+='</select>';
-																
-															additems+='</div>';
-														additems+='</div>';
-													additems+='</div>';
-												
-
-
-												
-													additems+='<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;margin-top:12px;"> Surface <span style="color:red;margin-top:12px;">*</span> </label>';
-													additems+='<div class="row">';
-														additems+='<div class="col-xs-6">';
-															additems+='<div class="input-group input-group-sm">';
-																
-																additems+='<select id="surface" name="surface'+$i+'" style="width: 230px;height: 32px;margin-top:12px;">';
-
-																	additems+='<option value="">Select Surface</option>';
-																			additems+='<?php 
-																				while($row=mysqli_fetch_array($result6))
-																				{
-																					$id=$row['id'];
-																					$surname=$row['name'];
-																					$count6++;
-																					
-																			?>';
-																			additems+='<option value="<?php echo $id;?>"><?php echo $surname;?></option>';
-																			additems+='<?php			
-																				}	
-																			?>';
-																additems+='</select>';
-																
-															additems+='</div>';
-														additems+='</div>';
-													additems+='</div>';
-												
-
-												
-													additems+='<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;margin-top:12px;"> Condition <span style="color:red;margin-top:12px;">*</span> </label>';
-													additems+='<div class="row">';
-														additems+='<div class="col-xs-6">';
-															additems+='<div class="input-group input-group-sm">';
-																
-																additems+='<select id="condition" name="condition'+$i+'" style="width: 230px;height: 32px;margin-top:12px; ">';
-
-																	additems+='<option value="">Select Condition</option>';
-																		additems+='<?php 
-																				while($row=mysqli_fetch_array($result7))
-																				{
-																					$id=$row['id'];
-																					$condtxt=$row['condition_text'];
-																					$count7++;
-																					
-																			?>';
-																			additems+='<option value="<?php echo $condtxt;?>"><?php echo $condtxt;?></option>';
-																			additems+='<?php			
-																				}	
-																			?>';
-																additems+='</select>';
-																
-															additems+='</div>';
-														additems+='</div>';
-													additems+='</div>';
-
-
-													additems+='<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;margin-top:12px;"> Heat No <span style="color:red;margin-top:12px; ">*</span> </label>';
-													additems+='<div class="row">';
-														additems+='<div class="col-xs-6">';
-															additems+='<div class="input-group input-group-sm">';
-																
-																additems+='<input type="text" id="heatno" name="heatno'+$i+'" class="form-control" style="width: 230px;height: 32px;margin-top:12px;" />';
-																
-															additems+='</div>';
-														additems+='</div>';
-													additems+='</div>';
-
 
 													additems+='<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;margin-top:12px;"> Lot No <span style="color:red;margin-top:12px;">*</span> </label>';
 													additems+='<div class="row">';
@@ -524,47 +382,7 @@
 													additems+='</div>';
 												
 
-												additems+='<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;margin-top:12px;"> Make <span style="color:red;margin-top:12px; ">*</span> </label>';
-													additems+='<div class="row">';
-														additems+='<div class="col-xs-6">';
-															additems+='<div class="input-group input-group-sm">';
-																
-																additems+='<input type="text" id="make" name="make'+$i+'" class="form-control" style="width: 230px;height: 32px;margin-top:12px;" />';
-																
-															additems+='</div>';
-														additems+='</div>';
-													additems+='</div>';
-
-
-
-											
-
 												
-													additems+='<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;margin-top:12px;"> In House Weight(In Kg.) <span style="color:red;margin-top:12px; ">*</span> </label>';
-													additems+='<div class="row">';
-														additems+='<div class="col-xs-6">';
-															additems+='<div class="input-group input-group-sm">';
-																
-																additems+='<input type="text" id="inhwgt" name="inhwgt'+$i+'" class="form-control" style="width: 230px;height: 32px;margin-top:12px;" />';
-																
-															additems+='</div>';
-														additems+='</div>';
-													additems+='</div>';
-												
-
-												
-													additems+='<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;margin-top:12px;"> In Voice Weight(In Kg.) <span style="color:red; margin-top:12px">*</span> </label>';
-													additems+='<div class="row">';
-														additems+='<div class="col-xs-6">';
-															additems+='<div class="input-group input-group-sm">';
-																
-																additems+='<input type="text" id="invwgt" name="invwgt'+$i+'" class="form-control" style="width: 230px;height: 32px;margin-top:12px;" />';
-																
-															additems+='</div>';
-														additems+='</div>';
-													additems+='</div>';
-												
-
 												additems+='<pre style="background-color: white; border-color: white;border-bottom-color:#87b87f; width: 850px;"></pre>'; 
 												
 												}
@@ -613,6 +431,60 @@
 							      	});
 								});
 							 </script>
+
+								
+
+
+
+								<!-- PAGE CONTENT BEGINS -->
+								<div class="row">
+									<br>
+								</div>
+								
+								<div class="row">
+
+
+																		<div class="col-sm-6" style="margin-top: 12px;">
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> Code <span style="color:red">*</span> </label>
+										<div class="row">
+											<div class="col-xs-6">
+												
+												<div class="input-group input-group-sm">
+													<select id="code" name="code" style="width: 230px;height: 32px;" onchange="codeChange(this.value)">
+
+														<option value="">Select Code</option>
+																<?php 
+																	while($row=mysqli_fetch_array($result))
+																	{
+																		$id=$row['id'];
+																		$code=$row['newCode'];
+																		$count1++;
+																		
+																?>
+																<option value="<?php echo $code;?>"><?php echo $code;?></option>
+																<?php			
+																	}	
+																?>
+													</select>
+
+											
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									
+									<div id="codeInfo"> </div>
+									
+									
+
+								</div><!-- ./row -->
+
+
+
+
+
+
 							 <div class="form-group" >
 										<div class="col-md-offset-5 col-md-12" style="margin-top: 15px;">
 											

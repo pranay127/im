@@ -297,7 +297,7 @@
 				
 				
 				
-				/**
+				
 				//add horizontal scrollbars to a simple table
 				$('#simple-table').css({'width':'2000px', 'max-width': 'none'}).wrap('<div style="width: 1000px;" />').parent().ace_scroll(
 				  {
@@ -307,7 +307,7 @@
 					mouseWheelLock: true
 				  }
 				).css('padding-top', '12px');
-				*/
+				
 			
 			
 			})
