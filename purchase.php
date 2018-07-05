@@ -4,6 +4,9 @@
   include('checksession.php');
   $fy=$_SESSION['fy'];
   $company=$_SESSION['cname'];
+  $fyId = $_SESSION['fyId'];
+  $cId = $_SESSION['cId'];
+
 ?>
 
 <html lang="en">
@@ -125,7 +128,7 @@
 
 												<tbody>
 													<?php
-									            		$query=mysqli_query($conn,"select * from newpurchase" );
+									            		$query=mysqli_query($conn,"select * from newpurchase where fyId = $fyId and companyId = $cId" );
 															$count=0;
 															while($row=mysqli_fetch_array($query))
 															{

@@ -4,6 +4,7 @@
   include('checksession.php');
   $fy=$_SESSION['fy'];
   $company=$_SESSION['cname'];
+  $fyId = $_SESSION['fyId'];
 ?>
 
 <html lang="en">
@@ -114,7 +115,7 @@
 
 												<tbody>
 													<?php
-									            		$query=mysqli_query($conn,"select * from production");
+									            		$query=mysqli_query($conn,"select * from production where fyId=$fyId");
 															$count=0;
 															while($row=mysqli_fetch_array($query))
 															{

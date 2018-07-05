@@ -63,8 +63,29 @@
 
 		<script type="text/javascript">
 			function closeyearsql(){
-				document.getElementById('btn12').innerHTML = "<h5 style='color:red;'>Please wait And Don't Close Window</h5>";
+				document.getElementById('btn12').innerHTML = "<h3 style='color:red;'>Please wait And Don't Close Window</h3>";
 				document.getElementById("loader").style="border:16px solid #f3f3f3f3; border-radius:50%; border-top: 16px solid #3498db; width: 120px; height: 120px; animation: spin 2s linear infinite; @keyframes spin {0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); }";
+
+				//var pass = document.getElementById("password").value;
+
+
+				if (window.XMLHttpRequest) {
+            	// code for IE7+, Firefox, Chrome, Opera, Safari
+            	xmlhttp = new XMLHttpRequest();
+        	} 
+        	else {
+            // code for IE6, IE5
+            	xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("btn12").innerHTML = this.responseText;
+            }
+        };
+        //document.write(str);
+        xmlhttp.open("GET","closeyearsql.php",true);
+        xmlhttp.send();
+
 
 			}
 		</script>
@@ -99,6 +120,14 @@
 										<br>
 										<center>
 										<div id="btn12">
+										
+										<div class="clearfix"></div>
+										<a href="dashboard.php"><button name ="btnsubmit"  value="Submit" class="width-10 center btn btn-sm btn-danger"  >Cancel 
+										</button>
+										</a>
+										
+
+
 										<button name ="btnsubmit"  value="Submit" class="width-10 center btn btn-sm btn-primary" onclick="closeyearsql()" >Click to Close Year 
 										</button>
 										</div>
