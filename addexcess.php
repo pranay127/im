@@ -6,26 +6,6 @@
 	$company=$_SESSION['cname'];
 
 
-	$sql0 = "SELECT id,p_name FROM party";
-		$result0 = $conn->query($sql0);
-		$count0=0; 
-
-		$sql10 = "SELECT venorid,companyName FROM transporter";
-		$result10 = $conn->query($sql10);
-		$count10=0;
-
-		$sql30 = "SELECT * FROM m_cnforfob";
-		$result30 = $conn->query($sql30);
-		$count30=0;
-
-
-		$sql = "SELECT newCode FROM production where balanceWt!=0 ";
-		$result = $conn->query($sql);
-
-		$count=0;
-		
-	
-
 
 		$sql24 = "SELECT * FROM financialyear where fy='$fy'";
 		$result24 = $conn->query($sql24);
@@ -35,8 +15,7 @@
 			$EN=$row['endDate'];
 		}
 
-		/*$sql8 ="SELECT * FROM newpurchase WHERE purchaseId='$purchase_id'"; 
-		$result8 = $conn->query($sql8);*/
+		
 
 		
  ?>
@@ -89,17 +68,36 @@
 		<![endif]-->
 
 
+<script type="text/javascript">
+		function checkwgt(inhwgt,bal,idd,nam){
+			console.log(nam);
+			console.log(idd);
+			if(inhwgt>bal){
+				$.confirm({
+							 title: 'Message!',
+						    content: 'In weight should be less than Balance weight.!',
+						    buttons: {
+					        OK: function () {
+					            close();
+					            document.getElementById(idd).value='';
+					        },
+						       
+					    }
+				});
+			}
+			else
+			{
+				document.getElementById(idd).value=inhwgt;
+			}	
+											
 
+		}
 
-		<script type="text/javascript">
 		//add code for select"	
-		function codeChange(str) {
-			console.log(str);
-			var abc = document.getElementById("codeInfo");
-			console.log(abc);
+				function codeChange(str,i) {
+			
     		if (str == "") {
-        		document.getElementById("codeInfo").innerHTML = "";
-        		console.log(document.getElementById(codeInfo).innerHTML)
+        		document.getElementById(i).innerHTML = "";
         		return;
     		}
     		else { 
@@ -113,16 +111,18 @@
         }
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("codeInfo").innerHTML = this.responseText;
+                document.getElementById(i).innerHTML = this.responseText;
             }
         };
         //document.write(str);
-        xmlhttp.open("GET","getCodeInfo.php ?code="+str,true);
+        xmlhttp.open("GET","getcodeex.php ?code="+str+"& id="+i,true);
         xmlhttp.send();
     }
 }
 
 </script>
+
+
 
 
 	</head>
@@ -161,330 +161,59 @@
 								<!-- PAGE CONTENT BEGINS -->
 
 								<div class="row">
-									<div class="col-sm-6">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> Date <span style="color:red">*</span> </label>
+									<div class="col-sm-6" style="margin-top: ;">
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Date </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-													<input type="text" id="datepicker" name="date" class="form-control"  style="width: 230px;height: 32px;"/>
-													<span class="input-group-addon">
-														<i class="ace-icon fa fa-calendar" id='dateP'></i>
-													</span>
-												</div>
-											</div>
-										</div>
-									</div>
-									
-									<div class="col-sm-6" >
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> Lorry No. </label>
-										<div class="row">
-											<div class="col-xs-6">
-												<div class="input-group input-group-sm">
-
-													<input type="text" id="lorryno" name="lorryno" class="form-control" style="width: 230px;height: 32px;" />
-													
-												</div>
-											</div>
-										</div>
-									</div>
-									
-									<div class="col-sm-6" style="margin-top: 12px;" >
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> party <span style="color:red">*</span> </label>
-										<div class="row">
-											<div class="col-xs-6">
-												<div class="input-group input-group-sm">
-													<select id="party" name="party" style="width: 230px;height: 32px;">
-																<option value="">Select Party</option>
-																<?php 
-																	while($row=mysqli_fetch_array($result0))
-																	{
-																		$id=$row['id'];
-																		$pname=$row['p_name'];
-																		$count++;
-																		
-																?>
-																<option value="<?php echo $pname;?>"><?php echo $pname;?></option>
-																<?php			
-																	}	
-																?>
-											
-													</select>
-
-													
-												</div>
-											</div>
-										</div>
-									</div>
-									
-									<div class=" col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> Freight Fixed </label>
-										<div class="row">
-											<div class="col-xs-6">
-												<div class="input-group input-group-sm">
-
-													<input type="text" id="freightfixed" name="freightfixed" class="form-control" style="width: 230px;height: 32px;" />
-													
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> Bill No. <span style="color:red">*</span> </label>
-										<div class="row">
-											<div class="col-xs-6">
-												<div class="input-group input-group-sm">
-
-													<input type="text" id="billno" name="billno" class="form-control" style="width: 230px;height: 32px;" />
-													
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class=" col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> CNF/FOB </label>
-										<div class="row">
-											<div class="col-xs-6">
-												<div class="input-group input-group-sm">
-
-													<select id="cnffob" name="cnffob" style="width: 230px;height: 32px;">
-
-														<option value="">Select CNF/FOB</option>
-																<?php 
-																	while($row=mysqli_fetch_array($result30))
-																	{
-																		$id=$row['id'];
-																		$cfname=$row['name'];
-																		$count3++;
-																		
-																?>
-																<option value="<?php echo $cfname;?>"><?php echo $cfname;?></option>
-																<?php			
-																	}	
-																?>
-													</select>
-													
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class="col-sm-6"  style="margin-top: 12px;" >
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> Transporter </label>
-										<div class="row">
-											<div class="col-xs-6">
-												<div class="input-group input-group-sm">
-
-													<select id="transporter" name="transporter" style="width: 230px;height: 32px;">
-
-														<option value="">Select Transporter</option>
-																<?php 
-																	while($row=mysqli_fetch_array($result10))
-																	{
-																		$id=$row['venorid'];
-																		$tname=$row['companyName'];
-																		$count1++;
-																		
-																?>
-																<option value="<?php echo $id;?>"><?php echo $tname;?></option>
-																<?php			
-																	}	
-																?>
-													</select>
-													
-												</div>
-											</div>
-										</div>
-									</div>
-
-								<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> Remark </label>
-										<div class="row">
-											<div class="col-xs-6">
-												<div class="input-group input-group-sm">
-
-													<textarea id="form-field-11" class="autosize-transition form-control" name="remark" style="overflow: hidden; word-wrap: break-word; resize: horizontal; width: 400px; height: 100px;"></textarea>
-													
-												</div>
-											</div>
-										</div>
-									</div>
-
-
-									
-								<pre style="background-color: white; border-color: white;border-bottom-color:#87b87f; width:1130px; padding-bottom: 50px;padding-top: 0px;"></pre>
-
-							<!-- Add item code -->
-
-								<div class="col-sm-6" style="margin-top: 12px;width: 474px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 200px;"> Enter total no. of items</label>
-										<div class="col-xs-6" >
-												<div class="input-group input-group-sm">
-
-													<input type="number" name="items" id="items" class="form-control" step="1" min="1" max="10" style="width: 230px;height: 32px;" />
-													
-												</div>
-										</div>
-									</div>
-									<div class="col-sm-6">
-											<button class="btn btn-success" type="button" id="additems" style="height: 30px;padding-top: 0px;padding-bottom: 0px; margin-bottom: 10px; margin-top: 12px">
-												Add Items
-											</button>
-									</div>
-
-									<additemsdiv class="col-md-offset-1 col-md-12" ></additemsdiv>
-
-									 <script type="text/javascript">
-									 	$(document).ready(function(){
-								      	$("#additems").click(function(){
-							      		if($("#Items").length == 0) 
-								      	{
-									  		$items=document.getElementById('items').value;
-											if($items)
-									      	{
-								      			$.confirm({
-											    title: 'Message!',
-											    content: 'Do you want to add items?',
-											    buttons: {
-											        OK: function () {
-											        var additems='';
-											        additems+='<div id="Items">';
-													for($i=1;$i<=$items;$i++)
-													{
-														
+													 
+													<input type="text" id="datepicker" name="date1" value="<?php echo $EN ;?>"<class="form-control"  style="width: 230px;height: 32px;" readonly/>
 												
+													
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									
 
-													additems+='<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;margin-top:12px;"> Lot No <span style="color:red;margin-top:12px;">*</span> </label>';
-													additems+='<div class="row">';
-														additems+='<div class="col-xs-6">';
-															additems+='<div class="input-group input-group-sm">';
-																
-																additems+='<select id="lotno" name="lotno'+$i+'" style="width: 230px;height: 32px;margin-top:12px; ">';
-
-																	additems+='<option value="">Select Lot No</option>';
-																		additems+='<?php 
-																				while($row=mysqli_fetch_array($result2))
+									
+								
+							
+							
+									
+								
+									<div class="row">
+										<div class="col-sm-6">
+											<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> Code <span style="color:red;margin-top:12px;">*</span> </label>
+										<div class="row">
+											<div class="col-xs-6>
+												<div class="input-group input-group-sm">
+													<select required onchange="codeChange(this.value,'1')" id="code"  name="code" style="width: 230px;height: 32px;" >
+													<option value="">Select Code</option>
+													<?php $quer = "select * from production where balanceWt!=0"; $res = mysqli_query($conn,$quer);
+																				while($row=mysqli_fetch_array($res))
 																				{
-																					$id=$row['id'];
-																					$lotno=$row['lotNo'];
-																					$count2++;
 																					
-																			?>';
-																			additems+='<option value="<?php echo $lotno;?>"><?php echo $lotno;?></option>';
-																			additems+='<?php			
+																					$code1=$row['newCode'];
+																					echo $code1;
+																			?>
+																			<option value="<?php echo $code1;?>"><?php echo $code1;?></option>
+																			<?php			
 																				}	
-																			?>';
-																additems+='</select>';
-																
-															additems+='</div>';
-														additems+='</div>';
-													additems+='</div>';
-												
+																			?>
+																</select>
 
-												
-												additems+='<pre style="background-color: white; border-color: white;border-bottom-color:#87b87f; width: 850px;"></pre>'; 
-												
-												}
-												additems+='</div>';				           
-												$('additemsdiv').append(additems);
-
-												      	},
-												       
-									   				 }
-													});
-							      				}
-							      			
-									      		else
-									      		{
-									      			$.confirm({
-													    title: 'Message!',
-													    content: 'Field should not be Empty!',
-													    buttons: {
-													        OK: function () {
-													           close();
-													        },
-													       
-										   				 }
-													});
-									      		}
-								      		}
-								      		else
-								      		{
-								      			$.confirm({
-													    title: 'Message!',
-													    content: 'Are you sure? You may lose some data.',
-													    buttons: {
-													        OK: function () {
-													          	document.getElementById('Items').remove();
-													          	document.getElementById("additems").click();
-													        },  	
-													        CANCEL: function () {
-													          	close();
-													        },
-													       
-										   				 }
-													});
-
-								      		} 
-								      
-							      	});
-								});
-							 </script>
-
-								
-
-
-
-								<!-- PAGE CONTENT BEGINS -->
-								<div class="row">
-									<br>
-								</div>
-								
-								<div class="row">
-
-
-																		<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> Code <span style="color:red">*</span> </label>
-										<div class="row">
-											<div class="col-xs-6">
-												
-												<div class="input-group input-group-sm">
-													<select id="code" name="code" style="width: 230px;height: 32px;" onchange="codeChange(this.value)">
-
-														<option value="">Select Code</option>
-																<?php 
-																	while($row=mysqli_fetch_array($result))
-																	{
-																		$id=$row['id'];
-																		$code=$row['newCode'];
-																		$count1++;
-																		
-																?>
-																<option value="<?php echo $code;?>"><?php echo $code;?></option>
-																<?php			
-																	}	
-																?>
-													</select>
-
-											
-												</div>
-											</div>
+										        </div>
+										    </div>
 										</div>
-									</div>
+									</div>	        
+
+								
+                                  <div id="1"></div>
 									
-									
-									<div id="codeInfo"> </div>
-									
-									
-
-								</div><!-- ./row -->
-
-
-
-
-
-
+                              
+							 </script>
 							 <div class="form-group" >
 										<div class="col-md-offset-5 col-md-12" style="margin-top: 15px;">
 											
@@ -544,11 +273,12 @@
 				$enddate='<?php echo $EN;?>';
 			
 				$( "#datepicker" ).datepicker({
-					showOtherMonths: true,
+					showOtherMonths: false,
 					selectOtherMonths: false,
 					dateFormat: 'yy-mm-dd',
-					minDate: $startdate,
+					minDate: $enddate,
 					maxDate: $enddate,
+					defaultDate:$enddate
 					
 				});
 					$('#dateP').click(function() {

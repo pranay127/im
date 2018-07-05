@@ -62,17 +62,12 @@
 										<div class="clearfix">
 											<div class="pull-right tableTools-container">
 												<div class="btn btn-white btn-primary btn-bold">
-													<a class="blue" href="" data-toggle="tooltip" title="Add">
+													<a class="blue" href="addshort.php" data-toggle="tooltip" title="Add">
 														<i class="ace-icon fa fa-plus-circle bigger-120 green"></i>
 													</a>
 												</div>
 
-												<div class="btn btn-white btn-primary btn-bold">
 												
-													<a class="blue" href="" data-toggle="tooltip" title="Delete">
-														<i class="ace-icon fa fa-trash-o bigger-120 red"></i>
-													</a>
-												</div>
 											</div>
 										</div>
 										<script>
