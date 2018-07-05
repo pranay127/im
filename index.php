@@ -89,7 +89,9 @@
 										</div>
 									</div>
 								</div>
-							</div>	
+							</div><!-- Position relative -->	
+
+
 							</div>
 							</div>
 				</div><!-- /.row -->
