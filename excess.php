@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <?php
-  include('config.php');
-  include('checksession.php');
-  $fy=$_SESSION['fy'];
-  $company=$_SESSION['cname'];
+	include('config.php');
+	include('checksession.php');
+	$fy=$_SESSION['fy'];
+	$company=$_SESSION['cname'];
+	$fyId = $_SESSION['fyId'];
+	$cId = $_SESSION['cId'];
+ ?>
 
-?>
 
 <html lang="en">
 	<head>
@@ -53,39 +55,41 @@
 								<div class="row">
 									<div class="col-xs-12">
 
-										<h3 class="header smaller lighter blue">Access Details</h3>
+										<h3 class="header smaller lighter blue">Excess</h3>
 										<h5 class="header blue lighter bigger" align="center">
 												<b>Company:&nbsp; <?php echo $company ?>  &nbsp;
 												Financial Year:&nbsp; <?php echo $fy ?> </b>
 								
-										</h5>
+											</h5>
 										
 										<div class="clearfix">
 											<div class="pull-right tableTools-container">
 												<div class="btn btn-white btn-primary btn-bold">
 													<a class="blue" href="addexcess.php" data-toggle="tooltip" title="Add">
-														<i class="ace-icon fa fa-plus-circle bigger-120 green"></i>
+														<i class="ace-icon fa fa-plus-circle bigger-120 green">
+															
+														</i>
 													</a>
 												</div>
 
+												
 												
 											</div>
 										</div>
 										<script>
 											$(document).ready(function(){
-											    $('[data-toggle="tooltip"]').tooltip(); 
-											     document.getElementById("Manage").className = "active open";
-											    document.getElementById("acess").className = "active";   
+											    $('[data-toggle="tooltip"]').tooltip();  
+											    document.getElementById("Manage").className = "active open";
+											    document.getElementById("Excess").className = "active"; 
 											});
-										</script>
+											</script>
 										<div class="table-header">
-											Results for "Access"
+											Results for "excess"
 										</div>
-										
 										<!-- div.table-responsive -->
 
 										<!-- div.dataTables_borderWrap -->
-										<div>
+										<div style="overflow-x:auto;">
 											<table id="dynamic-table" class="table table-striped table-bordered table-hover">
 												<thead>
 													<tr>
@@ -96,21 +100,62 @@
 															</label>
 														</th>
 														<th>Sr No</th>
-														<th>Name</th>
+														<th>Date</th>
+														<!-- <th>Grade</th> -->
+														<th>Size(mm)</th>
+														<!-- <th>Shape</th> -->
+														<!-- <th>Surface</th> -->
+														<th>Make</th>
+														<!-- <th>Lot No</th> -->
+														<th>Code No</th>
+														<th>Invoice Weight(kg)</th>
+														<th>Inhouse Weight(kg)</th>
+														<th>Balance Weight in Stock(Kg)</th>
+														<!-- <th>Transporter Name</th> -->
+														<th>Code Date</th>
+												
+														<th>Remarks</th>
 														<th>Action</th>
 													</tr>
 												</thead>
 
 												<tbody>
 													<?php
-									            		$query=mysqli_query($conn,"select * from m_grade");
+														$query02 = "select id from lotno where lotNo ='excess'";
+													
+												$result2 = mysqli_query($conn,$query02);
+												$row02 = mysqli_fetch_array($result2);
+												$nlotno = $row02['id'];
+		
+									            		$query=mysqli_query($conn,"select * from trade where lotNo='$nlotno'");
 															$count=0;
 															while($row=mysqli_fetch_array($query))
 															{
 																$count++;
-																$id=$row['id'];
-																$name=$row['name'];
 																
+																$id=$row['purchaseId'];
+																$date=$row['date'];
+																$billno=$row['billNo'];
+																$party=$row['party'];
+																/*$grade=$row['grade'];*/
+																$size=$row['size'];
+																/*$shape=$row['shape'];
+																$surface=$row['surface'];*/
+																$condition=$row['conditn'];
+																$make=$row['make'];
+																/*$lotno=$row['lotNo'];*/
+																$codeno=$row['code'];
+																$invweight=$row['invoiceWt'];
+																$inhweight=$row['actualWeight'];
+																$balweight=$row['remainingWeight'];
+																/*$transname=$row['transporterId'];*/
+																$lorryno=$row['lorryNo'];
+																$frefixed=$row['freightFixed'];
+																$CNF=$row['cnfFobId'];
+																$Remarks=$row['remarks'];
+																$heatno=$row['heatNo'];
+																$codedate=$row['codeDate'];
+														
 															?>
 													<tr>
 														<td class="center">
@@ -123,18 +168,61 @@
 														<td><?php echo $count;?></td>
 
 														<td>
-															<?php echo $name;?>
+															<?php echo $date;?>
+														</td>
+														
+													<!-- 	<td>
+															<?php echo $grade;?>
+														</td> -->
+														<td>
+															<?php echo $size;?>
+														</td>
+														<!-- <td>
+															<?php echo $shape;?>
+														</td>
+														<td>
+															<?php echo $surface;?>
+														</td> -->
+														<td>
+															<?php echo $make;?>
+														</td>
+
+														<!-- <td>
+															<?php echo $lotno;?>
+														</td> -->
+														<td>
+															<?php echo $codeno;?>
+														</td>
+														<td>
+															<?php echo $invweight;?>
+														</td>
+														<td>
+															<?php echo $inhweight;?>
+														</td>
+														<td>
+															<?php echo $balweight;?>
+														</td>
+														
+														<td>
+															<?php echo $codedate;?>
+														</td>
+													
+														
+														<td>
+															<?php echo $Remarks;?>
 														</td>
 														
 														<td>
 															<div class="hidden-sm hidden-xs action-buttons">
 																
 
-																<a class="green" href="">
+																<a class="green" href="editsale.php?id=<?php echo $id;?>">
 																	<i class="ace-icon fa fa-pencil bigger-130"></i>
 																</a>
 
-																
+																<a class="red" href="deletesale.php?id=<?php echo $id ?>">
+																	<i class="ace-icon fa fa-trash-o bigger-130"></i>
+																</a>
 															</div>
 
 															<div class="hidden-md hidden-lg">
@@ -161,7 +249,7 @@
 																		</li>
 
 																		<li>
-																			<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+																			<a href="deletesale.php?id=<?php echo $id ?>" class="tooltip-error" data-rel="tooltip" title="Delete">
 																				<span class="red">
 																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
 																				</span>
@@ -237,7 +325,7 @@
 					bAutoWidth: false,
 					"aoColumns": [
 					  { "bSortable": false },
-					  null, null,
+					  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,null,null,
 					  { "bSortable": false }
 					],
 					"aaSorting": [],
@@ -259,7 +347,7 @@
 						"className": "btn btn-white btn-primary btn-bold",
 						columns: ':not(:first):not(:last)'
 					  },
-					  
+					 
 					  {
 						"extend": "excel",
 						"text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",

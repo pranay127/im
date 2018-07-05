@@ -1,3 +1,4 @@
+<!Doctype html>
 <?php
 	include('config.php');
  	if ($conn->connect_error){
@@ -15,6 +16,7 @@
 
 
 ?>
+<input hidden name="proId" value="<?php echo $row['id']; ?>">
 									
 
 									<div class="col-sm-6" style="margin-top: 12px;">
@@ -112,7 +114,7 @@
 												<div class="input-group input-group-sm">
 												
 
-												<input type="text" id="shape <?php echo $id; ?>" name="shape<?php echo $id; ?>" value="<?php echo $row['shape'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['shape']; ?>" />
+												<input type="text" id="shape <?php echo $id; ?>" name="shape1" value="<?php echo $row['shape'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['shape']; ?>" />
 
 												</div>
 											</div>
@@ -140,7 +142,7 @@
 												<div class="input-group input-group-sm">
 												
 
-													<input type="text" id="balwgt <?php echo $id; ?>" name="balwgt<?php echo $id; ?>" value="<?php echo $row['balanceWt'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['balanceWt']; ?>" />
+													<input type="text" id="balwgt" name="balwgt" value="<?php echo $row['balanceWt'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['balanceWt']; ?>" />
 
 												</div>
 											</div>
@@ -165,10 +167,42 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="add" value="" name="add" class="form-control" style="width: 230px;height: 32px;" >
+													<input onchange="changeshort(this.value)"  required type="text" id="add" name="add" class="form-control" style="width: 230px;height: 32px;" >
 													
 												</div>
 											</div>
 										</div>
 									</div>
 
+									<script type="text/javascript">
+
+										$('input[name=add]').change(function() { 
+
+											$addshort=document.getElementById('add').value;
+											$balwt=document.getElementById('balwgt').value;
+											
+											if(Number($addshort) > Number($balwt))
+											{
+												$.confirm({
+												    title: 'Message!',
+												    content: 'In weight should be less than Balance weight.!',
+												    buttons: {
+												        OK: function () {
+												            close();
+												            document.getElementById('add').value='';
+												        },
+												       
+												    }
+												});
+											}
+											else
+											{
+												document.getElementById('add').value=$addshort;
+											}	
+											
+										 });
+
+									</script>
+
+	</html>
+	
