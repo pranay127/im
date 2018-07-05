@@ -15,6 +15,7 @@
 
 
 ?>
+<input hidden name="proId" value="<?php echo $row['id']; ?>">
 									
 
 									<div class="col-sm-6" style="margin-top: 12px;">
@@ -23,7 +24,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 												
-											<input type="text" id="surface<?php echo $id; ?>" name="surface<?php echo $id; ?>" value="<?php echo $row['surface'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['surface']; ?>" />
+											<input type="text" id="surface<?php echo $id; ?>" name="surface" value="<?php echo $row['surface'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['surface']; ?>" />
 												
 											
 												</div>
@@ -39,7 +40,7 @@
 											<div class="col-xs-6">
 											<div class="input-group input-group-sm">
 											
-											<input type="text" id="condition <?php echo $id; ?>" name="condition<?php echo $id; ?>" value="<?php echo $row['conditn'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['conditn']; ?>" />
+											<input type="text" id="condition <?php echo $id; ?>" name="condition" value="<?php echo $row['conditn'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['conditn']; ?>" />
 
 											</div>
 
@@ -54,7 +55,7 @@
 												<div class="input-group input-group-sm">
 											
 
-											<input type="text" id="grade <?php echo $id; ?>" name="grade<?php echo $id; ?>" value="<?php echo $row['grade'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['grade']; ?>" />
+											<input type="text" id="grade <?php echo $id; ?>" name="grade" value="<?php echo $row['grade'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['grade']; ?>" />
 
 												</div>
 											</div>
@@ -69,7 +70,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 												
-												<input type="text" id="heatno <?php echo $id; ?>" name="heatno<?php echo $id; ?>" value="<?php echo $row['heatNo'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['heatNo']; ?>" />
+												<input type="text" id="heatno <?php echo $id; ?>" name="heatno" value="<?php echo $row['heatNo'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['heatNo']; ?>" />
 
 
 												</div>
@@ -83,7 +84,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="size1<?php echo $id; ?>" name="size1<?php echo $id; ?>" value="<?php echo $row['size'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['size']; ?>" />
+													<input type="text" id="size1<?php echo $id; ?>" name="size" value="<?php echo $row['size'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['size']; ?>" />
 												</div>
 											</div>
 										</div>
@@ -96,7 +97,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 												
-												<input type="text" id="lot no <?php echo $id; ?>" name="lotno<?php echo $id; ?>" value="<?php echo $row['lotNo'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['lotNo']; ?>" />
+												<input type="text" id="lot no <?php echo $id; ?>" name="lotno" value="<?php echo $row['lotNo'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['lotNo']; ?>" />
 
 
 												</div>
@@ -112,7 +113,7 @@
 												<div class="input-group input-group-sm">
 												
 
-												<input type="text" id="shape <?php echo $id; ?>" name="shape<?php echo $id; ?>" value="<?php echo $row['shape'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['shape']; ?>" />
+												<input type="text" id="shape <?php echo $id; ?>" name="shape1" value="<?php echo $row['shape'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['shape']; ?>" />
 
 												</div>
 											</div>
@@ -125,7 +126,7 @@
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-													<input type="text" id="make1 <?php echo $id; ?>" name="make1<?php echo $id; ?>" value="<?php echo $row['make'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['make']; ?>" />
+													<input type="text" id="make1 <?php echo $id; ?>" name="make" value="<?php echo $row['make'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['make']; ?>" />
 												</div>
 											</div>
 										</div>
@@ -140,7 +141,7 @@
 												<div class="input-group input-group-sm">
 												
 
-													<input type="text" id="balwgt <?php echo $id; ?>" name="balwgt<?php echo $id; ?>" value="<?php echo $row['balanceWt'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['balanceWt']; ?>" />
+													<input type="text" id="balwgt <?php echo $id; ?>" name="balwgt" value="<?php echo $row['balanceWt'];?>" class="form-control" style="width: 230px;height: 32px;" readonly default="<?php echo $row['balanceWt']; ?>" />
 
 												</div>
 											</div>
@@ -160,12 +161,12 @@
 										</div>
 									</div>
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Add Excess </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Add Short </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="add" value="" name="add" class="form-control" style="width: 230px;height: 32px;" >
+													<input  required type="text" id="add" value="" name="add" class="form-control" style="width: 230px;height: 32px;" >
 													
 												</div>
 											</div>

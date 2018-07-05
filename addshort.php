@@ -69,6 +69,27 @@
 
 
 <script type="text/javascript">
+
+		function changeshort(short){
+											$bal = document.getElementById('balwgt').value;
+											if(Number(short)>Number($bal)){
+												$.confirm({
+												    title: 'Message!',
+												    content: 'In weight should be less than Balance weight.!',
+												    buttons: {
+												        OK: function () {
+												            close();
+												            document.getElementById('add').value='';
+												        },
+												       
+												    }
+												});
+
+											}
+
+										}
+
+
 		function checkwgt(inhwgt,bal,idd,nam){
 			console.log(nam);
 			console.log(idd);
@@ -149,9 +170,9 @@
 												Financial Year:&nbsp; <?php echo $fy ?> </b>
 								
 											</h5>
-				<form class="form-horizontal" method="POST" action="addsaleprocess.php" class="pull-right">
+				<form class="form-horizontal" method="POST" action="addshortprocess.php" class="pull-right">
 									<h5 class="header blue lighter bigger"><b>
-												<?php if(@isset($_GET['error'])){echo $_GET['error'];} else{echo 'Add Sale Details';} ?></b> 
+												<?php if(@isset($_GET['error'])){echo $_GET['error'];} else{echo 'Add Short Details';} ?></b> 
 											</h5>
 				
 				

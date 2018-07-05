@@ -10,13 +10,7 @@ $res = $conn->query($sql);
 		$fin=$row['id'];
 	}
 
-$sql1 = "SELECT id FROM company where companyName='$company'";
-$res1 = $conn->query($sql1);
-	while($row=mysqli_fetch_array($res1))
-	{
-		$com=$row['id'];
-	}
-
+$com=$_SESSION['cId'];
 	if($conn->connect_error)
 	{
 		 die("Connection failed: " . $conn->connect_error);

@@ -12,19 +12,27 @@ if ($conn->connect_error)
 		$fy=$_SESSION['fyId'];
 		$company=$_SESSION['cId'];
 		
-		
+		$prevcode=$_POST['code'];
+
 		$date=$_POST['date1'];
 		$grade=$_POST['grade'];
 		$make=$_POST['make'];
 		$surface=$_POST['surface'];
 		$condition=$_POST['condition'];
-		$shape=$_POST['shape'];
+		$shape=$_POST['shape1'];
 		$size=$_POST['size'];
-		$nlotno=$_POST['lotno'];
 		$heatno=$_POST['heatno'];
+		$balancewt=$_POST['balwgt'];
+		$short=$_POST['add'];
+		$balancewt=$balancewt-$short;
 		
-		
-		
+		$proId = $_POST['proId'];
+
+		$query02 = "select id from lotno where lotNo ='short'";
+		$result02 = mysqli_query($conn,$query02);
+		$row02 = mysqli_fetch_array($result02);
+		$nlotno = $row02['id'];
+				
 			
 		$query01 = "select * from newpurchase where code='$prevcode'";
 		$result01 = mysqli_query($conn, $query01);
@@ -36,14 +44,9 @@ if ($conn->connect_error)
 		else{
 			$pur_fk_id=0;
 		}
-
-
-
-
-		if($prevcode!="" && $date!="" && $grade!="" && $shape!="" && $finsize!="" && $make!="" && $surface!="" && $condition!="" && $newcode!="" && $heatno!="" && $inwt!="" && $outwt!="")
-		{
-			
-			$query="insert into production(date,grade,shape,surface,size,rmsize,lotNo,heatNo,make,inweight,openingbalwt,recoverableLoss,nrLoss,previousCode,newCode,remark,conditn,actualWeight,balanceWt,flag,fyId,companyId,checkCode,pur_fk_id,billNo) values('$date',$grade,$shape,$surface,'$finsize','$rmsize',$nlotno,'$heatno','$make','$inwt','$outwt','$reclos','$nrecloss','$prevcode','$newcode','$remark','$condition',$inwt,'$outwt',0,'$fy','$company',0,$pur_fk_id,'0')";
+	
+			$query="insert into trade(fyId,companyId,lotNo,date,heatNo,party,make,code,grade,shape,size,actualWeight,surface,transporterId,lorryNo,freightFixed,cnfFobId,remarks,billNo,conditn,invoiceWt,remainingWeight,flag,proId,codeWt,codeDate)values('$fy','$company','$nlotno','$date','$heatno','NA','$make','$prevcode','$grade','$shape','$size','$short','$surface','NA','NA','NA','NA','Short','NA','$condition','$short','$balancewt',0,$proId,0,'$date')";
+			echo $query;
            	
             $result =mysqli_query($conn,$query) or die(mysqli_error($conn));
 
@@ -57,6 +60,27 @@ if ($conn->connect_error)
             echo $query3;
             $result3 = mysqli_query($conn,$query3);
             if(!$result3){
-            	header('Location:addproduction.php?error=Failed to update Purchase');
+            header('Location:short.php?error=Failed to update Purchase');
             }
-        	}
+        }
+        	
+     
+ if($result && $result1)
+					{
+						$_SESSION['Allvalues']='';
+						header('Location:short.php');
+							
+					}
+					else
+					{
+						header('Location:short.php?error=Failed to update.');
+
+					}	
+		
+		
+
+ 
+
+	}
+
+?>

@@ -149,9 +149,9 @@
 												Financial Year:&nbsp; <?php echo $fy ?> </b>
 								
 											</h5>
-				<form class="form-horizontal" method="POST" action="addsaleprocess.php" class="pull-right">
+				<form class="form-horizontal" method="POST" action="addexcessprocess.php" class="pull-right">
 									<h5 class="header blue lighter bigger"><b>
-												<?php if(@isset($_GET['error'])){echo $_GET['error'];} else{echo 'Add Sale Details';} ?></b> 
+												<?php if(@isset($_GET['error'])){echo $_GET['error'];} else{echo 'Add Excess Details';} ?></b> 
 											</h5>
 				
 				
