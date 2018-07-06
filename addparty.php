@@ -4,6 +4,8 @@
   include('checksession.php');
 	$fy=$_SESSION['fy'];
 	$company=$_SESSION['cname'];
+	$cId=$_SESSION['cId'];
+	$fyId=$_SESSION['fyId'];
   /*$id=$_GET['id'];*/
 ?>
 

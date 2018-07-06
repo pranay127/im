@@ -4,6 +4,8 @@
   include('checksession.php');
   $fy=$_SESSION['fy'];
   $company=$_SESSION['cname'];
+  $fyId = $_SESSION['fyId'];
+  $cId = $_SESSION['cId'];
 
    if(isset($_SESSION['Allvalues']) && !empty($_SESSION['Allvalues'])){
   	$Allvalues=$_SESSION['Allvalues'];
@@ -23,11 +25,11 @@
 		{
 			 die("Connection failed: " . $conn->connect_error);
 		}
-			$sql = "SELECT newCode FROM production where balanceWt!=0 ";
+			$sql = "SELECT newCode FROM production where balanceWt!=0 and fyId='$fyId' and companyId = '$cId'";
 		$result = $conn->query($sql);
 		$count=0;
 
-		$sql1 = "SELECT * FROM production where newCode='$values[0]'";
+		$sql1 = "SELECT * FROM production where newCode='$values[0]' and fyId='$fyId' and companyId = '$cId' ";
 		$result1 = $conn->query($sql1);
 		$count1=0;
 		
@@ -606,7 +608,7 @@
 	                       					 var v=1;
 	                       					 var pcode= code+'/'+val+'/'+v;
 
-	                       					 var result='<?php $sql26 = "SELECT previousCode FROM production";
+	                       					 var result='<?php $sql26 = "SELECT previousCode FROM production where and fyId='$fyId' and companyId = '$cId'";
 															$result26 = $conn->query($sql26);
 															while($row=mysqli_fetch_array($result26))
 																	{
@@ -737,35 +739,7 @@
 											</div>
 										</div>
 									</div>
-									<script type="text/javascript">
-										$('input[name=inwgt]').change(function() { 
-
-											$inwt=document.getElementById('inwgt').value;
-											$balwt=document.getElementById('balwgt').value;
-											
-											if(Number($inwt) > Number($balwt))
-											{
-												$.confirm({
-												    title: 'Message!',
-												    content: 'In weight should be less than Balance weight.!',
-												    buttons: {
-												        OK: function () {
-												            close();
-												            document.getElementById('inwgt').value='';
-												        },
-												       
-												    }
-												});
-											}
-											else
-											{
-												document.getElementById('inwgt').value=$inwt;
-											}	
-											
-										 });
-
-									</script>
-
+									
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Shape <span style="color:red">*</span> </label>
 										<div class="row">

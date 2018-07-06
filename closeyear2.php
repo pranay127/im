@@ -79,6 +79,7 @@
         }
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
+            	document.getElementById("loader").style = "";
                 document.getElementById("btn12").innerHTML = this.responseText;
             }
         };

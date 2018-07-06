@@ -34,7 +34,7 @@ if ($conn->connect_error)
 		$rmsize=$size-$finsize;
 		$balancewt=$balwt-$inwt;
 			
-		$query01 = "select * from newpurchase where code='$prevcode'";
+		$query01 = "select * from newpurchase where code='$prevcode' where and fyId='$fyId' and companyId = '$cId'";
 		$result01 = mysqli_query($conn, $query01);
 		$row01 = mysqli_fetch_array($result01);
 		$count = mysqli_num_rows($result01);

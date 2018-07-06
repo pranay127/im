@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <?php
   include('config.php');
-  include('checksession.php');
-  $fy=$_SESSION['fy'];
-  $company=$_SESSION['cname'];
 ?>
 
 <html lang="en">
@@ -31,37 +28,6 @@
 		<script src="assets/js/ace-extra.min.js"></script>
 		<script src="assets/js/jquery.min.js"></script>
 
-
-		<script type="text/javascript">
-		function passcheck() {
-			pass = document.getElementById("password").value;
-
-    		if (pass == "") {
-        		document.getElementById("warning").innerHTML = "Password cannot be Blank";
-        		return;
-    		}
-    		else { 
-        		if (window.XMLHttpRequest) {
-            	// code for IE7+, Firefox, Chrome, Opera, Safari
-            	xmlhttp = new XMLHttpRequest();
-        	} 
-        	else {
-            // code for IE6, IE5
-            	xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("warning").innerHTML = this.responseText;
-            }
-        };
-        //document.write(str);
-        xmlhttp.open("GET","checkpass11.php ? pass="+str,true);
-        xmlhttp.send();
-    }
-}
-
-</script>
-
 	</head>
 
 	<body class="no-skin">
@@ -80,88 +46,14 @@
 
 					<div class="page-content">
 						
-								<div class="row">
-									<div class="col-xs-12">
-
-										<h3 class="header smaller lighter blue">Close Financial Year</h3>
-										<h5 class="header blue lighter bigger" align="center">
-												<b>Company:&nbsp; <?php echo $company ?>  &nbsp;
-												Financial Year:&nbsp; <?php echo $fy ?> </b>
-								
-										</h5>
-									
-									<p style="font-size: 16px"><b style="color: red">Note: </b> Once Financial Year closed new entry cannot be added or deleted </p>
-
-									<div class="row">
-					<div class="col-sm-10 col-sm-offset-1">
-					<div class="login-container" style="width: 450px; height: 342px;">
-							
-							<div class="space-6"></div>
-
-							<div class="position-relative">
-								<div id="login-box" class="login-box visible widget-box no-border">
-									<div class="widget-body">
-										<div class="widget-main">
-											<center>
-											<h5 id="warning" class="header blue lighter bigger"><b>
-												<?php if(@isset($_GET['error'])){echo $_GET['error'];} else{echo 'Please enter your Password.';} ?></b> 
-											</h5>
-											</center>
-
-											<div class="space-6"></div>
-
-											<form action="closeyear2.php" method="post">
-												<fieldset>
-													
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Password" name="password"  value="<?php if(isset($_COOKIE['password'])) echo $_COOKIE['password']; ?>" required>
-															<i class="ace-icon fa fa-lock"></i>
-														</span>
-													</label>
-
-													<div class="space"></div>
-
-													<div class="clearfix">
-																					
-														<center>							
-														<button name ="btnsubmit" value="Submit" class="width-35 center btn btn-sm btn-primary" >Submit
-														</button>
-														</center>
-													</div>
-
-													<div class="space-4"></div>
-												</fieldset>
-											</form>
-										</div>
-									</div>
-								</div>
-							</div><!-- Position relative -->	
-
-
-							</div>
-							</div>
-				</div><!-- /.row -->
-
-									
-
-										<!-- <script>
+								<script>
 											$(document).ready(function(){
-												$('[data-toggle="tooltip"]').tooltip(); 
-											  document.getElementById("purchase").className = "active";    
+											  document.getElementById("closeyear").className = "active";    
 											});
 										</script>
-										 -->
-										<!-- div.table-responsive -->
-
-										
-
-										</div><!-- /.modal-content -->
-									</div>
-								
 							
 
-							</div> <!-- page content -->
+							</div>
 						</div>
 					</div>
 				
@@ -214,7 +106,7 @@
 					bAutoWidth: false,
 					"aoColumns": [
 					  { "bSortable": false },
-					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+					  null, null,
 					  { "bSortable": false }
 					],
 					"aaSorting": [],
@@ -236,7 +128,16 @@
 						"className": "btn btn-white btn-primary btn-bold",
 						columns: ':not(:first):not(:last)'
 					  },
-					 
+					  {
+						"extend": "copy",
+						"text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+						"className": "btn btn-white btn-primary btn-bold"
+					  },
+					  {
+						"extend": "csv",
+						"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+						"className": "btn btn-white btn-primary btn-bold"
+					  },
 					  {
 						"extend": "excel",
 						"text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
@@ -396,7 +297,7 @@
 				
 				
 				
-				/**
+				
 				//add horizontal scrollbars to a simple table
 				$('#simple-table').css({'width':'2000px', 'max-width': 'none'}).wrap('<div style="width: 1000px;" />').parent().ace_scroll(
 				  {
@@ -406,7 +307,7 @@
 					mouseWheelLock: true
 				  }
 				).css('padding-top', '12px');
-				*/
+				
 			
 			
 			})

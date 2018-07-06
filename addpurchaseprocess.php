@@ -3,6 +3,9 @@ include('config.php');
 include('checksession.php');
 $fy=$_SESSION['fy'];
 $company=$_SESSION['cname'];
+$cId=$_SESSION['cId'];
+$fyId=$_SESSION['fyId'];
+
 $sql = "SELECT id FROM financialyear where fy='$fy'";
 $res = $conn->query($sql);
 	while($row=mysqli_fetch_array($res))
@@ -81,7 +84,7 @@ $res1 = $conn->query($sql1);
 
 						 ${"result".$i} =mysqli_query($conn,${"query".$i}) or die(mysqli_error($conn));
 
-						 $query0 = "select purchaseId from newpurchase where code='${"code".$i}'";
+						 $query0 = "select purchaseId from newpurchase where code='${"code".$i}' and fyId='$fyId' and companyId = '$cId' ";
 						 $result0 = mysqli_query($conn, $query0);
 						 $row = mysqli_fetch_array($result0);
 						 $pur_fk_id = $row['purchaseId'];

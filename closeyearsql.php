@@ -7,6 +7,8 @@
 	  include('checksession.php');
 	 $fy=$_SESSION['fy'];
  	 $company=$_SESSION['cname'];
+ 	 $fyIdOld = $_SESSION['fyId'];
+ 	 $cId = $_SESSION['cId'];
 
 
 
@@ -24,33 +26,30 @@ $startdate=$st."-04-01";
 $enddate=$en."-03-31";
 $status = 0;
 
-$query0 = "select id from company where companyName='$company'";
-$result0 = mysqli_query($conn, $query0);
-$row0 = mysqli_fetch_array($result0);
-$cid = $row0['id'];
 
-
-$query="insert into financialyear(startDate,endDate,fy,companyId,status)values('$startdate','$enddate','$financialyear','$cid', '$status')";
+$query="insert into financialyear(startDate,endDate,fy,companyId,status)values('$startdate','$enddate','$financialyear','$cId', '$status')";
 
 $result = mysqli_query($conn, $query);
 
 
 
 if($result){
-	echo "Year Created Success";
+	
  	
 }
 
-$query = "select id from financialyear where fy='$financialyear'";
+$query = "select id from financialyear where fy='$financialyear' and companyId='$cId'";
 		$result = mysqli_query($conn, $query);
 		$row = mysqli_fetch_array($result);
-		$_SESSION['fyId']= $row['id'];
+		
 		$fyId = $row['id'];
 
 
 
-$query1 = "select * from production where balanceWt !=0 ";
+$query1 = "select * from production where balanceWt !=0 and companyId='$cId' and fyId='$fyIdOld'";
+
 $result1 = mysqli_query($conn, $query1);
+//echo $query1;
 
 while($row = mysqli_fetch_array($result1)){
 	$id = $row['id'];
@@ -77,15 +76,23 @@ while($row = mysqli_fetch_array($result1)){
 	$conditn = $row["conditn"]; 
 
 //	echo $id; echo "aks";
-	$query2 = "insert into production(date,previousCode, newCode,lotNo,make,grade,shape,size,rmsize,heatNo,actualWeight,balanceWt,openingbalwt,inweight,surface,flag,fyId,companyId,remark,checkCode,pur_fk_id,billNo,conditn)values('$startdate','$previousCode','$newCode','$lotNo','$make','$grade','$shape','$size',$rmsize','$heatno','$actualWeight','$balanceWt','$openingbalwt','$inweight','$surface','$flag','$fyId','$companyId','$remark','$checkCode','$pur_fk_id','$billNo', '$conditn')";
-	echo $query2;
+	$query2 = "insert into production(date,previousCode, newCode,lotNo,make,grade,shape,size,rmsize,heatNo,actualWeight,balanceWt,openingbalwt,inweight,surface,flag,fyId,companyId,remark,checkCode,pur_fk_id,billNo,conditn)values('$startdate','$previousCode','$newCode','$lotNo','$make','$grade','$shape','$size','$rmsize','$heatno','$actualWeight','$balanceWt','$openingbalwt','$inweight','$surface','$flag','$fyId','$companyId','$remark','$checkCode','$pur_fk_id','$billNo', '$conditn')";
+
+	$result2 = mysqli_query($conn,$query2);
+
+	$query20 = "update production set closing_balance='$balanceWt' where code='$newCode' and fyId='$fyIdOld' and companyId='$cId'";
+	//echo $query20."<br> ".$query2;
+	$result20 = mysqli_query($conn, $query20);
+	
+	if($result20 && $result2)
+		echo "Success1";
 
 }
 
 
-	$query3 = "select * from newpurchase where remainingWeight!=0";
+	$query3 = "select * from newpurchase where remainingWeight!=0 and fyId='$fyIdOld' and companyId='$cId'";
 	$result3 = mysqli_query($conn, $query3);
-
+//	echo $query3;
 	while($row = mysqli_fetch_array($result3)){
 		$companyId = $row["companyId"];
 		$lotNo = $row["lotNo"];
@@ -110,18 +117,25 @@ while($row = mysqli_fetch_array($result1)){
 		$conditn = $row["conditn"];
 
 	$query = "insert into newpurchase(fyId,companyId,lotNo,date,billNo,party,make,code,grade,shape,size,purchaseWeight,actualWeight,remainingWeight,surface,warehouseId,transporterId,lorryNo,freightFixed,cnfFobId,remarks,conditn)values($fyId,$companyId,$lotNo,'$date','$billNo','$party','$make','$code',$grade,$shape,'$size','$purchaseWeight','$actualWeight','$remainingWeight',$surface, $warehouseId,'$transporterId','$lorryNo','$freightFixed','$cnfFobId','$remarks','$conditn')";
-	echo $query;
-	//$result2 mysqli_query($conn,$query2);
+
+
+//	echo $query;
+	$result = mysqli_query($conn, $query);
+
+	$query30 = "update newpurchase set closing_balance= '$remainingWeight' where fyId=$'fyIdOld' and companyId='$cId'";
+
+	$result30 = mysqli_query($conn,$query30);
+	
+
+	if($result30 && $result)
+		echo "success2";
+
 }
-//	if($result2){
-//		echo "Success";
-//	}
 
 
-/*
-*/
-
-
+$_SESSION["fyId"] = $fyId;
+$_SESSION['fy'] = $financialyear;
+echo "Year Closed Successfully";
 
 
 

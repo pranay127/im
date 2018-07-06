@@ -128,9 +128,10 @@
 
 												<tbody>
 													<?php
-									            		$query=mysqli_query($conn,"select * from newpurchase where fyId = $fyId and companyId = $cId" );
+													$query = "select * from newpurchase where fyId = '$fyId' and companyId = '$cId'";
+									            		$result=mysqli_query($conn,$query);
 															$count=0;
-															while($row=mysqli_fetch_array($query))
+															while($row=mysqli_fetch_array($result))
 															{
 																$count++;
 																$id=$row['purchaseId'];

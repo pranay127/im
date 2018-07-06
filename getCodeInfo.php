@@ -167,7 +167,7 @@
 														 <div class="col-xs-6"> 
 															 <div class="input-group input-group-sm"> 
 																
-																 <input onchange="checkwgt(this.value,<?php echo $row['balanceWt']; ?>,this.id, this.name)" required type="text" id="inhwgt<?php echo $id; ?>" name="inhwgt<?php echo $id; ?>" class="form-control" style="width: 230px;height: 32px;margin-top:12px;" /> 
+																 <input  required type="text" id="inhwgt<?php echo $id; ?>" name="inhwgt<?php echo $id; ?>" class="form-control" style="width: 230px;height: 32px;margin-top:12px;" /> 
 																
 															 </div> 
 														 </div> 

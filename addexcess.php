@@ -9,7 +9,7 @@
 
 
 
-		$sql24 = "SELECT * FROM financialyear where fy='$fy'";
+		$sql24 = "SELECT * FROM financialyear where fy='$fy' companyId='$cId'";
 		$result24 = $conn->query($sql24);
 		while($row=mysqli_fetch_array($result24))
 		{
@@ -193,7 +193,7 @@
 												<div class="input-group input-group-sm">
 													<select required onchange="codeChange(this.value,'1')" id="code"  name="code" style="width: 230px;height: 32px;" >
 													<option value="">Select Code</option>
-													<?php $quer = "select * from production where balanceWt!=0"; $res = mysqli_query($conn,$quer);
+													<?php $quer = "select * from production where balanceWt!=0 and companyId='$cId' and fyId='$fyId'"; $res = mysqli_query($conn,$quer);
 																				while($row=mysqli_fetch_array($res))
 																				{
 																					

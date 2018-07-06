@@ -3,12 +3,7 @@ include('config.php');
 include('checksession.php');
 
 $cname = $_SESSION['cname'];
-$query0 = "select id from company where companyName='$cname'";
-$result0 = mysqli_query($conn, $query0);
-$row0 = mysqli_fetch_array($result0);
-$cid = $row0['id'];
-echo $fyid;
-
+$cid = $_SESSION['cId'];
 
 if ($conn->connect_error)
 	{

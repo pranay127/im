@@ -5,6 +5,7 @@
   $fy=$_SESSION['fy'];
   $company=$_SESSION['cname'];
   $fyId = $_SESSION['fyId'];
+  $cId = $_SESSION['cId'];
   $_SESSION['Allvalues']='';
   	$values=0;
 ?>
@@ -122,7 +123,7 @@
 
 												<tbody>
 													<?php
-									            		$query=mysqli_query($conn,"select * from production where fyId=$fyId");
+									            		$query=mysqli_query($conn,"select * from production where fyId=$fyId and companyId='$cId'");
 															$count=0;
 															while($row=mysqli_fetch_array($query))
 															{
