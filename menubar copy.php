@@ -187,62 +187,17 @@
 						</ul>
 					</li>
 				</ul>
-				<ul class="nav nav-list" id="nav1" >
-		
-					<li id="Report" class="">
-						<a href="" class="dropdown-toggle">
-							<i class="menu-icon fa fa-line-chart"></i>
+				
+					<ul  class="nav nav-list" >	
+						<li id ="reports"  class="">
+							<a href="reports.php" >
+								<i class="menu-icon fa fa-line-chart"></i>
 								<span class="menu-text"> Reports </span>
 
-							<b class="arrow fa fa-angle-down"></b>
-						</a>
+								
+							</a>
+						</li>
 
-						<b class="arrow"></b>
-
-						<ul class="submenu">
-							<li id="purchase_report" class="">
-								<a href="purchase_report.php">
-									<i class="menu-icon fa fa-caret-right"></i>
-							   Purchase
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li id ="production_report" class="">
-								<a href="production_report.php">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Production
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li id ="jobwork_report" class="">
-								<a href="jobwork_report.php">
-									<i class="menu-icon fa fa-caret-right"></i>
-									Jobwork
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							<li id ="sales_report"  class="">
-								<a href="sales_report.php">
-									<i class="menu-icon fa fa-caret-right"></i>
-								Sales
-								</a>
-
-								<b class="arrow"></b>
-							</li>
-
-							
-						</ul>
-					</li>
-
-				</ul>
-					<ul  class="nav nav-list" >	
-						
 						<li id ="purchase" class="">
 							<a href="purchase.php" >
 								<i class="menu-icon fa fa-shopping-cart"></i>
