@@ -9,7 +9,7 @@
 
 
 
-		$sql24 = "SELECT * FROM financialyear where fy='$fy' companyId='$cId'";
+		$sql24 = "SELECT * FROM financialyear where fy='$fy' and companyId='$cId'";
 		$result24 = $conn->query($sql24);
 		while($row=mysqli_fetch_array($result24))
 		{
