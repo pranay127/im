@@ -737,19 +737,7 @@
 										</div>
 									</div>
 
-										<div class="col-md-offset-6 col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Balance Weight(In Kg.)  </label>
-										<div class="row">
-											<div class="col-xs-6">
-												<div class="input-group input-group-sm">
-													
-													<input type="text" id="balwgt" name="balwgt"  value="<?php echo $balwgt ?>" class="form-control" style="width: 230px;height: 32px;" />
-													
-												</div>
-											</div>
-										</div>
-									</div>
-
+										
 								</div>
 	
 									<div class="col-md-offset-6 col-sm-6" style="margin-top: 12px; ">

@@ -75,6 +75,25 @@
 
 
 		exit();*/
+		$query0 = "select * from trade where purchaseId = '$id'";
+
+		$result0 = mysqli_query($conn,$query0);
+		$row0 = mysqli_fetch_array($result0);
+
+		$proId = $row0['proId'];
+		$inhwgt_old = $row0['inhwt'];
+
+		$diff = $inhwgt_old - $inhwt;
+
+		$query1 = "select * from production where id='$proId'";
+		$result1 = mysqli_query($conn,$query1);
+		$row1 = mysqli_fetch_array($result1);
+		$prevBal = $row1['balanceWt'];
+
+		$newbal = $prevBal + $diff;
+		
+		$query2 = "update production set balanceWt ='$newbal' where id = '$proId' ";
+		$result2 = mysqli_query($conn,$query2) or die(mysqli_error($conn));
 
 
 		if($date!="" && $code!="" && $party!="" && $grade!="" && $billno!="" && $make!=""  && $shape!="" && $lotno!="" && $condition!=""  && $surface!="" && $inhwgt!=""  && $invwgt!="" && $size!="")  
