@@ -568,7 +568,7 @@
 	                       					 var v=1;
 	                       					 var pcode= code+'/'+val+'/'+v;
 
-	                       					 var result='<?php $sql26 = "SELECT previousCode FROM production where and fyId='$fyId' and companyId = '$cId'";
+	                       					 var result='<?php $sql26 = "SELECT previousCode FROM production where  fyId='$fyId' and companyId = '$cId'";
 															$result26 = $conn->query($sql26);
 															while($row=mysqli_fetch_array($result26))
 																	{

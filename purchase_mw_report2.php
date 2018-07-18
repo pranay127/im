@@ -6,33 +6,11 @@
   $company=$_SESSION['cname'];
   $fyId = $_SESSION['fyId'];
   $cId = $_SESSION['cId'];
-
-    	$monthNum = $_POST["month"];
-
-  $dateObj   = DateTime::createFromFormat('!m', $monthNum);
-	$monthName = $dateObj->format('F');
-
- $year = str_split($fy,4);
-$startyear = (string)$year[0];
-$endyear = (string)($year[0]+1);
+  $_SESSION['Allvalues']='';
+  	$values=0;
 
 
-$st = (string)$startyear;
-$en = (string)$endyear;
-
-if($monthNum>3){
-$sdate = $st."-".$monthNum."-01";
-$edate = $st."-".$monthNum."-31";
-$s1date = $st."-04-01";
-}
-else{
-$sdate = $en."-".$monthNum."-01";
-$edate = $en."-".$monthNum."-31";
-$s1date = $en."-04-01";
-}
-
-
-
+  	
 ?>
 
 <html lang="en">
@@ -81,214 +59,225 @@ $s1date = $en."-04-01";
 								<div class="row">
 									<div class="col-xs-12">
 
-										<h3 class="header smaller lighter blue">Purchase Report</h3>
+										<h3 class="header smaller lighter blue">Production</h3>
 										<h5 class="header blue lighter bigger" align="center">
 												<b>Company:&nbsp; <?php echo $company ?>  &nbsp;
 												Financial Year:&nbsp; <?php echo $fy ?> </b>
 								
 										</h5>
+										<h5 class="header red lighter bigger"><b>
+												<?php if(@isset($_GET['error'])){echo $_GET['error'];} else{echo '';} ?></b> 
+											</h5>
 										
 										<div class="clearfix">
 											<div class="pull-right tableTools-container">
 												<div class="btn btn-white btn-primary btn-bold">
-													<a class="blue" href="addpurchase.php" data-toggle="tooltip" title="Add">
+													<a class="blue" href="addproduction.php" data-toggle="tooltip" title="Add">
 														<i class="ace-icon fa fa-plus-circle bigger-120 green"></i>
 													</a>
 												</div>
 
 												
 											</div>
-										</div>
+										</div>	
 										<script>
 											$(document).ready(function(){
-											    $('[data-toggle="tooltip"]').tooltip();  
-											    document.getElementById("Report").className = "active open";
-											    document.getElementById("purchase_report").className = "active"; 
+											  document.getElementById("production").className = "active";    
 											});
 										</script>
 										<div class="table-header">
-											<?php echo $monthName; ?>
+											Results for "Production"
 										</div>
 										
 										<!-- div.table-responsive -->
 
 										<!-- div.dataTables_borderWrap -->
 										<div style="overflow-x:auto;">
-
-											<table id="dynamic-table"  class="table table-striped table-bordered table-hover" >
+											<table id="dynamic-table" class="table table-striped table-bordered table-hover">
 												<thead>
-
-													
-													
-
 													<tr>
-
+														<th class="center">
+															<label class="pos-rel">
+																<input type="checkbox" name="checkboxAll" class="ace" />
+																<span class="lbl"></span>
+															</label>
+														</th>
 														<th>Sr No</th>
 														<th>Date</th>
-														<th>Bill No</th>
-														<th>Party Name</th>
-														<!-- <th>Grade</th> -->
-														<th>Size(mm)</th>
-														<!-- <th>Shape</th>
-														<th>Surface</th> -->
-														<th>Condition</th>
-														<th>Make</th>
+														<th>New Code</th>
 														<!-- <th>Lot No</th> -->
-														<th>Code No</th>
-														<th>Opening Balance Weight in Stock(Kg)</th>
-														<!-- <th>Transporter Name</th> -->
-														<th>Lorry No</th>
-														<th>Freight Fixed</th>
-														<th>CNF/FOB</th>
+														<th>Make</th>
+														<!-- <th>Grade</th>
+														<th>Shape</th> -->
+														<th>Size(mm)</th>
+														<th>RmSize(mm)</th>
+														<th>Heat No</th>
+														<!-- <th>Surface</th> -->
+														<th>Weight(kg)</th>
+														<th>Balance Weight in Stock(Kg)</th>
+														<th>Recovarable Loss</th>
+														<th>N-Recovarable Loss</th>
 														<th>Remarks</th>
-
-														
-														
-
-
-
+														<th>Invoice Weight(kg)</th>
+														<th>Condition</th>
+														<th>Action</th>
 													</tr>
 												</thead>
 
 												<tbody>
-
 													<?php
-													$query = "select * from newpurchase where `date`>= '$sdate' and `date`<= '$edate'  and fyId = '$fyId' and companyId = '$cId'";
-									            		$result=mysqli_query($conn,$query);
+									            		$query=mysqli_query($conn,"select * from production where fyId=$fyId and companyId='$cId'");
 															$count=0;
-															while($row=mysqli_fetch_array($result))
+															while($row=mysqli_fetch_array($query))
 															{
 																$count++;
-																$id=$row['purchaseId'];
+																$id=$row['id'];
 																$date=$row['date'];
-																$billno=$row['billNo'];
-																$party=$row['party'];
-																/*$grade=$row['grade'];*/
-																$size=$row['size'];
-																/*$shape=$row['shape'];
-																$surface=$row['surface'];*/
-																$condition=$row['conditn'];
-																$make=$row['make'];
+																$newcode=$row['newCode'];
 																/*$lotno=$row['lotNo'];*/
-																$codeno=$row['code'];
-																$inhweight=$row['actualWeight'];
-																$invweight=$row['purchaseWeight'];
-																$balweight=$row['remainingWeight'];
-																/*$transname=$row['party'];*/
-																$lorryno=$row['lorryNo'];
-																$frefixed=$row['freightFixed'];
-																$CNF=$row['cnfFobId'];
-																$Remarks=$row['remarks'];
-																$code=$row['code'];
-																$production_transfer=0;
+																$make=$row['make'];
+																/*$grade=$row['grade'];
+																$shape=$row['shape'];*/
+																$size=$row['size'];
+																$rmsize=$row['rmsize'];
 																
-																$query2="select  * from production where fyId = '$fyId' and companyId = '$cId' and `date`< '$sdate' and `date`>'$s1date' and previousCode != newCode and previousCode = '$code'";
-																$result2 = mysqli_query($conn, $query2);
-																while($row2 = mysqli_fetch_array($result2))   		{
-																	$production_transfer = $production_transfer + $row2['actualWeight'];
-																}
-
-																$sales_transfer = 0;
-																
-																$query3 = "select * from production where fyId='$fyId' and companyId = '$cId' and previousCode='$code' and newCode='$code'";
-																//echo $query3;
-																$result3 = mysqli_query($conn, $query3);
-																$row3 = mysqli_fetch_array($result3);
-
-																$proId = $row3['id'];
-
-																$query4 = "select * from trade where fyId = '$fyId' and companyId = '$cId' and `date`< '$sdate' and `date`>'$s1date' and proId = '$proId'";
-																
-																$result4 = mysqli_query($conn,$query4);
-																while($row4 = mysqli_fetch_array($result4)){
-
-																	$sales_transfer = $sales_transfer + $row4['actualWeight'];
-																}
-																	
-																$opening = $invweight - $production_transfer - $sales_transfer;
-
-
-
+																$heatno=$row['heatNo'];
+															/*	$surface=$row['surface'];*/
+																$weight=$row['actualWeight'];
+																$balweight=$row['balanceWt'];
+																$recloss=$row['recoverableLoss'];
+																$nrloss=$row['nrLoss'];
+																$Remarks=$row['remark'];
+																$invweight=$row['actualWeight'];
+																$condition=$row['conditn'];
 																
 															?>
 													<tr>
-														
+														<td class="center">
+															<label class="pos-rel">
+																<input type="checkbox"  class="ace" name="checkbox[]" value="<?php echo $id; ?>" />
+																<span class="lbl"></span>
+															</label>
+														</td>
+
 														<td><?php echo $count;?></td>
 
 														<td>
 															<?php echo $date;?>
 														</td>
-														
-														<td>
-															<?php echo $billno;?>
-														</td>
-														<td>
-															<?php echo $party;?>
-														</td>
-														<!-- <td>
-															<?php echo $grade;?>
-														</td> -->
-														<td>
-															<?php echo $size;?>
-														</td>
-														<!-- <td>
-															<?php echo $shape;?>
-														</td>
-														<td>
-															<?php echo $surface;?>
-														</td> -->
-														<td>
-															<?php echo $condition;?>
-														</td>
-														<td>
-															<?php echo $make;?>
-														</td>
 
+														<td>
+															<?php echo $newcode;?>
+														</td>
+														
 														<!-- <td>
 															<?php echo $lotno;?>
 														</td> -->
 														<td>
-															<?php echo $codeno;?>
+															<?php echo $make;?>
 														</td>
+														<!-- <td>
+															<?php echo $grade;?>
+														</td>
+
 														<td>
-															<?php echo $opening;?>
-														</td>
-														<!-- 
+															<?php echo $shape;?>
+														</td> -->
+
 														<td>
-															<?php echo $inhweight;?>
+															<?php echo $size;?>
 														</td>
+
+														<td>
+															<?php echo $rmsize;?>
+														</td>
+
+															<td>
+															<?php echo $heatno;?>
+														</td>
+
+														<!-- <td>
+															<?php echo $surface;?>
+														</td> -->
+
+														<td>
+															<?php echo $weight;?>
+														</td>
+
 														<td>
 															<?php echo $balweight;?>
-														</td> -->
-														<!-- <td>
-															<?php echo $transname;?>
-														</td> -->
-														<td>
-															<?php echo $lorryno;?>
 														</td>
+
 														<td>
-															<?php echo $frefixed;?>
+															<?php echo $recloss;?>
 														</td>
+
 														<td>
-															<?php echo $CNF;?>
+															<?php echo $nrloss;?>
 														</td>
+
 														<td>
 															<?php echo $Remarks;?>
 														</td>
 
+														<td>
+															<?php echo $invweight;?>
+														</td>
+														<td>
+															<?php echo $condition;?>
+														</td>
+														<td>
+															<div class="hidden-sm hidden-xs action-buttons">
+																
 
+																<a class="green" href="editproduction.php?id=<?php echo $id ?>">
+																	<i class="ace-icon fa fa-pencil bigger-130"></i>
+																</a>
+
+																<a class="red" href="deleteproduction.php?id=<?php echo $id ?>">
+																	<i class="ace-icon fa fa-trash-o bigger-130"></i>
+																</a>
+															</div>
+
+															<div class="hidden-md hidden-lg">
+																<div class="inline pos-rel">
+																	<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+																		<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+																	</button>
+
+																	<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+																		<li>
+																			<a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+																				<span class="blue">
+																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
+																				</span>
+																			</a>
+																		</li>
+
+																		<li>
+																			<a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+																				<span class="green">
+																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																				</span>
+																			</a>
+																		</li>
+
+																		<li>
+																			<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+																				<span class="red">
+																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
+																				</span>
+																			</a>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</td>
 													</tr>
 													<?php
 													}
 												?>
-
-
-													
-
-													
 													</tbody>
-
-													
 												</table>
 											</div>
 
@@ -349,7 +338,9 @@ $s1date = $en."-04-01";
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  null, null,null,null,null,null,null,null,null,null,null,null,null
+					  { "bSortable": false },
+					  null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+					  { "bSortable": false }
 					],
 					"aaSorting": [],
 					
@@ -370,33 +361,23 @@ $s1date = $en."-04-01";
 						"className": "btn btn-white btn-primary btn-bold",
 						columns: ':not(:first):not(:last)'
 					  },
-
-					  {
-						"extend": "csv",
-						"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
-						"className": "btn btn-white btn-primary btn-bold"
-					  },
-					 
+					  
 					  {
 						"extend": "excel",
 						"text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
 						"className": "btn btn-white btn-primary btn-bold"
 					  },
-
-
 					  {
 						"extend": "pdf",
 						"text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
 						"className": "btn btn-white btn-primary btn-bold"
 					  },
-
-
 					  {
 						"extend": "print",
 						"text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
 						"className": "btn btn-white btn-primary btn-bold",
 						autoPrint: false,
-						message: ''
+						message: 'This print was produced using the Print button for DataTables'
 					  }		  
 					]
 				} );

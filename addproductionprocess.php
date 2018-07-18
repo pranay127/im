@@ -11,6 +11,7 @@ if ($conn->connect_error)
 		include('checksession.php');
 		$fy=$_SESSION['fyId'];
 		$company=$_SESSION['cId'];
+		$fyId=$_SESSION['fyId'];
 		
 		$prevcode=$_POST['Ncode'];
 		$date=$_POST['date2'];
@@ -34,7 +35,7 @@ if ($conn->connect_error)
 		$rmsize=$size-$finsize;
 		$balancewt=$balwt-$inwt;
 			
-		$query01 = "select * from newpurchase where code='$prevcode' where and fyId='$fyId' and companyId = '$cId'";
+		$query01 = "select * from newpurchase where code='$prevcode' where  fyId='$fyId' and companyId = '$cId'";
 		$result01 = mysqli_query($conn, $query01);
 		$row01 = mysqli_fetch_array($result01);
 		$count = mysqli_num_rows($result01);
