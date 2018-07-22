@@ -70,43 +70,43 @@
 												<?php if(@isset($_GET['error'])){echo $_GET['error'];} else{echo 'Edit Warehouse Details';} ?></b> 
 											</h5>
 									<div class="form-group">
-										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 160px;"> Warehouse Name <span style="color:red">*</span></label>
+										<label class="col-sm-1 control-label no-padding-right" for="form-field-1"  style="width: 160px;"> Warehouse Name <span style="color:red">*</span></label>
 
 										<div class="col-sm-9">
-											<input type="text"  name="warehousename"  class="col-xs-10 col-sm-5">
+											<input type="text" required  name="warehousename"  class="col-xs-10 col-sm-5" default=" ">
 											
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 160px;"> Address <span style="color:red">*</span></label>
+										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 160px;"> Address  </label>
 
 										<div class="col-sm-9">
-											<input type="text"  name="address" class="col-xs-10 col-sm-5" />
+											<input type="text"  name="address" class="col-xs-10 col-sm-5" default=" " />
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 160px;"> Mobile No <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 160px;"> Mobile No   </label>
 
 										<div class="col-sm-9">
-											<input type="tel"  pattern="[789][0-9]{9}"  maxlength="10" id="form-field-1" name="mobileno"  class="col-xs-10 col-sm-5" />
+											<input type="tel"  pattern="[789][0-9]{9}"  maxlength="10" id="form-field-1"  name="mobileno"  class="col-xs-10 col-sm-5" />
 										</div>
 									</div>
 
 										<div class="form-group">
-										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 160px;"> Email id <span style="color:red">*</span></label>
+										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 160px;"> Email id  </label>
 
 										<div class="col-sm-9">
-											<input type="email" name="emailid"  class="col-xs-10 col-sm-5" />
+											<input type="email" name="emailid"  class="col-xs-10 col-sm-5"  />
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 160px;"> Responsible Person <span style="color:red">*</span></label>
+										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 160px;"> Responsible Person  </label>
 
 										<div class="col-sm-9">
-											<input type="text"  name="resperson"  class="col-xs-10 col-sm-5" />
+											<input type="text"  name="resperson"  class="col-xs-10 col-sm-5" default=" " />
 										</div>
 									</div>
 

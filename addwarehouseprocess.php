@@ -11,13 +11,22 @@ if ($conn->connect_error)
 		
 		$name=$_POST['warehousename'];
 		$address=$_POST['address'];
+
+		if(isset($_POST['mobileno']))
 		$mobile=$_POST['mobileno'];
+		else
+			$mobile=" ";
+
+		if(isset($_POST['emailid']))
 		$email=$_POST['emailid'];
+		else
+			$email=" ";
+		
 		$responperson=$_POST['resperson'];
 	
 		
 
-		if($name!="" && $address!="" && $mobile!="" && $email!="" && $responperson!="")
+		if($name!="" )
 		{
 			
 			$query="insert into warehousemanagement(name,address,mobile,email,responsiblePerson)values('$name','$address','$mobile','$email','$responperson')";

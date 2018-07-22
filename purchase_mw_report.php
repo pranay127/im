@@ -284,7 +284,158 @@ $s1date = $en."-04-01";
 
 
 													
+												<?php
+									            		$query=mysqli_query($conn,"select * from production where fyId=$fyId and companyId='$cId'");
+															$count=0;
+															while($row=mysqli_fetch_array($query))
+															{
+																$count++;
+																$id=$row['id'];
+																$date=$row['date'];
+																$newcode=$row['newCode'];
+																/*$lotno=$row['lotNo'];*/
+																$make=$row['make'];
+																/*$grade=$row['grade'];
+																$shape=$row['shape'];*/
+																$size=$row['size'];
+																$rmsize=$row['rmsize'];
+																
+																$heatno=$row['heatNo'];
+															/*	$surface=$row['surface'];*/
+																$weight=$row['actualWeight'];
+																$balweight=$row['balanceWt'];
+																$recloss=$row['recoverableLoss'];
+																$nrloss=$row['nrLoss'];
+																$Remarks=$row['remark'];
+																$invweight=$row['actualWeight'];
+																$condition=$row['conditn'];
+																
+															?>
+													<tr>
+														<td class="center">
+															<label class="pos-rel">
+																<input type="checkbox"  class="ace" name="checkbox[]" value="<?php echo $id; ?>" />
+																<span class="lbl"></span>
+															</label>
+														</td>
 
+														<td><?php echo $count;?></td>
+
+														<td>
+															<?php echo $date;?>
+														</td>
+
+														<td>
+															<?php echo $newcode;?>
+														</td>
+														
+														<!-- <td>
+															<?php echo $lotno;?>
+														</td> -->
+														<td>
+															<?php echo $make;?>
+														</td>
+														<!-- <td>
+															<?php echo $grade;?>
+														</td>
+
+														<td>
+															<?php echo $shape;?>
+														</td> -->
+
+														<td>
+															<?php echo $size;?>
+														</td>
+
+														<td>
+															<?php echo $rmsize;?>
+														</td>
+
+															<td>
+															<?php echo $heatno;?>
+														</td>
+
+														<!-- <td>
+															<?php echo $surface;?>
+														</td> -->
+
+														<td>
+															<?php echo $weight;?>
+														</td>
+
+														<td>
+															<?php echo $balweight;?>
+														</td>
+
+														<td>
+															<?php echo $recloss;?>
+														</td>
+
+														<td>
+															<?php echo $nrloss;?>
+														</td>
+
+														<td>
+															<?php echo $Remarks;?>
+														</td>
+
+														<td>
+															<?php echo $invweight;?>
+														</td>
+														<td>
+															<?php echo $condition;?>
+														</td>
+														<td>
+															<div class="hidden-sm hidden-xs action-buttons">
+																
+
+																<a class="green" href="editproduction.php?id=<?php echo $id ?>">
+																	<i class="ace-icon fa fa-pencil bigger-130"></i>
+																</a>
+
+																<a class="red" href="deleteproduction.php?id=<?php echo $id ?>">
+																	<i class="ace-icon fa fa-trash-o bigger-130"></i>
+																</a>
+															</div>
+
+															<div class="hidden-md hidden-lg">
+																<div class="inline pos-rel">
+																	<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+																		<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+																	</button>
+
+																	<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+																		<li>
+																			<a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+																				<span class="blue">
+																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
+																				</span>
+																			</a>
+																		</li>
+
+																		<li>
+																			<a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+																				<span class="green">
+																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+																				</span>
+																			</a>
+																		</li>
+
+																		<li>
+																			<a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+																				<span class="red">
+																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
+																				</span>
+																			</a>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</td>
+													</tr>
+													<?php
+													}
+												?>
 													
 													</tbody>
 

@@ -363,7 +363,7 @@
 										<div class="col-xs-6" >
 												<div class="input-group input-group-sm">
 
-													<input type="number" name="items" id="items" class="form-control" step="1" min="1" max="10" style="width: 230px;height: 32px;" />
+													<input type="number" value=1 name="items" id="items" class="form-control" step="1" min="1" max="10" style="width: 230px;height: 32px;" />
 													
 												</div>
 										</div>

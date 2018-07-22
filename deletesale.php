@@ -18,9 +18,10 @@ if ($conn->connect_error)
 
 		$query0 = "select proId, actualWeight from trade where purchaseId='$id'";
 		$result0 = mysqli_query($conn,$query0);
-		$row0 = mysqli_num_rows($result0);
+		$row0 = mysqli_fetch_array($result0);
 		$proId = $row0['proId'];
 		$bal = $row0['actualWeight'];
+		//echo $row0['actualWeight'];
 
 		$query1 = "select * from production where id = '$proId' ";
 		$result1 = mysqli_query($conn, $query1);
@@ -34,7 +35,7 @@ if ($conn->connect_error)
 		$updatedChild = $prodWeight + $bal;
 		$query04 = "update production set balanceWt = $updatedChild where id='$proId'";
 		$result04 = mysqli_query($conn,$query04);
- 
+ 		//echo $query04.'\n';
 		
 		$flag = 1;
 		//if there is parent for production entry
@@ -53,6 +54,7 @@ if ($conn->connect_error)
 			if(!$result3){
 				$flag=0;
 			}
+
 
 		}
 
@@ -77,13 +79,14 @@ if ($conn->connect_error)
 			echo "error";
 			header('Location:sale.php?error=Item cannot be Deleted Balance Update Failed');
 		}
+		
 	}
 	else{
 		echo"
     	<script> 
     	if(confirm('It cannot be deleted'))
     	{
-          window.location='production.php';
+          window.location='sale.php';
     	}
     	</script>";
 	}

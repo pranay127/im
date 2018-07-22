@@ -73,13 +73,13 @@
 										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 150px;"> Transporter Name  <span style="color:red">*</span></label>
 
 										<div class="col-sm-9">
-											<input type="text"  name="transportername"  class="col-xs-10 col-sm-5">
+											<input type="text" required name="transportername"  class="col-xs-10 col-sm-5">
 											
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 150px;"> Address  <span style="color:red">*</span></label>
+										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 150px;"> Address </label>
 
 										<div class="col-sm-9">
 											<input type="text"  name="address" class="col-xs-10 col-sm-5" />
@@ -88,7 +88,7 @@
 									
 
 									<div class="form-group">
-										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 150px;"> Contact No  <span style="color:red">*</span></label>
+										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 150px;"> Contact No  </label>
 
 										<div class="col-sm-9">
 											<input type="tel"  pattern="[789][0-9]{9}" maxlength="10" id="form-field-1" name="contactno"  class="col-xs-10 col-sm-5" />
@@ -96,14 +96,14 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 150px;"> Mobile No  <span style="color:red">*</span></label>
+										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 150px;"> Mobile No  </label>
 
 										<div class="col-sm-9">
 											<input type="tel"  pattern="[789][0-9]{9}"  maxlength="10" id="form-field-1" name="mobileno"   class="col-xs-10 col-sm-5" />
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 150px;"> Email id  <span style="color:red">*</span></label>
+										<label class="col-sm-1 control-label no-padding-right" for="form-field-1" style="width: 150px;"> Email id  </label>
 
 										<div class="col-sm-9">
 											<input type="email" name="emailid"  class="col-xs-10 col-sm-5" />

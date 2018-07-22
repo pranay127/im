@@ -183,7 +183,7 @@
 														<td>
 															<?php echo $size;?>
 														</td>
-														<!-- <td>
+														<!-- <td> 
 															<?php echo $shape;?>
 														</td>
 														<td>

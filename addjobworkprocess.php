@@ -11,13 +11,29 @@ if ($conn->connect_error)
 		
 		/*$id=$_POST['id'];*/
 		$name=$_POST['JobWorkname'];
+
+		if(isset($_POST['address']))
 		$address=$_POST['address'];
+		else
+			$address=" ";
+
+		if(isset($_POST['emailid']))
 		$email=$_POST['emailid'];
+		else
+			$email=" ";
+
+		if(isset($_POST['contactno']))
 		$contactno=$_POST['contactno'];
+		else
+			$contactno = " ";
+
+		if(isset($_POST['mobileno']))
 		$mobile=$_POST['mobileno'];
+		else
+			$mobile = " ";
 	
 
-		if($name!="" && $address!="" && $email!="" && $contactno!="" && $mobile!="")
+		if($name!="" )
 		{
 			
 			$query="insert into jobworkmanagement(name,address,email,contact,mobNo)values('$name','$address','$email','$contactno','$mobile')";

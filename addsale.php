@@ -4,6 +4,8 @@
 	include('checksession.php');
 	$fy=$_SESSION['fy'];
 	$company=$_SESSION['cname'];
+	$cId = $_SESSION['cId'];
+	$fyId = $_SESSION['fyId'];
 
 	$sql = "SELECT id,p_name FROM party";
 		$result = $conn->query($sql);
@@ -346,7 +348,7 @@
 										<div class="col-xs-6" >
 												<div class="input-group input-group-sm">
 
-													<input type="number" name="items" id="items" class="form-control" step="1" min="1" max="10" style="width: 230px;height: 32px;" />
+													<input type="number" name="items" value=1 id="items" class="form-control" step="1" min="1" max="10" style="width: 230px;height: 32px;" />
 													
 												</div>
 										</div>
@@ -393,7 +395,7 @@
 																additems+= 'id="code'+$i+'" name="code'+$i+'" style="width: 230px;height: 32px;margin-top:12px; ">';
 
 																	additems+='<option value="">Select Code</option>';
-																		additems+='<?php $quer = "select * from production where balanceWt!=0"; $res = mysqli_query($conn,$quer);
+																		additems+='<?php $quer = "select * from production where balanceWt!=0 and companyId='$cId' and fyId='$fyId'"; $res = mysqli_query($conn,$quer);
 																				while($row=mysqli_fetch_array($res))
 																				{
 																					
