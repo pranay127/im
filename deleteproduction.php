@@ -1,6 +1,13 @@
 <?php
 include('config.php');
 
+  include('checksession.php');
+  $fy=$_SESSION['fy'];
+  $company=$_SESSION['cname'];
+  $fyId = $_SESSION['fyId'];
+  $cId = $_SESSION['cId'];
+
+
 
 if ($conn->connect_error)
 	{
@@ -10,9 +17,11 @@ if ($conn->connect_error)
 	$id=$_GET['id'];
 
 	//firt check in sales table for proId
-	$query0 = "select * from trade where proId='$id'";
+	$query0 = "select * from trade where proId='$id' ";
 	$result0 = mysqli_query($conn,$query0);
 	$count0 = mysqli_num_rows($result0);
+
+	echo $count0;
 
 	if($count0==0){ 
 
@@ -80,6 +89,8 @@ if ($conn->connect_error)
           window.location='production.php';
     	}
     	</script>";
+    	
+    	echo "cannot delete";
 	}
 
 

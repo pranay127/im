@@ -7,7 +7,8 @@
   $fyId = $_SESSION['fyId'];
   $cId = $_SESSION['cId'];
 
-  $monthNum = $_POST["month"];
+    	$monthNum = $_POST["month"];
+
   $dateObj   = DateTime::createFromFormat('!m', $monthNum);
 	$monthName = $dateObj->format('F');
 
@@ -22,15 +23,15 @@ $en = (string)$endyear;
 if($monthNum>3){
 $sdate = $st."-".$monthNum."-01";
 $edate = $st."-".$monthNum."-31";
+
 }
 else{
 $sdate = $en."-".$monthNum."-01";
 $edate = $en."-".$monthNum."-31";
 }
+$s1date = $st."-04-01";
 
 
-
-							
 
 ?>
 
@@ -80,35 +81,26 @@ $edate = $en."-".$monthNum."-31";
 								<div class="row">
 									<div class="col-xs-12">
 
+										<h3 class="header smaller lighter blue">Sales Report</h3>
 										<h5 class="header blue lighter bigger" align="center">
-												<b>Production Report <?php echo $monthName." ".$fy; ?> </b>
-
-												<?php 
-												?>
+												<b>Company:&nbsp; <?php echo $company ?>  &nbsp;
+												Financial Year:&nbsp; <?php echo $fy ?> </b>
 								
 										</h5>
 										
 										<div class="clearfix">
 											<div class="pull-right tableTools-container">
-												<div class="btn btn-white btn-primary btn-bold">
-													<a class="blue" href="addpurchase.php" data-toggle="tooltip" title="Add">
-														<i class="ace-icon fa fa-plus-circle bigger-120 green"></i>
-													</a>
-												</div>
-
+												
 												
 											</div>
 										</div>
-											
-											<script>
+										<script>
 											$(document).ready(function(){
 											    $('[data-toggle="tooltip"]').tooltip();  
 											    document.getElementById("Report").className = "active open";
 											    document.getElementById("sales_report").className = "active"; 
 											});
-											</script>
-
-
+										</script>
 										<div class="table-header">
 											<?php echo $monthName; ?>
 										</div>
@@ -120,9 +112,12 @@ $edate = $en."-".$monthNum."-31";
 
 											<table id="dynamic-table"  class="table table-striped table-bordered table-hover" >
 												<thead>
+
+													
+													
+
 													<tr>
-														
-														
+
 														<th>Sr No</th>
 														<th>Date</th>
 														<th>Bill No</th>
@@ -137,7 +132,7 @@ $edate = $en."-".$monthNum."-31";
 														<th>Code No</th>
 														<th>Invoice Weight(kg)</th>
 														<th>Inhouse Weight(kg)</th>
-														<th>Balance Weight in Stock(Kg)</th>
+														<!-- <th>Balance Weight in Stock(Kg)</th> -->
 														<!-- <th>Transporter Name</th> -->
 														<th>heat No</th>
 														<th>Code Date</th>
@@ -146,24 +141,26 @@ $edate = $en."-".$monthNum."-31";
 														<th>Freight Fixed</th>
 														<th>CNF/FOB</th>
 														<th>Remarks</th>
-														
-														
 
 
 
 													</tr>
 												</thead>
 
+												
 												<tbody>
 													<?php
-													$query = "select * from trade where `date`>= '$sdate' and `date`<= '$edate'  and fyId = '$fyId' and companyId = '$cId'";
+														$q = "select * from trade where fyId = '$fyId' and companyId='$cId' and `date`>='$sdate' and `date`<='$edate'";
 
-												
-									            		$result=mysqli_query($conn,$query);
-															$count=0;
+														//echo $q;
+									            		$result=mysqli_query($conn,$q);
+														
+														$count=0;
+															
 															while($row=mysqli_fetch_array($result))
 															{
 																$count++;
+																
 																$id=$row['purchaseId'];
 																$date=$row['date'];
 																$billno=$row['billNo'];
@@ -187,12 +184,9 @@ $edate = $en."-".$monthNum."-31";
 																$heatno=$row['heatNo'];
 																$codedate=$row['codeDate'];
 														
-																
 															?>
 													<tr>
 														
-                                                      <td><?php echo $count;?></td>
-
 														<td><?php echo $count;?></td>
 
 														<td>
@@ -211,7 +205,7 @@ $edate = $en."-".$monthNum."-31";
 														<td>
 															<?php echo $size;?>
 														</td>
-														<!-- <td>
+														<!-- <td> 
 															<?php echo $shape;?>
 														</td>
 														<td>
@@ -223,10 +217,10 @@ $edate = $en."-".$monthNum."-31";
 														<td>
 															<?php echo $make;?>
 														</td>
-
-														<!-- <td>
+<!-- 
+														<td>
 															<?php echo $lotno;?>
-														</td> -->
+														</td>  -->
 														<td>
 															<?php echo $codeno;?>
 														</td>
@@ -236,10 +230,10 @@ $edate = $en."-".$monthNum."-31";
 														<td>
 															<?php echo $inhweight;?>
 														</td>
-														<td>
+<!-- 														<td>
 															<?php echo $balweight;?>
 														</td>
-														<td>
+ -->														<td>
 															<?php echo $heatno;?>
 														</td> 
 														<td>
@@ -260,13 +254,14 @@ $edate = $en."-".$monthNum."-31";
 															<?php echo $Remarks;?>
 														</td>
 														
-															
-														</td>
+														
+
 													</tr>
 													<?php
 													}
 												?>
 													</tbody>
+													
 												</table>
 											</div>
 
@@ -327,9 +322,7 @@ $edate = $en."-".$monthNum."-31";
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  { "bSortable": false },
-					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,
-					  { "bSortable": false }
+					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 					],
 					"aaSorting": [],
 					
@@ -350,23 +343,33 @@ $edate = $en."-".$monthNum."-31";
 						"className": "btn btn-white btn-primary btn-bold",
 						columns: ':not(:first):not(:last)'
 					  },
+
+					  {
+						"extend": "csv",
+						"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+						"className": "btn btn-white btn-primary btn-bold"
+					  },
 					 
 					  {
 						"extend": "excel",
 						"text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
 						"className": "btn btn-white btn-primary btn-bold"
 					  },
+
+
 					  {
 						"extend": "pdf",
 						"text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
 						"className": "btn btn-white btn-primary btn-bold"
 					  },
+
+
 					  {
 						"extend": "print",
 						"text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
 						"className": "btn btn-white btn-primary btn-bold",
 						autoPrint: false,
-						message: 'This print was produced using the Print button for DataTables'
+						message: ''
 					  }		  
 					]
 				} );

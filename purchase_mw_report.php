@@ -23,13 +23,13 @@ $en = (string)$endyear;
 if($monthNum>3){
 $sdate = $st."-".$monthNum."-01";
 $edate = $st."-".$monthNum."-31";
-$s1date = $st."-04-01";
+
 }
 else{
 $sdate = $en."-".$monthNum."-01";
 $edate = $en."-".$monthNum."-31";
-$s1date = $en."-04-01";
 }
+$s1date = $st."-04-01";
 
 
 
@@ -153,7 +153,12 @@ $s1date = $en."-04-01";
 												<tbody>
 
 													<?php
-													$query = "select * from newpurchase where `date`>= '$sdate' and `date`<= '$edate'  and fyId = '$fyId' and companyId = '$cId'";
+													if($monthNum==4)
+															$query = "select * from newpurchase where `date`= '$s1date'   and fyId = '$fyId' and companyId = '$cId'";
+													else
+													$query = "select * from newpurchase where `date`>= '$s1date' and `date`< '$sdate'  and fyId = '$fyId' and companyId = '$cId'";
+
+												//echo $query;
 									            		$result=mysqli_query($conn,$query);
 															$count=0;
 															while($row=mysqli_fetch_array($result))

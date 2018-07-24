@@ -1,13 +1,40 @@
 <!DOCTYPE html>
 <?php
-	include('config.php');
-	include('checksession.php');
-	$fy=$_SESSION['fy'];
-	$company=$_SESSION['cname'];
-	$fyId = $_SESSION['fyId'];
-	$cId = $_SESSION['cId'];
- ?>
+  include('config.php');
+  include('checksession.php');
+  $fy=$_SESSION['fy'];
+  $company=$_SESSION['cname'];
+  $fyId = $_SESSION['fyId'];
+  $cId = $_SESSION['cId'];
 
+    	$monthNum = 4;
+
+  $dateObj   = DateTime::createFromFormat('!m', $monthNum);
+	$monthName = $dateObj->format('F');
+
+ $year = str_split($fy,4);
+$startyear = (string)$year[0];
+$endyear = (string)($year[0]+1);
+
+
+$st = (string)$startyear;
+$en = (string)$endyear;
+
+if($monthNum>3){
+$sdate = $st."-".$monthNum."-01";
+$edate = $st."-".$monthNum."-31";
+$oedate = $st."-".$monthNum."-2";
+$s1date = $st."-04-01";
+}
+else{
+$sdate = $en."-".$monthNum."-01";
+$edate = $en."-".$monthNum."-31";
+$s1date = $en."-04-01";
+}
+
+
+
+?>
 
 <html lang="en">
 	<head>
@@ -55,215 +82,136 @@
 								<div class="row">
 									<div class="col-xs-12">
 
-										<h3 class="header smaller lighter blue">Excess</h3>
+										<h3 class="header smaller lighter blue">Sales Summary</h3>
 										<h5 class="header blue lighter bigger" align="center">
 												<b>Company:&nbsp; <?php echo $company ?>  &nbsp;
 												Financial Year:&nbsp; <?php echo $fy ?> </b>
 								
-											</h5>
+										</h5>
 										
 										<div class="clearfix">
 											<div class="pull-right tableTools-container">
 												<div class="btn btn-white btn-primary btn-bold">
-													<a class="blue" href="addexcess.php" data-toggle="tooltip" title="Add">
-														<i class="ace-icon fa fa-plus-circle bigger-120 green">
-															
-														</i>
+													<a class="blue" href="addpurchase.php" data-toggle="tooltip" title="Add">
+														<i class="ace-icon fa fa-plus-circle bigger-120 green"></i>
 													</a>
 												</div>
 
-												
 												
 											</div>
 										</div>
 										<script>
 											$(document).ready(function(){
 											    $('[data-toggle="tooltip"]').tooltip();  
-											    document.getElementById("Manage").className = "active open";
-											    document.getElementById("Excess").className = "active"; 
+											    document.getElementById("Report").className = "active open";
+											    document.getElementById("sales_report").className = "active"; 
 											});
-											</script>
+										</script>
 										<div class="table-header">
-											Results for "excess"
+											<?php echo "Summmary"; ?>
 										</div>
+										
 										<!-- div.table-responsive -->
 
 										<!-- div.dataTables_borderWrap -->
 										<div style="overflow-x:auto;">
-											<table id="dynamic-table" class="table table-striped table-bordered table-hover">
+
+											<table id="dynamic-table"  class="table table-striped table-bordered table-hover" >
 												<thead>
+
+													
+													
+
 													<tr>
-														<th class="center">
-															<label class="pos-rel">
-																<input type="checkbox" name="checkboxAll" class="ace" />
-																<span class="lbl"></span>
-															</label>
-														</th>
+
 														<th>Sr No</th>
-														<th>Date</th>
-														<!-- <th>Grade</th> -->
-														<th>Size(mm)</th>
-														<!-- <th>Shape</th> -->
-														<!-- <th>Surface</th> -->
-														<th>Make</th>
+														<th>Month</th>
+														<th>Total Sale</th>
 														<!-- <th>Lot No</th> -->
-														<th>Code No</th>
-														<th>Invoice Weight(kg)</th>
-														<th>Inhouse Weight(kg)</th>
-														<th>Balance Weight in Stock(Kg)</th>
-														<!-- <th>Transporter Name</th> -->
-														<th>Code Date</th>
-												
-														<th>Remarks</th>
-														<th>Action</th>
+														
+														
+														
+
+
+
 													</tr>
 												</thead>
 
 												<tbody>
+
+
 													<?php
-														$query02 = "select id from lotno where lotNo ='excess'";
-													
-												$result2 = mysqli_query($conn,$query02);
-												$row02 = mysqli_fetch_array($result2);
-												$nlotno = $row02['id'];
-												//echo "select * from trade where lotNo='$nlotno'";
-									            		$query=mysqli_query($conn,"select * from trade where lotNo='$nlotno'");
-															$count=0;
-															while($row=mysqli_fetch_array($query))
-															{
-																$count++;
+
+
+															$cnt = 0;
+															while($cnt < 12){
+
+															$cnt++;
+															if($monthNum==4){
+																$sdate = $st."-".$monthNum."-02";
+																//echo $sdate;
+															}
+															$query1 = "select * from trade where `date`>= '$sdate' and `date`<= '$edate'  and fyId = '$fyId' and companyId = '$cId'";
+															//echo $query1;
+															$result1 = mysqli_query($conn, $query1);
+
+															$actualWeight = 0;
+
+															while($row1 = mysqli_fetch_array($result1)){
+															$actualWeight = $invoice + $row1['actualWeight'];
+															
+
+
+														}
+
+
 																
-																$id=$row['purchaseId'];
-																$date=$row['date'];
-																$billno=$row['billNo'];
-																$party=$row['party'];
-																/*$grade=$row['grade'];*/
-																$size=$row['size'];
-																/*$shape=$row['shape'];
-																$surface=$row['surface'];*/
-																$condition=$row['conditn'];
-																$make=$row['make'];
-																/*$lotno=$row['lotNo'];*/
-																$codeno=$row['code'];
-																$invweight=$row['invoiceWt'];
-																$inhweight=$row['actualWeight'];
-																$balweight=$row['remainingWeight'];
-																/*$transname=$row['transporterId'];*/
-																$lorryno=$row['lorryNo'];
-																$frefixed=$row['freightFixed'];
-																$CNF=$row['cnfFobId'];
-																$Remarks=$row['remarks'];
-																$heatno=$row['heatNo'];
-																$codedate=$row['codeDate'];
-														
 															?>
 													<tr>
-														<td class="center">
-															<label class="pos-rel">
-																<input type="checkbox"  class="ace" name="checkbox[]" value="<?php echo $id; ?>" />
-																<span class="lbl"></span>
-															</label>
-														</td>
-
-														<td><?php echo $count;?></td>
-
-														<td>
-															<?php echo $date;?>
-														</td>
 														
-													<!-- 	<td>
-															<?php echo $grade;?>
-														</td> -->
-														<td>
-															<?php echo $size;?>
-														</td>
-														<!-- <td>
-															<?php echo $shape;?>
-														</td>
-														<td>
-															<?php echo $surface;?>
-														</td> -->
-														<td>
-															<?php echo $make;?>
-														</td>
+														<td><?php echo $cnt;?></td>
 
-														<!-- <td>
-															<?php echo $lotno;?>
-														</td> -->
 														<td>
-															<?php echo $codeno;?>
-														</td>
-														<td>
-															<?php echo $invweight;?>
-														</td>
-														<td>
-															<?php echo $inhweight;?>
-														</td>
-														<td>
-															<?php echo $balweight;?>
+															<?php echo $monthName;?>
 														</td>
 														
 														<td>
-															<?php echo $codedate;?>
-														</td>
-													
-														
-														<td>
-															<?php echo $Remarks;?>
+															<?php if($actualWeight==0) echo "-"; else echo $actualWeight;?>
 														</td>
 														
-														<td>
-															<div class="hidden-sm hidden-xs action-buttons">
-																
-
-																<a class="green" href="editsale.php?id=<?php echo $id;?>">
-																	<i class="ace-icon fa fa-pencil bigger-130"></i>
-																</a>
-
-																<a class="red" href="deletesale.php?id=<?php echo $id ?>">
-																	<i class="ace-icon fa fa-trash-o bigger-130"></i>
-																</a>
-															</div>
-
-															<div class="hidden-md hidden-lg">
-																<div class="inline pos-rel">
-																	<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-																		<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-																	</button>
-
-																	<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-																		<li>
-																			<a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-																				<span class="blue">
-																					<i class="ace-icon fa fa-search-plus bigger-120"></i>
-																				</span>
-																			</a>
-																		</li>
-
-																		<li>
-																			<a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-																				<span class="green">
-																					<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-																				</span>
-																			</a>
-																		</li>
-
-																		<li>
-																			<a href="deletesale.php?id=<?php echo $id ?>" class="tooltip-error" data-rel="tooltip" title="Delete">
-																				<span class="red">
-																					<i class="ace-icon fa fa-trash-o bigger-120"></i>
-																				</span>
-																			</a>
-																		</li>
-																	</ul>
-																</div>
-															</div>
-														</td>
 													</tr>
-													<?php
+													
+
+														<?php //$opening_balance = $opening_balance + $inhouse - $production_transfer1;
+
+														$monthNum++;
+
+												  $dateObj   = DateTime::createFromFormat('!m', $monthNum);
+													$monthName = $dateObj->format('F');
+
+														//echo $monthNum;
+														if($monthNum>12)
+															$monthNum = 1;
+
+													if($monthNum>3){
+													$sdate = $st."-".$monthNum."-01";
+													$edate = $st."-".$monthNum."-31";
+
+													$s1date = $st."-04-01";
 													}
-												?>
+													else{
+													$sdate = $en."-".$monthNum."-01";
+													$edate = $en."-".$monthNum."-31";
+													$s1date = $en."-04-01";
+													}
+												//	echo $monthName;
+														 } ?>
+													
+
+													
 													</tbody>
+
+													
 												</table>
 											</div>
 
@@ -324,9 +272,7 @@
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  { "bSortable": false },
-					  null, null, null, null, null, null, null, null, null, null, 
-					  { "bSortable": false }
+					  null, null,null,
 					],
 					"aaSorting": [],
 					
@@ -347,29 +293,33 @@
 						"className": "btn btn-white btn-primary btn-bold",
 						columns: ':not(:first):not(:last)'
 					  },
-					 
+
 					  {
-						"extend": "excel",
-						"text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
-						"className": "btn btn-white btn-primary btn-bold"
-					  },
-					   {
 						"extend": "csv",
 						"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
 						"className": "btn btn-white btn-primary btn-bold"
 					  },
 					 
 					  {
+						"extend": "excel",
+						"text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+						"className": "btn btn-white btn-primary btn-bold"
+					  },
+
+
+					  {
 						"extend": "pdf",
 						"text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
 						"className": "btn btn-white btn-primary btn-bold"
 					  },
+
+
 					  {
 						"extend": "print",
 						"text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
 						"className": "btn btn-white btn-primary btn-bold",
 						autoPrint: false,
-						message: 'This print was produced using the Print button for DataTables'
+						message: ''
 					  }		  
 					]
 				} );

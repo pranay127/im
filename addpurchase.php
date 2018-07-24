@@ -459,7 +459,7 @@
 														additems+='<div class="col-xs-6">';
 															additems+='<div class="input-group input-group-sm">';
 																
-																additems+='<input type="number"value="00" id="size1" name="size1'+$i+'" class="form-control" style="width: 110px;height: 32px; margin-right: 20px;margin-top:12px;"/>';
+																additems+='<input type="number" min = 0 value="00" id="size1" name="size1'+$i+'" class="form-control" style="width: 110px;height: 32px; margin-right: 20px;margin-top:12px;"/>';
 																additems+='<input type="text" value="00 "id="size2" name="size2'+$i+'" class="form-control" style="width: 100px;height: 32px;margin-top:12px;" />';
 
                                                               

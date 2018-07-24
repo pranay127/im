@@ -122,7 +122,7 @@
 								</form>
 
 
-								<form class="form-horizontal" method="POST" action="purchase_s_report.php" class="pull-right">
+								<form class="form-horizontal" method="POST" action="sales_s_report.php" class="pull-right">
 
 									<h5 class="header blue lighter bigger"><b>
 												<?php if(@isset($_GET['error'])){echo $_GET['error'];} else{echo 'Monthwise Summary';} ?></b> 

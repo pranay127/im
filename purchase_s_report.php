@@ -23,6 +23,7 @@ $en = (string)$endyear;
 if($monthNum>3){
 $sdate = $st."-".$monthNum."-01";
 $edate = $st."-".$monthNum."-31";
+$oedate = $st."-".$monthNum."-2";
 $s1date = $st."-04-01";
 }
 else{
@@ -147,10 +148,14 @@ $s1date = $en."-04-01";
 
 
 													<?php
-													$query = "select * from newpurchase where `date`>= '$sdate' and `date`<= '$edate'  and fyId = '$fyId' and companyId = '$cId'";
+
+
+													$query = "select * from newpurchase where `date`= '$sdate'   and fyId = '$fyId' and companyId = '$cId'";
 									            		$result=mysqli_query($conn,$query);
 															$count=0;
 															$opening_balance = 0;
+															$sales_transfer = 0;
+															$production_transfer=0;
 															while($row=mysqli_fetch_array($result))
 															{
 																$count++;
@@ -175,15 +180,16 @@ $s1date = $en."-04-01";
 																$CNF=$row['cnfFobId'];
 																$Remarks=$row['remarks'];
 																$code=$row['code'];
-																$production_transfer=0;
+															
 																
 																$query2="select  * from production where fyId = '$fyId' and companyId = '$cId' and `date`< '$sdate' and `date`>'$s1date' and previousCode != newCode and previousCode = '$code'";
+															//	echo $query2;
 																$result2 = mysqli_query($conn, $query2);
 																while($row2 = mysqli_fetch_array($result2))   		{
 																	$production_transfer = $production_transfer + $row2['actualWeight'];
 																}
 
-																$sales_transfer = 0;
+																
 																
 																$query3 = "select * from production where fyId='$fyId' and companyId = '$cId' and previousCode='$code' and newCode='$code'";
 																//echo $query3;
@@ -205,9 +211,16 @@ $s1date = $en."-04-01";
 																$opening_balance = $opening_balance + $opening;
 															}
 
+
+
 															$cnt = 0;
 															while($cnt < 12){
+
 															$cnt++;
+															if($monthNum==4){
+																$sdate = $st."-".$monthNum."-02";
+																//echo $sdate;
+															}
 															$query1 = "select * from newpurchase where `date`>= '$sdate' and `date`<= '$edate'  and fyId = '$fyId' and companyId = '$cId'";
 															//echo $query1;
 															$result1 = mysqli_query($conn, $query1);
@@ -223,9 +236,15 @@ $s1date = $en."-04-01";
 
 														}
 
+														if($monthNum==4){
+																$sdate = $st."-".$monthNum."-01";
+																//echo $sdate;
+															}
+
+
 														$production_transfer1=0;
 																
-																$query3="select  * from production where fyId = '$fyId' and companyId = '$cId' and `date`< '$edate' and `date`>'$sdate' ";
+																$query3="select  * from production where fyId = '$fyId' and companyId = '$cId' and `date`< '$edate' and `date`>'$sdate' and previousCode!=newCode ";
 																$result3 = mysqli_query($conn, $query3);
 																while($row3 = mysqli_fetch_array($result3))   		{
 																	$production_transfer1 = $production_transfer1 + $row3['actualWeight'];
@@ -247,25 +266,25 @@ $s1date = $en."-04-01";
 															<?php echo $opening_balance;?>
 														</td>
 														<td>
-															<?php echo $invoice;?>
+															<?php if($invoice==0)echo "-"; else echo $invoice;?>
 														</td>
 													
 														<td>
-															<?php echo $inhouse;?>
+															<?php if($inhouse==0) echo "-"; else  echo $inhouse;?>
 														</td>
 
 														<td>
-															<?php echo $production_transfer1;?>
+															<?php if($production_transfer1==0) echo "-"; else echo $production_transfer1;?>
 														</td>
 														<td>
-															<?php echo $opening_balance + $inhouse - $production_transfer; ?>
+															<?php echo $opening_balance + $inhouse - $production_transfer1; ?>
 														</td>
 
 														
 													</tr>
 													
 
-														<?php $opening_balance = $opening_balance + $inhouse - $production_transfer;
+														<?php $opening_balance = $opening_balance + $inhouse - $production_transfer1;
 
 														$monthNum++;
 

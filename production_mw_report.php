@@ -7,7 +7,8 @@
   $fyId = $_SESSION['fyId'];
   $cId = $_SESSION['cId'];
 
-  $monthNum = $_POST["month"];
+    	$monthNum = $_POST["month"];
+
   $dateObj   = DateTime::createFromFormat('!m', $monthNum);
 	$monthName = $dateObj->format('F');
 
@@ -22,15 +23,15 @@ $en = (string)$endyear;
 if($monthNum>3){
 $sdate = $st."-".$monthNum."-01";
 $edate = $st."-".$monthNum."-31";
+
 }
 else{
 $sdate = $en."-".$monthNum."-01";
 $edate = $en."-".$monthNum."-31";
 }
+$s1date = $st."-04-01";
 
 
-
-							
 
 ?>
 
@@ -80,11 +81,10 @@ $edate = $en."-".$monthNum."-31";
 								<div class="row">
 									<div class="col-xs-12">
 
+										<h3 class="header smaller lighter blue">Production Report</h3>
 										<h5 class="header blue lighter bigger" align="center">
-												<b>Production Report <?php echo $monthName." ".$fy; ?> </b>
-
-												<?php 
-												?>
+												<b>Company:&nbsp; <?php echo $company ?>  &nbsp;
+												Financial Year:&nbsp; <?php echo $fy ?> </b>
 								
 										</h5>
 										
@@ -99,16 +99,13 @@ $edate = $en."-".$monthNum."-31";
 												
 											</div>
 										</div>
-											
-											<script>
+										<script>
 											$(document).ready(function(){
 											    $('[data-toggle="tooltip"]').tooltip();  
 											    document.getElementById("Report").className = "active open";
 											    document.getElementById("production_report").className = "active"; 
 											});
-											</script>
-
-
+										</script>
 										<div class="table-header">
 											<?php echo $monthName; ?>
 										</div>
@@ -120,8 +117,12 @@ $edate = $en."-".$monthNum."-31";
 
 											<table id="dynamic-table"  class="table table-striped table-bordered table-hover" >
 												<thead>
+
+													
+													
+
 													<tr>
-														
+
 														<th>Sr No</th>
 														<th>Date</th>
 														<th>New Code</th>
@@ -139,8 +140,7 @@ $edate = $en."-".$monthNum."-31";
 														<th>N-Recovarable Loss</th>
 														<th>Remarks</th>
 														<th>Invoice Weight(kg)</th>
-														<th>Condition</th>
-														
+														<!-- <th>Condition</th> -->
 														
 
 
@@ -149,10 +149,14 @@ $edate = $en."-".$monthNum."-31";
 												</thead>
 
 												<tbody>
-													<?php
-													$query = "select * from production where `date`>= '$sdate' and `date`<= '$edate'  and fyId = '$fyId' and companyId = '$cId'";
 
-												
+													<?php
+													if($monthNum==4)
+															$query = "select * from production where `date`= '$s1date'   and fyId = '$fyId' and companyId = '$cId'";
+													else
+													$query = "select * from production where `date`>= '$s1date' and `date`< '$sdate'  and fyId = '$fyId' and companyId = '$cId'";
+
+												//echo $query;
 									            		$result=mysqli_query($conn,$query);
 															$count=0;
 															while($row=mysqli_fetch_array($result))
@@ -160,7 +164,7 @@ $edate = $en."-".$monthNum."-31";
 																$count++;
 																$id=$row['id'];
 																$date=$row['date'];
-																$newcode=$row['newCode'];
+																$newCode=$row['newCode'];
 																/*$lotno=$row['lotNo'];*/
 																$make=$row['make'];
 																/*$grade=$row['grade'];
@@ -177,20 +181,51 @@ $edate = $en."-".$monthNum."-31";
 																$Remarks=$row['remark'];
 																$invweight=$row['actualWeight'];
 																$condition=$row['conditn'];
+
+
+																$production_transfer=0;
 																
+																$query2="select  * from production where fyId = '$fyId' and companyId = '$cId' and `date`< '$sdate' and `date`>'$s1date' and previousCode != newCode and previousCode = '$newCode'";
+																$result2 = mysqli_query($conn, $query2);
+																while($row2 = mysqli_fetch_array($result2))   		{
+																	$production_transfer = $production_transfer + $row2['actualWeight'];
+																}
+
 																
+																$query3 = "select * from production where fyId='$fyId' and companyId = '$cId'  and newCode='$newCode'";
+																//echo $query3;
+																$result3 = mysqli_query($conn, $query3);
+																$row3 = mysqli_fetch_array($result3);
+
+
+																$proId = $row3['id'];
+
+
+																$sales_transfer = 0;
+																$query4 = "select * from trade where fyId = '$fyId' and companyId = '$cId' and `date`< '$sdate' and `date`>'$s1date' and proId = '$proId'";
+																
+																$result4 = mysqli_query($conn,$query4);
+																while($row4 = mysqli_fetch_array($result4)){
+
+																	$sales_transfer = $sales_transfer + $row4['actualWeight'];
+																}
+																	
+																$opening = $invweight - $production_transfer - $sales_transfer;
+
+
+
 																
 															?>
 													<tr>
 														
-                                                      <td><?php echo $count;?></td>
+																<td><?php echo $count;?></td>
 
 														<td>
 															<?php echo $date;?>
 														</td>
 
 														<td>
-															<?php echo $newcode;?>
+															<?php echo $newCode;?>
 														</td>
 														
 														<!-- <td>
@@ -246,19 +281,133 @@ $edate = $en."-".$monthNum."-31";
 														<td>
 															<?php echo $invweight;?>
 														</td>
-														<td>
-															<?php echo $condition;?>
-														</td>
-														<td>
 
-															
-															
-														</td>
+
 													</tr>
 													<?php
 													}
 												?>
+
+												<tr>
+													<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+													<td></td><td></td><td></td><td></td>
+												</tr>
+
+
+												<tr>
+													<td><b>Month Entries</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+													<td></td><td></td><td></td><td></td>
+												</tr>
+
+												<?php
+													if($monthNum==4){
+														$sdate = $st."-".$monthNum."-02";
+													}
+													$q = "select  * from production where fyId = '$fyId' and companyId = '$cId' and `date`>= '$sdate' and `date`<='$edate' ";
+									            		$query=mysqli_query($conn,$q);
+									            		//echo $q;
+															$count=0;
+															while($row=mysqli_fetch_array($query))
+															{
+																$count++;
+																$id=$row['id'];
+																$date=$row['date'];
+																$newCode=$row['newCode'];
+																/*$lotno=$row['lotNo'];*/
+																$make=$row['make'];
+																/*$grade=$row['grade'];
+																$shape=$row['shape'];*/
+																$size=$row['size'];
+																$rmsize=$row['rmsize'];
+																
+																$heatno=$row['heatNo'];
+															/*	$surface=$row['surface'];*/
+																$weight=$row['actualWeight'];
+																$balweight=$row['balanceWt'];
+																$recloss=$row['recoverableLoss'];
+																$nrloss=$row['nrLoss'];
+																$Remarks=$row['remark'];
+																$invweight=$row['actualWeight'];
+																$condition=$row['conditn'];
+
+
+															?>
+													<tr>
+																															<td><?php echo $count;?></td>
+
+														<td>
+															<?php echo $date;?>
+														</td>
+
+														<td>
+															<?php echo $newCode;?>
+														</td>
+														
+														<!-- <td>
+															<?php echo $lotno;?>
+														</td> -->
+														<td>
+															<?php echo $make;?>
+														</td>
+														<!-- <td>
+															<?php echo $grade;?>
+														</td>
+
+														<td>
+															<?php echo $shape;?>
+														</td> -->
+
+														<td>
+															<?php echo $size;?>
+														</td>
+
+														<td>
+															<?php echo $rmsize;?>
+														</td>
+
+															<td>
+															<?php echo $heatno;?>
+														</td>
+
+														<!-- <td>
+															<?php echo $surface;?>
+														</td> -->
+
+														<td>
+															<?php echo $weight;?>
+														</td>
+
+														<td>
+															<?php echo $balweight;?>
+														</td>
+
+														<td>
+															<?php echo $recloss;?>
+														</td>
+
+														<td>
+															<?php echo $nrloss;?>
+														</td>
+
+														<td>
+															<?php echo $Remarks;?>
+														</td>
+
+														<td>
+															<?php echo $invweight;?>
+														</td>
+
+
+
+
+													</tr>
+													<?php
+													}
+												?>
+													
 													</tbody>
+
+													
 												</table>
 											</div>
 
@@ -319,9 +468,7 @@ $edate = $en."-".$monthNum."-31";
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  { "bSortable": false },
-					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,
-					  { "bSortable": false }
+					  null, null,null,null,null,null,null,null,null,null,null,null,null
 					],
 					"aaSorting": [],
 					
@@ -342,23 +489,33 @@ $edate = $en."-".$monthNum."-31";
 						"className": "btn btn-white btn-primary btn-bold",
 						columns: ':not(:first):not(:last)'
 					  },
+
+					  {
+						"extend": "csv",
+						"text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+						"className": "btn btn-white btn-primary btn-bold"
+					  },
 					 
 					  {
 						"extend": "excel",
 						"text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
 						"className": "btn btn-white btn-primary btn-bold"
 					  },
+
+
 					  {
 						"extend": "pdf",
 						"text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
 						"className": "btn btn-white btn-primary btn-bold"
 					  },
+
+
 					  {
 						"extend": "print",
 						"text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
 						"className": "btn btn-white btn-primary btn-bold",
 						autoPrint: false,
-						message: 'This print was produced using the Print button for DataTables'
+						message: ''
 					  }		  
 					]
 				} );

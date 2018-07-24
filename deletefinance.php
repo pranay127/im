@@ -1,5 +1,5 @@
 <?php
-/*include('config.php');
+include('config.php');
 
 
 if ($conn->connect_error)
@@ -17,6 +17,6 @@ if ($conn->connect_error)
 		{
 			header('Location:finance.php');
 							
-		}*/
+		}
 		
 	?>
