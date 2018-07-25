@@ -688,7 +688,7 @@
 									</div>
 									
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> In Weight(In Kg.) <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> RM Weight(In Kg.) <span style="color:red">*</span> </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
@@ -738,7 +738,7 @@
 									</div>
 
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Out Weight(In Kg.) <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> FG Weight(In Kg.) <span style="color:red">*</span> </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
@@ -756,7 +756,7 @@
 
 											$inwt=document.getElementById('inwgt').value;
 											$outwt=document.getElementById('outwgt').value;
-											
+											$total_loss=document.getElementById('total_loss').value;
 											
 											if(Number($outwt) > Number($inwt))
 											{
@@ -775,12 +775,34 @@
 											else
 											{
 												$reclos=$inwt-$outwt;
-												document.getElementById('reclos').value=$reclos;
+												document.getElementById('total_loss').value=$reclos;
+												
+
 											}	
 											
 										 });
 
 									</script>
+									<script type="text/javascript">
+										$('input[name=reclos]').change(function() { 
+											$total_loss=document.getElementById('total_loss').value;
+											$recloss=document.getElementById('Reclos').value;
+											$nonreclos=document.getElementById('nonreclos').value;
+
+
+                                                     $nonreclos=$total_loss-$recloss;
+												document.getElementById('reclos').value=$reclos;
+
+                                             };
+
+
+
+
+
+                                   </script>
+
+
+
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Surface <span style="color:red">*</span> </label>
 										<div class="row">
@@ -818,21 +840,19 @@
 											</div>
 										</div>
 									</div>
-									
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Rec Loss(In Kg.)  </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Total Loss(In Kg.)  </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input  type="text" id="reclos" name="reclos"  value="0" class="form-control" style="width: 230px;height: 32px;" />
+													<input  type="text" id="total_loss" name="reclos"  value="0" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
 										</div>
 					 				</div>
-
-									<div class="col-sm-6" style="margin-top: 12px;">
+					 				<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Condition <span style="color:red">*</span> </label>
 										<div class="row">
 											<div class="col-xs-6">
@@ -863,6 +883,32 @@
 										</div>
 									</div>
 									
+									
+									<div class="col-sm-6" style="margin-top: 12px;">
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Rec Loss(In Kg.)  </label>
+										<div class="row">
+											<div class="col-xs-6">
+												<div class="input-group input-group-sm">
+													
+													<input  type="text" id="Reclos" name="reclos"  value="0" class="form-control" style="width: 230px;height: 32px;" />
+													
+												</div>
+											</div>
+										</div>
+					 				</div>
+
+									<div class="col-sm-6" style="margin-top: 12px;">
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Process Code</label>
+										<div class="row">
+											<div class="col-xs-6">
+												<div class="input-group input-group-sm">
+													
+													<input type="text" id="procescode" name="procescode" class="form-control" style="width: 230px;height: 32px; margin-right: 20px;"/ readonly>
+													
+												</div>
+											</div>
+										</div>
+									</div>
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Non Rec.Loss(In Kg.)</label>
 										<div class="row">
@@ -877,18 +923,7 @@
 									</div>
 										
 
-									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Process Code</label>
-										<div class="row">
-											<div class="col-xs-6">
-												<div class="input-group input-group-sm">
-													
-													<input type="text" id="procescode" name="procescode" class="form-control" style="width: 230px;height: 32px; margin-right: 20px;"/ readonly>
-													
-												</div>
-											</div>
-										</div>
-									</div>
+									
 									
 									<div class="col-sm-12" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Remark </label>
