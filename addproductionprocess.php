@@ -28,8 +28,9 @@ if ($conn->connect_error)
 		$heatno=$_POST['heatno'];
 		$inwt=$_POST['inwgt'];
 		$outwt=$_POST['outwgt'];
-		$reclos=$_POST['reclos'];
+		$reclos=$_POST['Reclos'];
 		$nrecloss=$_POST['nonreclos'];
+		$totalLoss=$_POST['total_loss'];
 		
 		$balwt=$_POST['balwgt'];
 		$rmsize=$size-$finsize;
@@ -56,8 +57,8 @@ if ($conn->connect_error)
 		if($prevcode!="" && $date!="" && $grade!="" && $shape!="" && $finsize!="" && $make!="" && $surface!="" && $condition!="" && $newcode!="" && $heatno!="" && $inwt!="" && $outwt!="")
 		{
 			
-			$query="insert into production(date,grade,shape,surface,size,rmsize,lotNo,heatNo,make,inweight,openingbalwt,recoverableLoss,nrLoss,previousCode,newCode,remark,conditn,actualWeight,balanceWt,flag,fyId,companyId,checkCode,pur_fk_id,billNo) values('$date',$grade,$shape,$surface,'$finsize','$rmsize',$nlotno,'$heatno','$make','$inwt','$outwt','$reclos','$nrecloss','$prevcode','$newcode','$remark','$condition',$inwt,'$outwt',0,'$fy','$cId',0,$pur_fk_id,'0')";
-           	
+			$query="insert into production(date,grade,shape,surface,size,rmsize,lotNo,heatNo,make,inweight,openingbalwt,totalLoss,recoverableLoss,nrLoss,previousCode,newCode,remark,conditn,actualWeight,balanceWt,flag,fyId,companyId,checkCode,pur_fk_id,billNo) values('$date',$grade,$shape,$surface,'$finsize','$rmsize',$nlotno,'$heatno','$make','$inwt','$outwt','$totalLoss','$reclos','$nrecloss','$prevcode','$newcode','$remark','$condition',$inwt,'$outwt',0,'$fy','$cId',0,$pur_fk_id,'0')";
+         
             $result =mysqli_query($conn,$query) or die(mysqli_error($conn));
 
             $query1 = "update production set balanceWt ='$balancewt' where newCode = '$prevcode' ";

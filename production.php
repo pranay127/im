@@ -112,6 +112,7 @@
 														<!-- <th>Surface</th> -->
 														<th>Weight(kg)</th>
 														<th>Balance Weight in Stock(Kg)</th>
+														<th>Total Loss</th>
 														<th>Recovarable Loss</th>
 														<th>N-Recovarable Loss</th>
 														<th>Remarks</th>
@@ -142,6 +143,7 @@
 															/*	$surface=$row['surface'];*/
 																$weight=$row['actualWeight'];
 																$balweight=$row['balanceWt'];
+																$totalLoss=$row['totalLoss'];
 																$recloss=$row['recoverableLoss'];
 																$nrloss=$row['nrLoss'];
 																$Remarks=$row['remark'];
@@ -203,6 +205,9 @@
 
 														<td>
 															<?php echo $balweight;?>
+														</td>
+														<td>
+															<?php echo $totalLoss;?>
 														</td>
 
 														<td>
@@ -336,7 +341,7 @@
 					bAutoWidth: false,
 					"aoColumns": [
 					  { "bSortable": false },
-					  null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+					  null, null, null, null, null, null, null, null, null, null, null, null, null, null,null,
 					  { "bSortable": false }
 					],
 					"aaSorting": [],

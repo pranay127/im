@@ -755,6 +755,7 @@
 										$('input[name=outwgt]').change(function() { 
 
 											$inwt=document.getElementById('inwgt').value;
+											
 											$outwt=document.getElementById('outwgt').value;
 											$total_loss=document.getElementById('total_loss').value;
 											
@@ -782,24 +783,34 @@
 											
 										 });
 
+
+
 									</script>
+
+
+									
 									<script type="text/javascript">
-										$('input[name=reclos]').change(function() { 
+										function recovloss() { 
+											
 											$total_loss=document.getElementById('total_loss').value;
 											$recloss=document.getElementById('Reclos').value;
 											$nonreclos=document.getElementById('nonreclos').value;
 
 
+
                                                      $nonreclos=$total_loss-$recloss;
-												document.getElementById('reclos').value=$reclos;
-
-                                             };
 
 
 
+												document.getElementById('nonreclos').value=$nonreclos;
+
+                                             }
 
 
-                                   </script>
+
+
+
+                                   </script> -->
 
 
 
@@ -846,7 +857,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input  type="text" id="total_loss" name="reclos"  value="0" class="form-control" style="width: 230px;height: 32px;" />
+													<input  type="text" id="total_loss" name="total_loss"  value="0" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
@@ -890,7 +901,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input  type="text" id="Reclos" name="reclos"  value="0" class="form-control" style="width: 230px;height: 32px;" />
+													<input  type="text" id="Reclos" onchange="recovloss()" name="Reclos"  value="0" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
@@ -915,7 +926,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="nonreclos" name="nonreclos"  value="0" class="form-control" style="width: 230px;height: 32px;" />
+													<input type="text" id="nonreclos" name="nonreclos"  value=0 class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>

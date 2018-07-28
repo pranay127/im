@@ -105,11 +105,13 @@
 														<!-- <th>Surface</th> -->
 														<th>Weight(kg)</th>
 														<th>Balance Weight in Stock(Kg)</th>
+														<th>Total loss</th>
 														<th>Recovarable Loss</th>
 														<th>N-Recovarable Loss</th>
+								
+														<!-- <th>Invoice Weight(kg)</th>
+														<th>Condition</th> -->
 														<th>Remarks</th>
-														<th>Invoice Weight(kg)</th>
-														<th>Condition</th>
 														<th>Action</th>
 													</tr>
 												</thead>
@@ -131,7 +133,7 @@
 																$shape=$row['shape'];*/
 																$size=$row['size'];
 																$rmsize=$row['rmsize'];
-																
+																$totalLoss=$row['totalLoss'];
 																$heatno=$row['heatNo'];
 																/*$surface=$row['surface'];*/
 																$weight=$row['actualWeight'];
@@ -197,6 +199,9 @@
 														<td>
 															<?php echo $balweight;?>
 														</td>
+														<td>
+															<?php echo $totalLoss;?>
+														</td>
 
 														<td>
 															<?php echo $recloss;?>
@@ -206,15 +211,16 @@
 															<?php echo $nrloss;?>
 														</td>
 
-														<td>
-															<?php echo $Remarks;?>
-														</td>
+														
 
-														<td>
+														<!-- <td>
 															<?php echo $invweight;?>
 														</td>
 														<td>
 															<?php echo $condition;?>
+														</td> -->
+														<td>
+															<?php echo $Remarks;?>
 														</td>
 														
 														<td>
@@ -330,7 +336,7 @@
 					bAutoWidth: false,
 					"aoColumns": [
 					  { "bSortable": false },
-					  null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+					  null, null, null, null, null, null, null, null, null, null, null, null, null, 
 					  { "bSortable": false }
 					],
 					"aaSorting": [],

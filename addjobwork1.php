@@ -728,7 +728,7 @@
 										</div>
 									</div>
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> In Weight(In Kg.) <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> RM Weight(In Kg.) <span style="color:red">*</span> </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
@@ -778,23 +778,26 @@
 									</div>
 
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Out Weight(In Kg.) <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> FG Weight(In Kg.) <span style="color:red">*</span> </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="outwgt" name="outwgt" class="form-control" style="width: 230px;height: 32px;" />
+													<input required type="text" id="outwgt" name="outwgt" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
 										</div>
 									</div>
 
+
 									<script type="text/javascript">
 										$('input[name=outwgt]').change(function() { 
 
 											$inwt=document.getElementById('inwgt').value;
+											
 											$outwt=document.getElementById('outwgt').value;
+											$total_loss=document.getElementById('total_loss').value;
 											
 											if(Number($outwt) > Number($inwt))
 											{
@@ -813,12 +816,43 @@
 											else
 											{
 												$reclos=$inwt-$outwt;
-												document.getElementById('reclos').value=$reclos;
+												document.getElementById('total_loss').value=$reclos;
+												
+
 											}	
 											
 										 });
 
+
+
 									</script>
+
+
+									
+									<script type="text/javascript">
+										function recovloss() { 
+											
+											$total_loss=document.getElementById('total_loss').value;
+											$recloss=document.getElementById('Reclos').value;
+											$nonreclos=document.getElementById('nonreclos').value;
+
+
+
+                                                     $nonreclos=$total_loss-$recloss;
+
+
+
+												document.getElementById('nonreclos').value=$nonreclos;
+
+                                             }
+
+
+
+
+
+                                   </script> -->
+
+
 
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Surface <span style="color:red">*</span> </label>
@@ -826,22 +860,19 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<select id="surface2" name="surface2"  style="width: 230px;height: 32px;">
-														<?php 
-														   if($result20){
-																	while($row=mysqli_fetch_array($result20))
-																	{
-																		$id=$values[6];
-																		$surname=$row['name'];
-																		$count8++;
-																		
-																?>
-																<option value="<?php echo $id;?>"><?php echo $surname;?></option>
-															<?php } } else { ?>
-
-
+													<select required id="surface2" name="surface2"  style="width: 230px;height: 32px;">
+														<?php
+													if($result20){
+														while($row=mysqli_fetch_array($result20))
+															{
+					 											$id=$values[6];
+																$surname=$row['name'];
+															
+														?>
+														<option value="<?php echo $id; ?>"><?php echo $surname;?></option>
+														<?php } } else { ?>
 														<option value="">Select Surface</option>
-																<?php }
+														<?php } 
 																	while($row=mysqli_fetch_array($result8))
 																	{
 																		$id=$row['id'];
@@ -860,41 +891,30 @@
 											</div>
 										</div>
 									</div>
-									
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Rec Loss(In Kg.)  </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Total Loss(In Kg.)  </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="reclos" name="reclos"  value="0" class="form-control" style="width: 230px;height: 32px;" />
+													<input  type="text" id="total_loss" name="total_loss"  value="0" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
 										</div>
-									</div>
-
-									<div class="col-sm-6" style="margin-top: 12px;">
+					 				</div>
+					 				<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Condition <span style="color:red">*</span> </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<select id="condition2" name="condition2" style="width: 230px;height: 32px;">
-														<?php 
-														   if($values[7])
-														   
-														   {
-														   	?>
-																<option value="<?php echo $values[7];?>"><?php echo $values[7];?></option>
-																<?php
-														   }
-															 else 
-															 	{ ?>
-
-													<option value="">Select Condition</option>
-
-														<?php }
+													<select required id="condition2" name="condition2" style="width: 230px;height: 32px;">
+														<?php if($values[7]){?>
+														<option value="<?php echo $values[7];?>"><?php echo $values[7];?></option>
+														<?php }  else { ?>
+														<option value="">Select Condition</option>
+														<?php } 
 																	while($row=mysqli_fetch_array($result9))
 																	{
 																		$id=$row['id'];
@@ -914,7 +934,33 @@
 										</div>
 									</div>
 									
-								<div class="col-sm-6" style="margin-top: 12px;">
+									
+									<div class="col-sm-6" style="margin-top: 12px;">
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Rec Loss(In Kg.)  </label>
+										<div class="row">
+											<div class="col-xs-6">
+												<div class="input-group input-group-sm">
+													
+													<input  type="text" id="Reclos" onchange="recovloss()" name="Reclos"  value="0" class="form-control" style="width: 230px;height: 32px;" />
+													
+												</div>
+											</div>
+										</div>
+					 				</div>
+
+									<div class="col-sm-6" style="margin-top: 12px;">
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Process Code</label>
+										<div class="row">
+											<div class="col-xs-6">
+												<div class="input-group input-group-sm">
+													
+													<input type="text" id="procescode" name="procescode" class="form-control" style="width: 230px;height: 32px; margin-right: 20px;"/ readonly>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Non Rec.Loss(In Kg.)</label>
 										<div class="row">
 											<div class="col-xs-6">
@@ -926,20 +972,9 @@
 											</div>
 										</div>
 									</div>
-								
-										<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Process Code</label>
-										<div class="row">
-											<div class="col-xs-6">
-												<div class="input-group input-group-sm">
-													
-													<input type="text" id="procescode" name="procescode" class="form-control" style="width: 230px;height: 32px; margin-right: 20px;" readonly />
-													
-													
-												</div>
-											</div>
-										</div>
-									</div>
+										
+
+									
 									
 									<div class="col-sm-12" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Remark </label>
