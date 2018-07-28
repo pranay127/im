@@ -136,7 +136,8 @@
 												<b>Company:&nbsp; <?php echo $company ?>  &nbsp;
 												Financial Year:&nbsp; <?php echo $fy ?> </b>
 								
-						</h5>
+								</h5>
+								<form class="form-horizontal" method="POST" action="editproductionprocess.php" class="pull-right">
 							<h5 class="header blue lighter bigger">
 								<b>Select materials</b>
 								
@@ -148,8 +149,10 @@
 
 									<?php
 													$query=mysqli_query($conn,"select * from production where id='$id'");
+													
 													while($row=mysqli_fetch_array($query))
 													{
+
 														$id=$row['id'];
 														$date=$row['date'];
 														$previousCode=$row['previousCode'];
@@ -159,9 +162,10 @@
 														$shape=$row['shape'];
 														$inwgt=$row['inweight'];
 														$surface=$row['surface'];
-														$condition=$row['conditn'];
+														$conditn=$row['conditn'];
 														$heatno=$row['heatNo'];
 														$lotno=$row['lotNo'];
+														//echo $lotno;
 														$make=$row['make'];
 														$finsize=$row['size'];
 														$remarks=$row['remark'];
@@ -176,7 +180,7 @@
 														$row1 = mysqli_fetch_array($result1);
 														$balwgt = $row1['balanceWt'];
 														$parent_date=$row1['date'];
-														echo $parent_date;
+														//echo $parent_date;
 
 														$sql2 = "SELECT * FROM financialyear where fy='$fy'";
 														$result2 = $conn->query($sql2);		while($row=mysqli_fetch_array($result2))
@@ -281,7 +285,7 @@
 														 {
 
 														?>
-														<option value="<?php echo $condition ?>"><?php echo $condition ?></option>
+														<option value="<?php echo $condition; ?>"><?php echo $condition ?></option>
 
 															<?php
 															}
@@ -427,20 +431,28 @@
 													<select disabled id="LotNo1"  name="lotno1" style="width: 230px;height: 32px; margin-right: 5px;">
 
 														<?php
+															if($lotno){
 
-															$sql14 = "SELECT lotno.lotNo,lotno.id FROM newpurchase INNER JOIN lotno ON newpurchase.lotNo =lotno.Id where pur_fk_id =".$purchase_id; 
-															$result14 = $conn->query($sql14);
-															while($row=mysqli_fetch_array($result14))
-																	{
-																		$id=$row['id'];
-																		$lotNo=$row['lotNo'];
-																	}
-																if($lotNo){
+																$sql014 = "select lotNo from lotno where id = '$lotno'";
+
+																$result014 = mysqli_query($conn, $sql014);
+																$row014 = mysqli_fetch_array($result014);
+																$lotNo = $row014['lotNo'];
+																	
+															// $sql14 = "SELECT lotno.lotNo,lotno.id FROM newpurchase INNER JOIN lotno ON newpurchase.lotNo =lotno.Id where pur_fk_id =".$purchase_id; 
+															// $result14 = $conn->query($sql14);
+															// while($row=mysqli_fetch_array($result14))
+															// 		{
+															// 			$id=$row['id'];
+															// 			$lotNo=$row['lotNo'];
+															// 		}
+																
+
 
 																	
 														?>
 
-														<option value="<?php echo $id ?>"><?php echo $lotNo ?></option>
+														<option value="<?php echo $id ?>"><?php echo $lotNo; ?></option>
 
 														<?php 
 														}
@@ -471,7 +483,7 @@
 									</div>
 
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Shape  </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">  Shape  </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
@@ -574,6 +586,41 @@
 								<b>Make Production Entry</b>
 								
 							</h5>
+
+							<?php 
+									$id = $_GET['id'];
+								$query=mysqli_query($conn,"select * from production where id='$id'");
+									//				echo "select * from production where id='$id'";
+													while($row=mysqli_fetch_array($query))
+													{
+
+														$id=$row['id'];
+														$date=$row['date'];
+														$previousCode=$row['previousCode'];
+														$code=$row['newCode'];
+														$grade=$row['grade'];
+														$size=$row['size'];
+														$grade=$row['grade'];
+														$shape=$row['shape'];
+														$inwgt=$row['inweight'];
+														$surface=$row['surface'];
+														$condition=$row['conditn'];
+														$heatno=$row['heatNo'];
+														$lotno=$row['lotNo'];
+														
+														$make=$row['make'];
+														$finsize=$row['size'];
+														$remarks=$row['remark'];
+														$recloss=$row['recoverableLoss'];
+														$nonreclos=$row['nrLoss'];
+														$purchase_id=$row['pur_fk_id'];
+														$openingbalwt=$row['openingbalwt'];
+
+
+														}
+													
+
+							?>
 						<div class="row">
 
 							<div class="col-xs-12">
@@ -594,16 +641,24 @@
 									</div>
 									
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Choose New  Lot No.  </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Choose New  Lot No. </label>
 
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
 													<select id="LotNo2" name ="lotno2" style="width: 230px;height: 32px; margin-right: 5px;">
+															<?php if($lotno){
+																$q01 = "select lotNo from lotno where id='$lotno'";
+																$r01 = mysqli_query($conn, $q01);
+																$rw01 = mysqli_fetch_array($r01);
 
+																?>
+																<option value=""><?php echo $rw01['lotNo']; ?></option>  
+														<?php } else{ ?>
 														<option value="">Select new Lot No</option>
 																<?php 
+															}
 																	while($row=mysqli_fetch_array($result5))
 																	{
 																		$id=$row['id'];
@@ -629,9 +684,18 @@
 												<div class="input-group input-group-sm">
 													
 													<select id="grade2" name="grade2" style="width: 230px;height: 32px;">
+														<?php if($grade){
+															
+															$r02 =  mysqli_query($conn, "select name from m_grade where id='$grade'");
+
+															$row02 = mysqli_fetch_array($r02);
+															?>
+															<option><?php echo $row02['name']; ?></option>
+
+														<?php } else { ?>
 
 														<option value="">Select Grade</option>
-															<?php 
+															<?php }
 																	while($row=mysqli_fetch_array($result6))
 																	{
 																		$id=$row['id'];
@@ -651,16 +715,17 @@
 									</div>
 									
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Process <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<select id="process"  name="process" style="width: 230px;height: 32px;">
+													<div id="process"  name="process" style="width: 230px;height: 32px;">
 
-														<option value="">Select Process</option>
-											
-													</select>
+														
+
+
+													</div>
 											
 												</div>
 											</div>
@@ -682,12 +747,12 @@
 									</div>
 									
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> In Weight(In Kg.) <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> RM Weight(In Kg.) <span style="color:red">*</span> </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="inwgt" name="inwgt" class="form-control" style="width: 230px;height: 32px;" />
+													<input type="text" id="inwgt" name="inwgt" class="form-control" value="<?php echo $openingbalwt; ?>" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
@@ -730,10 +795,18 @@
 												<div class="input-group input-group-sm">
 													
 													<select id="shape2" name="shape2" style="width: 230px;height: 32px; ">
-
+														<?php if($shape){
+															$res = mysqli_query($conn, "select id, name from m_shape where id='$shape'");
+															$row = mysqli_fetch_array($res);
+															?>
+															<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?> </option>
+														}else { ?>
 														<option value="">Select Shape</option>
-																<?php 
-																	while($row=mysqli_fetch_array($result7))
+																<?php }
+																$sql7 = "SELECT * FROM m_shape ";
+																	$result7 = $conn->query($sql7);
+																	$count7=0;
+																		while($row=mysqli_fetch_array($result7))
 																	{
 																		$id=$row['id'];
 																		$shname=$row['name'];
@@ -752,12 +825,12 @@
 									</div>
 
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Out Weight(In Kg.) <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> FG Weight(In Kg.) <span style="color:red">*</span> </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="outhwgt" name="outhwgt" class="form-control" style="width: 230px;height: 32px;" />
+													<input required value="<?php echo $openingbalwt-$recloss-$nonreclos; ?>" type="text" id="outwgt" name="outwgt" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
@@ -769,8 +842,9 @@
 										$('input[name=outwgt]').change(function() { 
 
 											$inwt=document.getElementById('inwgt').value;
-											$outwt=document.getElementById('outwgt').value;
 											
+											$outwt=document.getElementById('outwgt').value;
+											$total_loss=document.getElementById('total_loss').value;
 											
 											if(Number($outwt) > Number($inwt))
 											{
@@ -789,12 +863,42 @@
 											else
 											{
 												$reclos=$inwt-$outwt;
-												document.getElementById('reclos').value=$reclos;
+												document.getElementById('total_loss').value=$reclos;
+												
+
 											}	
 											
 										 });
 
+
+
 									</script>
+
+
+									
+									<script type="text/javascript">
+										function recovloss() { 
+											
+											$total_loss=document.getElementById('total_loss').value;
+											$recloss=document.getElementById('Reclos').value;
+											$nonreclos=document.getElementById('nonreclos').value;
+
+
+
+                                                     $nonreclos=$total_loss-$recloss;
+
+
+
+												document.getElementById('nonreclos').value=$nonreclos;
+
+                                             }
+
+
+
+
+
+                                   </script> 
+
 
 
 									<div class="col-sm-6" style="margin-top: 12px;">
@@ -803,9 +907,18 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<select id="surface2" name="surface2"  style="width: 230px;height: 32px;">
+													<select required id="surface2" name="surface2"  style="width: 230px;height: 32px;">
+														<?php
+													if($surface){
+														$res = mysqli_query($conn, "select id, name from m_surface where id='$surface'");
+														$row1 = mysqli_fetch_array($res);
+
+														?>
+
+														<option value="<?php echo $row['id']; ?>"><?php echo $row1['name'];?></option>
+														<?php } else { ?>
 														<option value="">Select Surface</option>
-																<?php 
+														<?php } 
 																	while($row=mysqli_fetch_array($result8))
 																	{
 																		$id=$row['id'];
@@ -813,7 +926,7 @@
 																		$count8++;
 																		
 																?>
-																<option value="<?php echo $count8;?>"><?php echo $surname;?></option>
+																<option value="<?php echo $id;?>"><?php echo $surname;?></option>
 																<?php			
 																	}	
 																?>
@@ -824,6 +937,55 @@
 											</div>
 										</div>
 									</div>
+									<div class="col-sm-6" style="margin-top: 12px;">
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Total Loss(In Kg.)  </label>
+										<div class="row">
+											<div class="col-xs-6">
+												<div class="input-group input-group-sm">
+													
+													<input  type="text" id="total_loss" name="total_loss"  value="<?php echo $recloss+$nonreclos; ?>" class="form-control" style="width: 230px;height: 32px;" />
+													
+												</div>
+											</div>
+										</div>
+					 				</div>
+					 				<div class="col-sm-6" style="margin-top: 12px;">
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Condition <span style="color:red">*</span> </label>
+										<div class="row">
+											<div class="col-xs-6">
+												<div class="input-group input-group-sm">
+
+													<select required id="condition2" name="condition2" style="width: 230px;height: 32px;">
+														<?php if($conditn){ 
+															$res= mysqli_query($conn, "select condition_text from m_condition where id = '$conditn'");
+															$row3 = mysqli_fetch_array($res); ?>
+														<option value="<?php echo $conditn;?>"><?php echo $conditn;?></option>
+														<?php }  else { ?>
+														<option value="">Select Condition</option>
+														<?php } 
+
+		$sql9 = "SELECT * FROM m_condition ";
+		$result9 = $conn->query($sql9);
+		$count9=0;
+																	while($row=mysqli_fetch_array($result9))
+																	{
+																		$id=$row['id'];
+																		$condition=$row['condition_text'];
+																		$count9++;
+																		
+																?>
+																<option value="<?php echo $condition;?>"><?php echo $condition;?></option>
+																<?php			
+																	}	
+																?>
+											
+													</select>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+									
 									
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Rec Loss(In Kg.)  </label>
@@ -831,44 +993,26 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="reclos" name="reclos"  value="<?php echo $recloss; ?>" class="form-control" style="width: 230px;height: 32px;" />
+													<input  type="text" id="Reclos" onchange="recovloss()" name="Reclos"  value="<?php echo $recloss; ?>" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
 										</div>
-									</div>
+					 				</div>
 
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Condition <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"></label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-
-													<select id="condition2" name="condition2" style="width: 230px;height: 32px;">
-
-													<option value="">Select Condition</option>
-
-														<?php 
-																	while($row=mysqli_fetch_array($result4))
-																	{
-																		$id=$row['id'];
-																		$condition=$row['condition_text'];
-																		$count4++;
-																		
-																?>
-																<option value="<?php echo $count9;?>"><?php echo $condition;?></option>
-																<?php			
-																	}	
-																?>
-											
-													</select>
+													
+													
 													
 												</div>
 											</div>
 										</div>
 									</div>
-									
-								<div class="col-sm-6" style="margin-top: 12px;">
+									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Non Rec.Loss(In Kg.)</label>
 										<div class="row">
 											<div class="col-xs-6">
@@ -880,20 +1024,9 @@
 											</div>
 										</div>
 									</div>
-								
-										<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Process Code</label>
-										<div class="row">
-											<div class="col-xs-6">
-												<div class="input-group input-group-sm">
-													
-													<input type="text" id="procescode" name="procescode" class="form-control" style="width: 230px;height: 32px; margin-right: 20px;"/>
-													
-													
-												</div>
-											</div>
-										</div>
-									</div>
+										
+
+									
 									
 									<div class="col-sm-12" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Remark </label>
@@ -901,7 +1034,7 @@
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<textarea id="remark" name="remark"   class="autosize-transition form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; width: 400px; height: 100px;"> <?php echo $remarks; ?> </textarea>
+													<textarea id="remark" name="remark"   class="autosize-transition form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; width: 400px; height: 100px;">  </textarea>
 													
 												</div>
 											</div>
@@ -915,6 +1048,15 @@
 													
 										</div>
 									</div>
+								
+								</div><!-- ./row -->
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div>
+					</div><!-- /.page-content -->
+				</div>
+			</div><!-- /.main-content -->
+									
 								
 								</div><!-- ./row -->
 								<!-- PAGE CONTENT ENDS -->
