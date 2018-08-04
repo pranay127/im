@@ -79,7 +79,7 @@
     	$remark=$_POST['remark'];
 		$size1=$_POST['size1'];
 		$size2=$_POST['size2'];
-			
+		$cnffob = $_POST['cnffob'];
 		if($size2=="")
 		{
 			$size=$size1;
@@ -89,6 +89,18 @@
 			$size=$size1.'.'.$size2;
 	
 		}
+
+		$query0 = "select remainingWeight from newpurchase where purchaseId='$id'";
+		$result0 = mysqli_query($conn, $query0);
+		$row0 = mysqli_fetch_array($result0);
+
+		$prev_remainingWeight = $row0['remainingWeight'];
+
+		$diff = $prev_remainingWeight - $inhwgt;
+
+
+		$remainingWeight = $prev_remainingWeight - $diff;
+
 		/*echo "date:". $date;
 		echo "code:" .$code;
 		echo "party:". $party;
@@ -110,10 +122,13 @@
 		if($date!="" && $code!="" && $party!="" && $grade!="" && $billno!="" && $make!=""  && $shape!="" && $lotno!="" && $warehouse!="" && $condition!=""  && $surface!="" && $inhwgt!=""  && $invwgt!="" && $size!="")  
 		{
 			
-			$query="update newpurchase set fyId='$fin',companyId='$com',lotNo='$lotno',date='$date',billNo='$billno',party='$party',make='$make',code='$code',grade='$grade',shape='$shape',size='$size',purchaseWeight='$invwgt',actualWeight='$inhwgt',surface='$surface',lorryNo='$lorryno',freightFixed='$freightfixed',cnfFobId='$cnffob',remarks='$remark',conditn='$condition',warehouseId='$warehouse',transporterId='$transporter' where purchaseId='$id'";
-           
-            $result =mysqli_query($conn,$query) or die(mysqli_error($conn));
+			$query="update newpurchase set fyId='$fin',companyId='$com',lotNo='$lotno',date='$date',billNo='$billno',party='$party',make='$make',code='$code',grade='$grade',shape='$shape',size='$size',purchaseWeight='$invwgt',actualWeight='$inhwgt',surface='$surface',lorryNo='$lorryno',freightFixed='$freightfixed',cnfFobId='$cnffob',remarks='$remark',conditn='$condition',warehouseId='$warehouse',transporterId='$transporter', remainingWeight='$remainingWeight' where purchaseId='$id'";
 
+			$query1="update production set fyId='$fin',companyId='$com',lotNo='$lotno',date='$date',billNo='$billno',make='$make',previousCode='$code',newCode='$code',grade='$grade',shape='$shape',size='$size',openingbalwt='$invwgt',actualWeight='$inhwgt',surface='$surface',conditn='$condition', balancewt='$remainingWeight' where pur_fk_id='$id'";
+           
+           echo $query1;
+            $result =mysqli_query($conn,$query) or die(mysqli_error($conn));
+           	$result1 = mysqli_query($conn,$query1) or die(mysqli_error($conn));
             if($result)
 			{
 				header('Location:purchase.php');

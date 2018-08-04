@@ -90,11 +90,7 @@ $s1date = $st."-04-01";
 										
 										<div class="clearfix">
 											<div class="pull-right tableTools-container">
-												<div class="btn btn-white btn-primary btn-bold">
-													<a class="blue" href="addpurchase.php" data-toggle="tooltip" title="Add">
-														<i class="ace-icon fa fa-plus-circle bigger-120 green"></i>
-													</a>
-												</div>
+												
 
 												
 											</div>
@@ -127,15 +123,17 @@ $s1date = $st."-04-01";
 														<th>Date</th>
 														<th>Bill No</th>
 														<th>Party Name</th>
-														<!-- <th>Grade</th> -->
+													    <th>Grade</th>
 														<th>Size(mm)</th>
 														<!-- <th>Shape</th>
 														<th>Surface</th> -->
 														<th>Condition</th>
 														<th>Make</th>
-														<!-- <th>Lot No</th> -->
+														<th>Lot No</th> 
 														<th>Code No</th>
 														<th>Opening Balance Weight in Stock(Kg)</th>
+														<th>Inhouse Weight</th>
+														<th>Invoice Weight</th>
 														<!-- <th>Transporter Name</th> -->
 														<th>Lorry No</th>
 														<th>Freight Fixed</th>
@@ -168,13 +166,13 @@ $s1date = $st."-04-01";
 																$date=$row['date'];
 																$billno=$row['billNo'];
 																$party=$row['party'];
-																/*$grade=$row['grade'];*/
+																$grade=$row['grade'];
 																$size=$row['size'];
 																/*$shape=$row['shape'];
 																$surface=$row['surface'];*/
 																$condition=$row['conditn'];
 																$make=$row['make'];
-																/*$lotno=$row['lotNo'];*/
+																$lotno=$row['lotNo'];
 																$codeno=$row['code'];
 																$inhweight=$row['actualWeight'];
 																$invweight=$row['purchaseWeight'];
@@ -230,9 +228,9 @@ $s1date = $st."-04-01";
 														<td>
 															<?php echo $party;?>
 														</td>
-														<!-- <td>
+														 <td>
 															<?php echo $grade;?>
-														</td> -->
+														</td> 
 														<td>
 															<?php echo $size;?>
 														</td>
@@ -249,22 +247,25 @@ $s1date = $st."-04-01";
 															<?php echo $make;?>
 														</td>
 
-														<!-- <td>
+														 <td>
 															<?php echo $lotno;?>
-														</td> -->
+														</td> 
 														<td>
 															<?php echo $codeno;?>
 														</td>
 														<td>
 															<?php echo $opening;?>
 														</td>
-														<!-- 
+														 
 														<td>
 															<?php echo $inhweight;?>
 														</td>
 														<td>
+															<?php echo $invweight;?>
+														</td>
+														<!-- <td>
 															<?php echo $balweight;?>
-														</td> -->
+														</td>  -->
 														<!-- <td>
 															<?php echo $transname;?>
 														</td> -->
@@ -289,13 +290,13 @@ $s1date = $st."-04-01";
 
 												<tr>
 													<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-													<td></td><td></td><td></td><td></td>
+													<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 												</tr>
 
 
 												<tr>
 													<td><b>Month Entries</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-													<td></td><td></td><td></td><td></td>
+													<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 												</tr>
 
 												<?php
@@ -310,7 +311,9 @@ $s1date = $st."-04-01";
 																$date=$row['date'];
 																$billno=$row['billNo'];
 																$party=$row['party'];
+																$grade=$row['grade'];
 																$size=$row['size'];
+																$lotno=$row['lotNo'];
 																$condition=$row['conditn'];
 																$make=$row['make'];
 																$codeno=$row['code'];
@@ -337,9 +340,9 @@ $s1date = $st."-04-01";
 														<td>
 															<?php echo $party;?>
 														</td>
-														<!-- <td>
+													    <td>
 															<?php echo $grade;?>
-														</td> -->
+														</td> 
 														<td>
 															<?php echo $size;?>
 														</td>
@@ -356,22 +359,25 @@ $s1date = $st."-04-01";
 															<?php echo $make;?>
 														</td>
 
-														<!-- <td>
+														 <td>
 															<?php echo $lotno;?>
-														</td> -->
+														</td> 
 														<td>
 															<?php echo $codeno;?>
 														</td>
 														<td>
-															<?php echo $opening;?>
+															<?php echo $invweight;?>
 														</td>
-														<!-- 
+													
 														<td>
 															<?php echo $inhweight;?>
 														</td>
 														<td>
+															<?php echo $invweight;?>
+														</td>
+														<!-- <td>
 															<?php echo $balweight;?>
-														</td> -->
+														</td>  -->
 														<!-- <td>
 															<?php echo $transname;?>
 														</td> -->
@@ -458,7 +464,7 @@ $s1date = $st."-04-01";
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  null, null,null,null,null,null,null,null,null,null,null,null,null
+					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 					],
 					"aaSorting": [],
 					

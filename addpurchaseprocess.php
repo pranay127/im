@@ -84,7 +84,7 @@ $res = $conn->query($sql);
 						 $pur_fk_id = $row['purchaseId'];
 
 
-						${"query1".$i}="insert into production(date,previousCode,newCode,lotNo,make,grade,shape,size,rmsize,heatNo,actualWeight,balanceWt,openingbalwt,inweight,surface,flag,fyId,companyId,remark,checkCode,pur_fk_id,billNo,conditn)values('$datee','${"code".$i}','${"code".$i}','$lotno','$make',${"grade".$i},${"shape".$i},'${"size".$i}','0','none','${"inhwgt".$i}','${"inhwgt".$i}','${"inhwgt".$i}','${"invwgt".$i}',${"surface".$i},0,$fin,$cId,'0','0',$pur_fk_id,'0','none')";
+						${"query1".$i}="insert into production(date,previousCode,newCode,lotNo,make,grade,shape,size,rmsize,heatNo,actualWeight,balanceWt,openingbalwt,inweight,surface,flag,fyId,companyId,remark,checkCode,pur_fk_id,billNo,conditn, totalLoss,recoverableLoss, nrLoss)values('$datee','${"code".$i}','${"code".$i}','$lotno','$make',${"grade".$i},${"shape".$i},'${"size".$i}','0','none','${"inhwgt".$i}','${"inhwgt".$i}','${"inhwgt".$i}','${"invwgt".$i}',${"surface".$i},0,$fin,$cId,'0','0',$pur_fk_id,'0','none',0,0,0)";
 						
 			           	${"query2".$i}="insert into balance(prevCode,newCode,balance)values('${"code".$i}','${"code".$i}','${"inhwgt".$i}')";
 

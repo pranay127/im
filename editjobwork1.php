@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <?php
-	include('config.php');
-	include('checksession.php');
-	$fy=$_SESSION['fy'];
-	$company=$_SESSION['cname'];
-	$id=$_GET['id'];
+  include('config.php');
+  include('checksession.php');
+   $fy=$_SESSION['fy'];
+  $company=$_SESSION['cname'];
+  $id=$_GET['id'];
 
+ 		
 
-if ($conn->connect_error)
+ 		if ($conn->connect_error)
 		{
 			 die("Connection failed: " . $conn->connect_error);
 		}
@@ -60,13 +61,10 @@ if ($conn->connect_error)
 		$sql10 = "SELECT * FROM lotno ";
 		$result10 = $conn->query($sql10);
 		$count10=0;
+
+
 		
-		$sql15 = "SELECT id,name FROM jobworkmanagement";
-		$result15 = $conn->query($sql15);
-		$count15=0;
-
 ?>
-
 <html lang="en">
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -94,6 +92,7 @@ if ($conn->connect_error)
 		<![endif]-->
 		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
 		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="assets/css/jquery-confirm.css" />
 
 		<!--[if lte IE 9]>
 		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
@@ -137,7 +136,8 @@ if ($conn->connect_error)
 												<b>Company:&nbsp; <?php echo $company ?>  &nbsp;
 												Financial Year:&nbsp; <?php echo $fy ?> </b>
 								
-						</h5>
+								</h5>
+								<form class="form-horizontal" method="POST" action="editproductionprocess.php" class="pull-right">
 							<h5 class="header blue lighter bigger">
 								<b>Select materials</b>
 								
@@ -147,21 +147,25 @@ if ($conn->connect_error)
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 
-								<?php
+									<?php
 													$query=mysqli_query($conn,"select * from production where id='$id'");
+													
 													while($row=mysqli_fetch_array($query))
 													{
+
 														$id=$row['id'];
 														$date=$row['date'];
+														$previousCode=$row['previousCode'];
 														$code=$row['newCode'];
 														$grade=$row['grade'];
 														$size=$row['size'];
 														$shape=$row['shape'];
 														$inwgt=$row['inweight'];
 														$surface=$row['surface'];
-														$condition=$row['conditn'];
+														$conditn=$row['conditn'];
 														$heatno=$row['heatNo'];
 														$lotno=$row['lotNo'];
+														//echo $lotno;
 														$make=$row['make'];
 														$finsize=$row['size'];
 														$remarks=$row['remark'];
@@ -171,15 +175,31 @@ if ($conn->connect_error)
 
 
 														}
+														$query1 = "select * from production where newCode='$previousCode'";
+														$result1 = mysqli_query($conn,$query1);
+														$row1 = mysqli_fetch_array($result1);
+														$balwgt = $row1['balanceWt'];
+														$parent_date=$row1['date'];
+														//echo $parent_date;
+
+														$sql2 = "SELECT * FROM financialyear where fy='$fy'";
+														$result2 = $conn->query($sql2);		while($row=mysqli_fetch_array($result2))
+														{
+															$ST=$row['startDate'];
+															$EN=$row['endDate'];
+														}
+
 
 													?>
+
+													<input type="text" name="id_delete" hidden value="<?php echo $id; ?>">
 								<div class="row">
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Date </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-													<input type="text" id="datepicker1" name="date1"  value="<?php echo $date ; ?>" class="form-control"  style="width: 230px;height: 32px;"/>
+													<input disabled type="text" id="datepicker1" name="date1"   value="<?php echo $date ; ?>" class="form-control"  style="width: 230px;height: 32px;"/>
 													<span class="input-group-addon">
 														<i class="ace-icon fa fa-calendar" id='date1p'></i>
 													</span>
@@ -196,23 +216,26 @@ if ($conn->connect_error)
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<select id="surface1" name="surface1" style="width: 230px;height: 32px;">
+													<select disabled id="surface1" name="surface1"   style="width: 230px;height: 32px;">
 
 														
+
 														<?php
 
-															$sql13 = "SELECT m_surface.name,m_surface.id FROM production INNER JOIN m_surface ON production.surface =m_surface.Id where pur_fk_id =".$purchase_id;
+																
+																if($surface){
+
+																	$sql13 = "SELECT * from m_surface where id='$surface' ";
+
 															$result13 = $conn->query($sql13);
 															while($row=mysqli_fetch_array($result13))
 																	{
 																		$id=$row['id'];
 																		$surface=$row['name'];
-																	}	
-																if($surface){
-
+																	}
 																	
 														?>
-														<option value="<?php echo $id ?>"><?php echo $surface ?></option>
+														<option  value="<?php echo $id ?>"><?php echo $surface; ?></option>
 															<?php 
 															}
 															else
@@ -245,7 +268,7 @@ if ($conn->connect_error)
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-													<input type="text" id="code" name="code"  value="<?php echo $code; ?>" class="form-control" style="width: 230px;height: 32px;" />
+													<input readonly type="text" id="code" name="code"   value="<?php echo $previousCode; ?>" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
@@ -255,19 +278,18 @@ if ($conn->connect_error)
 								
 
 										<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> Condition </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 100px;"> Condition  </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<select id="condition1" name="condition1" style="width: 230px;height: 32px; ">
-
+													<select disabled id="condition1" name="condition1" style="width: 230px;height: 32px; ">
 														<?php
 														 if($condition)
 														 {
 
 														?>
-														<option value="<?php echo $condition ?>"><?php echo $condition ?></option>
+														<option value="<?php echo $condition; ?>"><?php echo $condition ?></option>
 
 															<?php
 															}
@@ -303,9 +325,9 @@ if ($conn->connect_error)
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<select id="grade1" name="grade1" style="width: 230px;height: 32px;">
+													<select disabled id="grade1" name="grade1"  style="width: 230px;height: 32px;">
 
-															<?php 
+														<?php 
 
 
 															$sql11 = "SELECT m_grade.name,m_grade.id FROM production INNER JOIN m_grade ON production.grade =m_grade.Id where pur_fk_id =".$purchase_id; 
@@ -357,14 +379,14 @@ if ($conn->connect_error)
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<input type="text" id="heatno" name="heatno" value="<?php echo $heatno; ?>" class="form-control" style="width: 230px;height: 32px;" />
+													<input readonly type="text" id="heatno" name="heatno" value="<?php echo $heatno; ?>" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
 										</div>
 									</div>
 									
-										<div class="col-sm-6" style="margin-top: 12px;">
+									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Size(mm) <span style="color:red">*</span> </label>
 										<?php
 										
@@ -385,11 +407,11 @@ if ($conn->connect_error)
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													<?php if($part1 && $part2){ ?>
-													<input type="text" name="size1" class="form-control" value="<?php echo $part1; ?>" style="width: 110px;height: 32px; margin-right: 5px"/>
+													<input readonly type="text" name="size1" class="form-control" value="<?php echo $part1; ?>" style="width: 110px;height: 32px; margin-right: 5px"/>
 													<input type="text" name="size2" class="form-control" value="<?php echo $part2; ?>" style="width: 110px;height: 32px; margin-left: 5px" />
 													<?php }
 													else if ($part1){ ?>
-													<input type="text" name="size1" class="form-control" value="<?php echo $part1;?>" style="width: 110px;height: 32px; margin-right: 5px"/>
+													<input readonly type="text" name="size1" class="form-control" value="<?php echo $part1;?>" style="width: 110px;height: 32px; margin-right: 5px"/>
 													<input type="text" name="size2" class="form-control" value="0" style="width: 110px;height: 32px; margin-left: 5px" />
 													<?php } 
 													else {?>
@@ -410,23 +432,31 @@ if ($conn->connect_error)
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<select id="LotNo1"  name="lotno1" style="width: 230px;height: 32px; margin-right: 5px;">
+													<select disabled id="LotNo1"  name="lotno1" style="width: 230px;height: 32px; margin-right: 5px;">
 
-															<?php
+														<?php
+															if($lotno){
 
-															$sql14 = "SELECT lotno.lotNo,lotno.id FROM newpurchase INNER JOIN lotno ON newpurchase.lotNo =lotno.Id where pur_fk_id =".$purchase_id; 
-															$result14 = $conn->query($sql14);
-															while($row=mysqli_fetch_array($result14))
-																	{
-																		$id=$row['id'];
-																		$lotNo=$row['lotNo'];
-																	}
-																if($lotNo){
+																$sql014 = "select lotNo from lotno where id = '$lotno'";
+
+																$result014 = mysqli_query($conn, $sql014);
+																$row014 = mysqli_fetch_array($result014);
+																$lotNo = $row014['lotNo'];
+																	
+															// $sql14 = "SELECT lotno.lotNo,lotno.id FROM newpurchase INNER JOIN lotno ON newpurchase.lotNo =lotno.Id where pur_fk_id =".$purchase_id; 
+															// $result14 = $conn->query($sql14);
+															// while($row=mysqli_fetch_array($result14))
+															// 		{
+															// 			$id=$row['id'];
+															// 			$lotNo=$row['lotNo'];
+															// 		}
+																
+
 
 																	
 														?>
 
-														<option value="<?php echo $id ?>"><?php echo $lotNo ?></option>
+														<option value="<?php echo $id ?>"><?php echo $lotNo; ?></option>
 
 														<?php 
 														}
@@ -436,17 +466,18 @@ if ($conn->connect_error)
 														<option value="">Select Lot Number</option>
 														<?php	
 														}	
-																	while($row=mysqli_fetch_array($result5))
+																	while($row=mysqli_fetch_array($result10))
 																	{
 																		$id=$row['id'];
 																		$lotno=$row['lotNo'];
-																		$count5++;
+																		$count10++;
 																		
 																?>
 																<option value="<?php echo $id;?>"><?php echo $lotno;?></option>
 																<?php			
 																	}	
 																?>
+											
 													</select>
 												
 													
@@ -456,12 +487,12 @@ if ($conn->connect_error)
 									</div>
 
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Shape  </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">  Shape  </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<select id="shape1" name="shape1" style="width: 230px;height: 32px; ">
+													<select disabled id="shape1" name="shape1" style="width: 230px;height: 32px; ">
 
 														<?php
 
@@ -510,7 +541,7 @@ if ($conn->connect_error)
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<input type="text" id="make1" name="make1" value="<?php echo $make; ?> " class="form-control" style="width: 230px;height: 32px;" />
+													<input readonly type="text" id="make1" value="<?php echo $make; ?> " name="make1" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
@@ -525,12 +556,27 @@ if ($conn->connect_error)
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="inhwgt" name="inhwgt" value="<?php echo $inwgt ; ?>"  class="form-control" style="width: 230px;height: 32px;" />
+													<input readonly type="text" id="inhwgt" name="inhwgt"  value="<?php echo $inwgt ; ?>"  class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
 										</div>
 									</div>
+
+									<div class="col-sm-6" style="margin-top: 12px;">
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Parent Balance Weight(In Kg.)  </label>
+										<div class="row">
+											<div class="col-xs-6">
+												<div class="input-group input-group-sm">
+													
+													<input readonly type="text" id="balwgt" name="balwgt"  value="<?php echo $balwgt ; ?>"  class="form-control" style="width: 230px;height: 32px;" />
+													
+												</div>
+											</div>
+										</div>
+									</div>
+
+
 
 								</div><!-- ./row -->
 
@@ -541,9 +587,44 @@ if ($conn->connect_error)
 
 					<pre style="background-color: white; border-color: white;border-bottom-color:#87b87f"></pre>
 					<h5 class="header blue lighter bigger">
-								<b>Make Job Work Entry</b>
+								<b>Edit Job Work Entry</b>
 								
 							</h5>
+
+							<?php 
+									$id = $_GET['id'];
+								$query=mysqli_query($conn,"select * from production where id='$id'");
+									//				echo "select * from production where id='$id'";
+													while($row=mysqli_fetch_array($query))
+													{
+
+														$id=$row['id'];
+														$date2=$row['date'];
+														$previousCode=$row['previousCode'];
+														$code=$row['newCode'];
+														$grade=$row['grade'];
+														$size=$row['size'];
+														$grade=$row['grade'];
+														$shape=$row['shape'];
+														$inwgt=$row['inweight'];
+														$surface=$row['surface'];
+														$condition=$row['conditn'];
+														$heatno=$row['heatNo'];
+														$lotno=$row['lotNo'];
+														
+														$make=$row['make'];
+														$finsize=$row['size'];
+														$remarks=$row['remark'];
+														$recloss=$row['recoverableLoss'];
+														$nonreclos=$row['nrLoss'];
+														$purchase_id=$row['pur_fk_id'];
+														$openingbalwt=$row['openingbalwt'];
+
+
+														}
+													
+
+							?>
 						<div class="row">
 
 							<div class="col-xs-12">
@@ -554,7 +635,7 @@ if ($conn->connect_error)
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-													<input type="text" id="datepicker2" name="date2" class="form-control"  style="width: 230px;height: 32px;"/>
+													<input type="text" id="datepicker2" name="date2" class="form-control" value="<?php echo $date2; ?>" style="width: 230px;height: 32px;"/>
 													<span class="input-group-addon">
 														<i class="ace-icon fa fa-calendar" id=date2p></i>
 													</span>
@@ -564,28 +645,35 @@ if ($conn->connect_error)
 									</div>
 									
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Choose New  Lot No. <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Choose New  Lot No. </label>
 
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
 													<select id="LotNo2" name ="lotno2" style="width: 230px;height: 32px; margin-right: 5px;">
+															<?php if($lotno){
+																$q01 = "select lotNo from lotno where id='$lotno'";
+																$r01 = mysqli_query($conn, $q01);
+																$rw01 = mysqli_fetch_array($r01);
 
+																?>
+																<option value="<?php echo $lotno; ?>"><?php echo $rw01['lotNo']; ?></option>  
+														<?php } else{ ?>
 														<option value="">Select new Lot No</option>
 																<?php 
-																	while($row=mysqli_fetch_array($result10))
+															}
+																	while($row=mysqli_fetch_array($result5))
 																	{
 																		$id=$row['id'];
 																		$lname=$row['lotNo'];
-																		$count10++;
+																		$count5++;
 																		
 																?>
-																<option value="<?php echo $count10;?>"><?php echo $lname;?></option>
+																<option value="<?php echo $id;?>"><?php echo $lname;?></option>
 																<?php			
 																	}	
 																?>
-											
 													</select>
 												
 													
@@ -600,9 +688,18 @@ if ($conn->connect_error)
 												<div class="input-group input-group-sm">
 													
 													<select id="grade2" name="grade2" style="width: 230px;height: 32px;">
+														<?php if($grade){
+															
+															$r02 =  mysqli_query($conn, "select name from m_grade where id='$grade'");
 
-															<option value="">Select Grade</option>
-															<?php 
+															$row02 = mysqli_fetch_array($r02);
+															?>
+															<option value="<?php echo $grade; ?>"><?php echo $row02['name']; ?></option>
+
+														<?php } else { ?>
+
+														<option value="">Select Grade</option>
+															<?php }
 																	while($row=mysqli_fetch_array($result6))
 																	{
 																		$id=$row['id'];
@@ -610,11 +707,10 @@ if ($conn->connect_error)
 																		$count6++;
 																		
 																?>
-																<option value="<?php echo $count1;?>"><?php echo $gname;?></option>
+																<option value="<?php echo $count6;?>"><?php echo $gname;?></option>
 																<?php			
 																	}	
 																?>
-											
 													</select>
 											
 												</div>
@@ -623,50 +719,17 @@ if ($conn->connect_error)
 									</div>
 									
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Job Work <span style="color:red">*</span> </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<select id="jobwork"  name="jobwork" style="width: 230px;height: 32px;">
+													<div id="process"  name="process" style="width: 230px;height: 32px;">
 
-														<?php
-
-															$sql10 = "SELECT jobworkmanagement.name,jobworkmanagement.id FROM production INNER JOIN jobworkmanagement ON production.jobWorkerId = jobworkmanagement.id where pur_fk_id =".$purchase_id;
-															$result10 = $conn->query($sql10);
-															while($row=mysqli_fetch_array($result10))
-																	{
-																		$id=$row['jobWorkerId'];
-																		$jname=$row['name'];
-																	}
-																if($jname)
-																{
+														
 
 
-														?>
-
-														<option value="<?php echo $id; ?>"><?php echo $jname; ?></option>
-
-															<?php 
-														}
-														else
-														{
-															?>
-														<option value="">Select JobWork </option>	
-														<?php	
-														}
-																	while($row=mysqli_fetch_array($result15))
-																	{
-																		$id=$row['id'];
-																		$jname=$row['name'];
-																		$count15++;
-																		
-																?>
-																<option value="<?php echo $id;?>"><?php echo $jname;?></option>
-																<?php			
-																	}	
-																?>
-													</select>
+													</div>
 											
 												</div>
 											</div>
@@ -679,7 +742,7 @@ if ($conn->connect_error)
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="size3" name="size3" value="<?php echo $size; ?> "  class="form-control" style="width: 230px;height: 32px; margin-right: 20px;"/>
+													<input type="text" id="size3" name="size3" value="<?php echo $size; ?> " class="form-control" style="width: 230px;height: 32px; margin-right: 20px;"/>
 													
 													
 												</div>
@@ -688,17 +751,46 @@ if ($conn->connect_error)
 									</div>
 									
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> In Weight(In Kg.) </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> RM Weight(In Kg.) <span style="color:red">*</span> </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="inwgt" name="inwgt" class="form-control" style="width: 230px;height: 32px;" />
+													<input type="text" id="inwgt" name="inwgt" class="form-control" value="<?php echo $openingbalwt; ?>" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
 										</div>
 									</div>
+
+									<script type="text/javascript">
+										$('input[name=inwgt]').change(function() { 
+
+											$inwt=document.getElementById('inwgt').value;
+											$balwt=document.getElementById('balwgt').value;
+											
+											if(Number($inwt) > Number($balwt))
+											{
+												$.confirm({
+												    title: 'Message!',
+												    content: 'In weight should be less than Balance weight.!',
+												    buttons: {
+												        OK: function () {
+												            close();
+												            document.getElementById('inwgt').value='';
+												        },
+												       
+												    }
+												});
+											}
+											else
+											{
+												document.getElementById('inwgt').value=$inwt;
+											}	
+											
+										 });
+
+									</script>
 
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Shape <span style="color:red">*</span> </label>
@@ -707,10 +799,18 @@ if ($conn->connect_error)
 												<div class="input-group input-group-sm">
 													
 													<select id="shape2" name="shape2" style="width: 230px;height: 32px; ">
-
+														<?php if($shape){
+															$res = mysqli_query($conn, "select id, name from m_shape where id='$shape'");
+															$row = mysqli_fetch_array($res);
+															?>
+															<option value="<?php echo $shape; ?>"><?php echo $row['name']; ?> </option>
+														}else { ?>
 														<option value="">Select Shape</option>
-																<?php 
-																	while($row=mysqli_fetch_array($result7))
+																<?php }
+																$sql7 = "SELECT * FROM m_shape ";
+																	$result7 = $conn->query($sql7);
+																	$count7=0;
+																		while($row=mysqli_fetch_array($result7))
 																	{
 																		$id=$row['id'];
 																		$shname=$row['name'];
@@ -729,17 +829,81 @@ if ($conn->connect_error)
 									</div>
 
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Out Weight(In Kg.)  </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> FG Weight(In Kg.) <span style="color:red">*</span> </label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="outhwgt" name="outhwgt" class="form-control" style="width: 230px;height: 32px;" />
+													<input required value="<?php echo $openingbalwt-$recloss-$nonreclos; ?>" type="text" id="outwgt" name="outwgt" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
 										</div>
 									</div>
+
+
+									<script type="text/javascript">
+										$('input[name=outwgt]').change(function() { 
+
+											$inwt=document.getElementById('inwgt').value;
+											
+											$outwt=document.getElementById('outwgt').value;
+											$total_loss=document.getElementById('total_loss').value;
+											
+											if(Number($outwt) > Number($inwt))
+											{
+												$.confirm({
+												    title: 'Message!',
+												    content: 'Out weight should be less than In weight.!',
+												    buttons: {
+												        OK: function () {
+												            close();
+												            document.getElementById('outwgt').value='';
+												        },
+												       
+												    }
+												});
+											}
+											else
+											{
+												$reclos=$inwt-$outwt;
+												document.getElementById('total_loss').value=$reclos;
+												
+
+											}	
+											
+										 });
+
+
+
+									</script>
+
+
+									
+									<script type="text/javascript">
+										function recovloss() { 
+											
+											$total_loss=document.getElementById('total_loss').value;
+											$recloss=document.getElementById('Reclos').value;
+											$nonreclos=document.getElementById('nonreclos').value;
+
+
+
+                                                     $nonreclos=$total_loss-$recloss;
+
+
+
+												document.getElementById('nonreclos').value=$nonreclos;
+
+                                             }
+
+
+
+
+
+                                   </script> 
+
+
 
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Surface <span style="color:red">*</span> </label>
@@ -747,10 +911,18 @@ if ($conn->connect_error)
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<select id="surface2" name="surface2" style="width: 230px;height: 32px;">
+													<select required id="surface2" name="surface2"  style="width: 230px;height: 32px;">
+														<?php
+													if($surface){
+														$res = mysqli_query($conn, "select id, name from m_surface where id='$surface'");
+														$row1 = mysqli_fetch_array($res);
 
+														?>
+
+														<option value="<?php echo $row1['id']; ?>"><?php echo $row1['name']; ?></option>
+														<?php } else { ?>
 														<option value="">Select Surface</option>
-																<?php 
+														<?php } 
 																	while($row=mysqli_fetch_array($result8))
 																	{
 																		$id=$row['id'];
@@ -758,11 +930,10 @@ if ($conn->connect_error)
 																		$count8++;
 																		
 																?>
-																<option value="<?php echo $count8;?>"><?php echo $surname;?></option>
+																<option value="<?php echo $id;?>"><?php echo $surname;?></option>
 																<?php			
 																	}	
 																?>
-											
 											
 													</select>
 													
@@ -770,6 +941,55 @@ if ($conn->connect_error)
 											</div>
 										</div>
 									</div>
+									<div class="col-sm-6" style="margin-top: 12px;">
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Total Loss(In Kg.)  </label>
+										<div class="row">
+											<div class="col-xs-6">
+												<div class="input-group input-group-sm">
+													
+													<input  type="text" id="total_loss" name="total_loss"  value="<?php echo $recloss+$nonreclos; ?>" class="form-control" style="width: 230px;height: 32px;" />
+													
+												</div>
+											</div>
+										</div>
+					 				</div>
+					 				<div class="col-sm-6" style="margin-top: 12px;">
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Condition <span style="color:red">*</span> </label>
+										<div class="row">
+											<div class="col-xs-6">
+												<div class="input-group input-group-sm">
+
+													<select required id="condition2" name="condition2" style="width: 230px;height: 32px;">
+														<?php if($conditn){ 
+															$res= mysqli_query($conn, "select condition_text from m_condition where id = '$conditn'");
+															$row3 = mysqli_fetch_array($res); ?>
+														<option value="<?php echo $conditn;?>"><?php echo $conditn;?></option>
+														<?php }  else { ?>
+														<option value="">Select Condition</option>
+														<?php } 
+
+		$sql9 = "SELECT * FROM m_condition ";
+		$result9 = $conn->query($sql9);
+		$count9=0;
+																	while($row=mysqli_fetch_array($result9))
+																	{
+																		$id=$row['id'];
+																		$condition=$row['condition_text'];
+																		$count9++;
+																		
+																?>
+																<option value="<?php echo $condition;?>"><?php echo $condition;?></option>
+																<?php			
+																	}	
+																?>
+											
+													</select>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+									
 									
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Rec Loss(In Kg.)  </label>
@@ -777,44 +997,26 @@ if ($conn->connect_error)
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 													
-													<input type="text" id="reclos" name="reclos"  value="<?php echo $recloss; ?>" class="form-control" style="width: 230px;height: 32px;" />
+													<input  type="text" id="Reclos" onchange="recovloss()" name="Reclos"  value="<?php echo $recloss; ?>" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
 										</div>
-									</div>
+					 				</div>
 
 									<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Condition </label>
+										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"></label>
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-
-													<select id="condition2" name="condition2" style="width: 230px;height: 32px;">
-
-														<option value="">Select Condition</option>
-
-														<?php 
-																	while($row=mysqli_fetch_array($result4))
-																	{
-																		$id=$row['id'];
-																		$condition=$row['condition_text'];
-																		$count4++;
-																		
-																?>
-																<option value="<?php echo $count9;?>"><?php echo $condition;?></option>
-																<?php			
-																	}	
-																?>
-											
-													</select>
+													
+													
 													
 												</div>
 											</div>
 										</div>
 									</div>
-									
-								<div class="col-sm-6" style="margin-top: 12px;">
+									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Non Rec.Loss(In Kg.)</label>
 										<div class="row">
 											<div class="col-xs-6">
@@ -826,20 +1028,9 @@ if ($conn->connect_error)
 											</div>
 										</div>
 									</div>
-								
-										<div class="col-sm-6" style="margin-top: 12px;">
-										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;">Process Code</label>
-										<div class="row">
-											<div class="col-xs-6">
-												<div class="input-group input-group-sm">
-													
-													<input type="text" id="procescode" name="procescode" class="form-control" style="width: 230px;height: 32px; margin-right: 20px;"/>
-													
-													
-												</div>
-											</div>
-										</div>
-									</div>
+										
+
+									
 									
 									<div class="col-sm-12" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Remark </label>
@@ -847,7 +1038,7 @@ if ($conn->connect_error)
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
 
-													<textarea id="remark" name="remark" class="autosize-transition form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; width: 400px; height: 100px;"><?php echo $remarks; ?></textarea>
+													<textarea id="remark" name="remark"   class="autosize-transition form-control" style="overflow: hidden; word-wrap: break-word; resize: horizontal; width: 400px; height: 100px;">  </textarea>
 													
 												</div>
 											</div>
@@ -861,6 +1052,15 @@ if ($conn->connect_error)
 													
 										</div>
 									</div>
+								
+								</div><!-- ./row -->
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div>
+					</div><!-- /.page-content -->
+				</div>
+			</div><!-- /.main-content -->
+									
 								
 								</div><!-- ./row -->
 								<!-- PAGE CONTENT ENDS -->
@@ -893,21 +1093,26 @@ if ($conn->connect_error)
 		<!-- page specific plugin scripts -->
 		<script src="assets/js/jquery-ui.min.js"></script>
 		<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="assets/js/jquery-confirm.js"></script>
 		
 		<!-- ace scripts -->
 		<script src="assets/js/ace-elements.min.js"></script>
 		<script src="assets/js/ace.min.js"></script>
-		<script src="assets/js/addmoreitems.js"></script>
+	
 
 		<!-- inline scripts related to this page -->
 		<script type="text/javascript">
 			jQuery(function($) {
-			
-					$( "#datepicker1" ).datepicker({
+
+				$startdate='<?php echo $ST;?>';
+				$enddate='<?php echo $EN;?>';
+				$parent_date = '<?php echo $parent_date; ?>';
+				$( "#datepicker1" ).datepicker({
 					showOtherMonths: true,
 					selectOtherMonths: false,
 					dateFormat: 'yy-mm-dd',
-		
+					
+
 				});
 				$('#date1p').click(function() {
   				  $("#datepicker1").focus();
@@ -917,13 +1122,13 @@ if ($conn->connect_error)
 					showOtherMonths: true,
 					selectOtherMonths: false,
 					dateFormat: 'yy-mm-dd',
+					minDate: $parent_date,
+					maxDate: $enddate,
 		
 				});
 			$('#date2p').click(function() {
   				  $("#datepicker2").focus();
 				 });
-			
-			
 				//override dialog's title function to allow for HTML titles
 				$.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
 					_title: function(title) {

@@ -12,6 +12,15 @@
 		{
 			 die("Connection failed: " . $conn->connect_error);
 		}
+
+		$query00 = "Select * from production where id='$id' and previousCode!=newCode";
+		$result00 = mysqli_query($conn, $query00);
+		$row00 = mysqli_num_rows($result00);
+		if($row00==0){
+			header("Location:production.php?error=This Entry cannot be Edit. Please edit from Purchase");
+
+		}
+
 		$sql = "SELECT * FROM production where id ='$id'";
 		$result = $conn->query($sql);
 		$count=0;
@@ -191,6 +200,8 @@
 
 
 													?>
+
+													<input type="text" name="id_delete" hidden value="<?php echo $id; ?>">
 								<div class="row">
 									<div class="col-sm-6" style="margin-top: 12px;">
 										<label class="col-sm-1 control-label no-padding-left" for="form-field-1" style="width: 175px;"> Date </label>
@@ -220,18 +231,20 @@
 
 														<?php
 
-															$sql13 = "SELECT m_surface.name,m_surface.id FROM production INNER JOIN m_surface ON production.surface =m_surface.Id where pur_fk_id =".$purchase_id;
+																
+																if($surface){
+
+																	$sql13 = "SELECT * from m_surface where id='$surface' ";
+
 															$result13 = $conn->query($sql13);
 															while($row=mysqli_fetch_array($result13))
 																	{
 																		$id=$row['id'];
 																		$surface=$row['name'];
-																	}	
-																if($surface){
-
+																	}
 																	
 														?>
-														<option  value="<?php echo $id ?>"><?php echo $surface ?></option>
+														<option  value="<?php echo $id ?>"><?php echo $surface; ?></option>
 															<?php 
 															}
 															else
@@ -264,7 +277,7 @@
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-													<input readonly type="text" id="code" name="code"   value="<?php echo $code; ?>" class="form-control" style="width: 230px;height: 32px;" />
+													<input readonly type="text" id="code" name="code"   value="<?php echo $previousCode; ?>" class="form-control" style="width: 230px;height: 32px;" />
 													
 												</div>
 											</div>
@@ -583,7 +596,7 @@
 
 					<pre style="background-color: white; border-color: white;border-bottom-color:#87b87f"></pre>
 					<h5 class="header blue lighter bigger">
-								<b>Make Production Entry</b>
+								<b>Edit Production Entry</b>
 								
 							</h5>
 
@@ -595,7 +608,7 @@
 													{
 
 														$id=$row['id'];
-														$date=$row['date'];
+														$date2=$row['date'];
 														$previousCode=$row['previousCode'];
 														$code=$row['newCode'];
 														$grade=$row['grade'];
@@ -631,7 +644,7 @@
 										<div class="row">
 											<div class="col-xs-6">
 												<div class="input-group input-group-sm">
-													<input type="text" id="datepicker2" name="date2" class="form-control"  style="width: 230px;height: 32px;"/>
+													<input type="text" id="datepicker2" name="date2" class="form-control" value="<?php echo $date2; ?>" style="width: 230px;height: 32px;"/>
 													<span class="input-group-addon">
 														<i class="ace-icon fa fa-calendar" id=date2p></i>
 													</span>
@@ -654,7 +667,7 @@
 																$rw01 = mysqli_fetch_array($r01);
 
 																?>
-																<option value=""><?php echo $rw01['lotNo']; ?></option>  
+																<option value="<?php echo $lotno; ?>"><?php echo $rw01['lotNo']; ?></option>  
 														<?php } else{ ?>
 														<option value="">Select new Lot No</option>
 																<?php 
@@ -690,7 +703,7 @@
 
 															$row02 = mysqli_fetch_array($r02);
 															?>
-															<option><?php echo $row02['name']; ?></option>
+															<option value="<?php echo $grade; ?>"><?php echo $row02['name']; ?></option>
 
 														<?php } else { ?>
 
@@ -799,7 +812,7 @@
 															$res = mysqli_query($conn, "select id, name from m_shape where id='$shape'");
 															$row = mysqli_fetch_array($res);
 															?>
-															<option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?> </option>
+															<option value="<?php echo $shape; ?>"><?php echo $row['name']; ?> </option>
 														}else { ?>
 														<option value="">Select Shape</option>
 																<?php }
@@ -915,7 +928,7 @@
 
 														?>
 
-														<option value="<?php echo $row['id']; ?>"><?php echo $row1['name'];?></option>
+														<option value="<?php echo $row1['id']; ?>"><?php echo $row1['name']; ?></option>
 														<?php } else { ?>
 														<option value="">Select Surface</option>
 														<?php } 

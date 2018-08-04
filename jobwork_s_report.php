@@ -7,7 +7,7 @@
   $fyId = $_SESSION['fyId'];
   $cId = $_SESSION['cId'];
 
-    	$monthNum = $_POST["month"];
+    	$monthNum = 4;
 
   $dateObj   = DateTime::createFromFormat('!m', $monthNum);
 	$monthName = $dateObj->format('F');
@@ -23,13 +23,14 @@ $en = (string)$endyear;
 if($monthNum>3){
 $sdate = $st."-".$monthNum."-01";
 $edate = $st."-".$monthNum."-31";
-
+$oedate = $st."-".$monthNum."-2";
+$s1date = $st."-04-01";
 }
 else{
 $sdate = $en."-".$monthNum."-01";
 $edate = $en."-".$monthNum."-31";
+$s1date = $en."-04-01";
 }
-$s1date = $st."-04-01";
 
 
 
@@ -81,7 +82,7 @@ $s1date = $st."-04-01";
 								<div class="row">
 									<div class="col-xs-12">
 
-										<h3 class="header smaller lighter blue">Production Report</h3>
+										<h3 class="header smaller lighter blue">Jobwork Summary</h3>
 										<h5 class="header blue lighter bigger" align="center">
 												<b>Company:&nbsp; <?php echo $company ?>  &nbsp;
 												Financial Year:&nbsp; <?php echo $fy ?> </b>
@@ -90,8 +91,7 @@ $s1date = $st."-04-01";
 										
 										<div class="clearfix">
 											<div class="pull-right tableTools-container">
-
-
+												
 												
 											</div>
 										</div>
@@ -99,11 +99,11 @@ $s1date = $st."-04-01";
 											$(document).ready(function(){
 											    $('[data-toggle="tooltip"]').tooltip();  
 											    document.getElementById("Report").className = "active open";
-											    document.getElementById("production_report").className = "active"; 
+											    document.getElementById("jobwork_report").className = "active"; 
 											});
 										</script>
 										<div class="table-header">
-											<?php echo $monthName; ?>
+											<?php echo "Summmary"; ?>
 										</div>
 										
 										<!-- div.table-responsive -->
@@ -120,27 +120,18 @@ $s1date = $st."-04-01";
 													<tr>
 
 														<th>Sr No</th>
-														<th>Date</th>
-														<th>New Code</th>
-														<th>Lot No</th>
-														<th>Make</th>
-														<th>Grade</th>
-<!-- 														<th>Shape</th>
- -->														<th>Size(mm)</th>
-														<th>Finish Size(mm)</th>
-														<th>Heat No</th>
-														<!-- <th>Surface</th> -->
-														<th>RM Weight(kg)</th>
-														<th>FG Weight(kg)</th>
+														<th>Month</th>
+														<th>Opening Balance</th>
+														<th>Invoice Weight</th>
+														<!-- <th>Grade</th> -->
+														<th>Inhouse Weight</th>
+														<!-- <th>Shape</th>
+														<th>Surface</th> -->
+														<th>Transfer to Sales</th>
+														<th>Balance</th>
+														<!-- <th>Lot No</th> -->
 														
-														<th>Total Loss</th>
-														<th>Recovarable Loss</th>
-														<th>N-Recovarable Loss</th>
-														<th>Total Loss % </th>
-														<th>Balance Weight in Stock(Kg)</th>
-														<th>Remarks</th>
 														
-														<!-- <th>Condition</th> -->
 														
 
 
@@ -150,29 +141,29 @@ $s1date = $st."-04-01";
 
 												<tbody>
 
-													<?php
-													if($monthNum==4)
-															$query = "select * from production where `date`= '$s1date'   and fyId = '$fyId' and companyId = '$cId'";
-													else
-													$query = "select * from production where `date`>= '$s1date' and `date`< '$sdate'  and fyId = '$fyId' and companyId = '$cId'";
 
-												//echo $query;
+													<?php
+
+
+													$query = "select * from production where `date`= '$sdate'   and fyId = '$fyId' and companyId = '$cId'";
 									            		$result=mysqli_query($conn,$query);
 															$count=0;
+															$opening_balance = 0;
+															$sales_transfer = 0;
+															$production_transfer=0;
 															while($row=mysqli_fetch_array($result))
 															{
 																$count++;
 																$id=$row['id'];
 																$date=$row['date'];
 																$newCode=$row['newCode'];
-																$lotno=$row['lotNo'];
+																/*$lotno=$row['lotNo'];*/
 																$make=$row['make'];
-																$grade=$row['grade'];
-																/*
+																/*$grade=$row['grade'];
 																$shape=$row['shape'];*/
 																$size=$row['size'];
 																$rmsize=$row['rmsize'];
-																
+																$code=$row['newCode'];
 																$heatno=$row['heatNo'];
 															/*	$surface=$row['surface'];*/
 																$weight=$row['actualWeight'];
@@ -183,26 +174,23 @@ $s1date = $st."-04-01";
 																$invweight=$row['actualWeight'];
 																$condition=$row['conditn'];
 
-
-																$production_transfer=0;
 																
-																$query2="select  * from production where fyId = '$fyId' and companyId = '$cId' and `date`< '$sdate' and `date`>'$s1date' and previousCode != newCode and previousCode = '$newCode'";
+																$query2="select  * from production where fyId = '$fyId' and companyId = '$cId' and `date`< '$sdate' and `date`>'$s1date' and previousCode != newCode and previousCode = '$code'";
+																//echo $query2;
 																$result2 = mysqli_query($conn, $query2);
 																while($row2 = mysqli_fetch_array($result2))   		{
-																	$production_transfer = $production_transfer + $row2['actualWeight'];
+																	$production_transfer = $production_transfer + $row2['balanceWeight'];
 																}
 
 																
-																$query3 = "select * from production where fyId='$fyId' and companyId = '$cId'  and newCode='$newCode'";
+																
+																$query3 = "select * from production where fyId='$fyId' and companyId = '$cId' and previousCode='$code' and newCode='$code'";
 																//echo $query3;
 																$result3 = mysqli_query($conn, $query3);
 																$row3 = mysqli_fetch_array($result3);
 
-
 																$proId = $row3['id'];
 
-
-																$sales_transfer = 0;
 																$query4 = "select * from trade where fyId = '$fyId' and companyId = '$cId' and `date`< '$sdate' and `date`>'$s1date' and proId = '$proId'";
 																
 																$result4 = mysqli_query($conn,$query4);
@@ -213,221 +201,111 @@ $s1date = $st."-04-01";
 																	
 																$opening = $invweight - $production_transfer - $sales_transfer;
 
+																$opening_balance = $opening_balance + $opening;
+															}
+
+
+
+															$cnt = 0;
+															while($cnt < 12){
+
+															$cnt++;
+															if($monthNum==4){
+																$sdate = $st."-".$monthNum."-02";
+																//echo $sdate;
+															}
+															$query1 = "select * from production where `date`>= '$sdate' and `date`<= '$edate'  and fyId = '$fyId' and companyId = '$cId'";
+															//echo $query1;
+															$result1 = mysqli_query($conn, $query1);
+
+															$invoice = 0;
+															$inhouse = 0;
+
+															while($row1 = mysqli_fetch_array($result1)){
+															$invoice = $invoice + $row1['inweight'];
+															//echo $row1['purchaseweight'];
+															$inhouse = $inhouse + $row1['balanceWt'];
+
+
+														}
+
+														if($monthNum==4){
+																$sdate = $st."-".$monthNum."-01";
+																//echo $sdate;
+															}
+
+
+														$production_transfer1=0;
+																
+																$query3="select  * from production where fyId = '$fyId' and companyId = '$cId' and `date`< '$edate' and `date`>'$sdate' and previousCode!=newCode ";
+																$result3 = mysqli_query($conn, $query3);
+																while($row3 = mysqli_fetch_array($result3))   		{
+																	$production_transfer1 = $production_transfer1 + $row3['actualWeight'];
+																}
+
 
 
 																
 															?>
 													<tr>
 														
-																<td><?php echo $count;?></td>
+														<td><?php echo $cnt;?></td>
 
 														<td>
-															<?php echo $date;?>
-														</td>
-
-														<td>
-															<?php echo $newCode;?>
+															<?php echo $monthName;?>
 														</td>
 														
 														<td>
-															<?php echo $lotno;?>
+															<?php echo $opening_balance;?>
 														</td>
 														<td>
-															<?php echo $make;?>
+															<?php if($invoice==0)
+																	echo "-";
+																	else echo $invoice;?>
+															
 														</td>
+													
 														<td>
-															<?php echo $grade;?>
-														</td>
-
-														<!-- 
-														<td>
-															<?php echo $shape;?>
-														</td> -->
-
-														<td>
-															<?php echo $size;?>
+															<?php if($inhouse==0) echo "-"; else echo $inhouse;?>
 														</td>
 
 														<td>
-															<?php echo $rmsize;?>
+															<?php if($sales_transfer==0) echo "-"; else echo $sales_transfer;?>
 														</td>
-
-															<td>
-															<?php echo $heatno;?>
-														</td>
-
-														<!-- <td>
-															<?php echo $surface;?>
-														</td> -->
-
 														<td>
-															<?php echo $weight;?>
-														</td>
-
-														<td>
-															<?php echo $invweight;?>
-														</td>
-
-														<td>
-															<?php echo $recloss+$nrloss;?>
-														</td>
-
-														<td>
-															<?php echo $recloss;?>
-														</td>
-
-														<td>
-															<?php echo $nrloss;?>
-														</td>
-
-														<td>
-															<?php echo round( ($recloss+$nrloss)/$weight*100,2);?>
-														</td>
-
-														<td>
-															<?php echo $balweight;?>
-														</td>
-
-														<td>
-															<?php echo $Remarks;?>
+															<?php echo $opening_balance + $inhouse -$sales_transfer ; ?>
 														</td>
 
 														
-
-
 													</tr>
-													<?php
+													
+
+														<?php $opening_balance = $opening_balance + $inhouse - $sales_transfer;
+
+														$monthNum++;
+
+												  $dateObj   = DateTime::createFromFormat('!m', $monthNum);
+													$monthName = $dateObj->format('F');
+
+														//echo $monthNum;
+														if($monthNum>12)
+															$monthNum = 1;
+
+													if($monthNum>3){
+													$sdate = $st."-".$monthNum."-01";
+													$edate = $st."-".$monthNum."-31";
+
+													$s1date = $st."-04-01";
 													}
-												?>
-
-												<tr>
-													<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-													<td></td><td></td><td></td><td></td>
-												</tr>
-
-
-												<tr>
-													<td><b>Month Entries</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-													<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-												</tr>
-
-												<?php
-													if($monthNum==4){
-														$sdate = $st."-".$monthNum."-02";
+													else{
+													$sdate = $en."-".$monthNum."-01";
+													$edate = $en."-".$monthNum."-31";
+													$s1date = $en."-04-01";
 													}
-													$q = "select  * from production where fyId = '$fyId' and companyId = '$cId' and `date`>= '$sdate' and `date`<='$edate' ";
-									            		$query=mysqli_query($conn,$q);
-									            		//echo $q;
-															$count=0;
-															while($row=mysqli_fetch_array($query))
-															{
-																$count++;
-																$id=$row['id'];
-																$date=$row['date'];
-																$newCode=$row['newCode'];
-																$lotno=$row['lotNo'];
-																$make=$row['make'];
-																$grade=$row['grade'];
-																// $shape=$row['shape'];
-																$size=$row['size'];
-																$rmsize=$row['rmsize'];
-																
-																$heatno=$row['heatNo'];
-															/*	$surface=$row['surface'];*/
-																$weight=$row['actualWeight'];
-																$balweight=$row['balanceWt'];
-																$recloss=$row['recoverableLoss'];
-																$nrloss=$row['nrLoss'];
-																$Remarks=$row['remark'];
-																$invweight=$row['actualWeight'];
-																$condition=$row['conditn'];
+												//	echo $monthName;
+														 } ?>
+													
 
-
-															?>
-													<tr>
-															<td><?php echo $count;?></td>
-
-														<td>
-															<?php echo $date;?>
-														</td>
-
-														<td>
-															<?php echo $newCode;?>
-														</td>
-														
-														 <td>
-															<?php echo $lotno;?>
-														</td>
-														<td>
-															<?php echo $make;?>
-														</td>
-														 <td>
-															<?php echo $grade;?>
-														</td>
-
-														<!--
-														<td>
-															<?php echo $shape;?>
-														</td> -->
-
-														<td>
-															<?php echo $size;?>
-														</td>
-
-														<td>
-															<?php echo $rmsize;?>
-														</td>
-
-															<td>
-															<?php echo $heatno;?>
-														</td>
-
-														<!-- <td>
-															<?php echo $surface;?>
-														</td> -->
-
-														<td>
-															<?php echo $weight;?>
-														</td>
-
-														<td>
-															<?php echo $invweight;?>
-														</td>
-
-														<td>
-															<?php echo $recloss+$nrloss;?>
-														</td>
-
-														<td>
-															<?php echo $recloss;?>
-														</td>
-
-														<td>
-															<?php echo $nrloss;?>
-														</td>
-
-														<td>
-															<?php echo round( ($recloss+$nrloss)/$weight*100,2);?>
-														</td>
-
-														<td>
-															<?php echo $balweight;?>
-														</td>
-														
-
-														<td>
-															<?php echo $Remarks;?>
-														</td>
-
-														
-
-
-
-
-													</tr>
-													<?php
-													}
-												?>
 													
 													</tbody>
 
@@ -492,7 +370,7 @@ $s1date = $st."-04-01";
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+					  null, null,null,null,null,null,null
 					],
 					"aaSorting": [],
 					

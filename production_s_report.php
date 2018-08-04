@@ -91,12 +91,7 @@ $s1date = $en."-04-01";
 										
 										<div class="clearfix">
 											<div class="pull-right tableTools-container">
-												<div class="btn btn-white btn-primary btn-bold">
-													<a class="blue" href="addpurchase.php" data-toggle="tooltip" title="Add">
-														<i class="ace-icon fa fa-plus-circle bigger-120 green"></i>
-													</a>
-												</div>
-
+												
 												
 											</div>
 										</div>

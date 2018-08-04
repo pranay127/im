@@ -91,12 +91,7 @@ $s1date = $en."-04-01";
 										
 										<div class="clearfix">
 											<div class="pull-right tableTools-container">
-												<div class="btn btn-white btn-primary btn-bold">
-													<a class="blue" href="addpurchase.php" data-toggle="tooltip" title="Add">
-														<i class="ace-icon fa fa-plus-circle bigger-120 green"></i>
-													</a>
-												</div>
-
+												
 												
 											</div>
 										</div>
@@ -158,7 +153,7 @@ $s1date = $en."-04-01";
 															$actualWeight = 0;
 
 															while($row1 = mysqli_fetch_array($result1)){
-															$actualWeight = $invoice + $row1['actualWeight'];
+															$actualWeight = $actualWeight + $row1['actualWeight'];
 															
 
 

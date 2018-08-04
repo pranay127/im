@@ -109,15 +109,17 @@
 														<th>Size(mm)</th>
 														<th>RmSize(mm)</th>
 														<th>Heat No</th>
+
+														<th>Condition</th>
 														<!-- <th>Surface</th> -->
-														<th>Weight(kg)</th>
+														<th>RM Weight(kg)</th>
+														<th>FG Weight(kg)</th>
 														<th>Balance Weight in Stock(Kg)</th>
 														<th>Total Loss</th>
 														<th>Recovarable Loss</th>
 														<th>N-Recovarable Loss</th>
 														<th>Remarks</th>
-														<th>Invoice Weight(kg)</th>
-														<th>Condition</th>
+														
 														<th>Action</th>
 													</tr>
 												</thead>
@@ -194,6 +196,10 @@
 															<td>
 															<?php echo $heatno;?>
 														</td>
+														
+														<td>
+															<?php echo $condition;?>
+														</td>
 
 														<!-- <td>
 															<?php echo $surface;?>
@@ -201,6 +207,9 @@
 
 														<td>
 															<?php echo $weight;?>
+														</td>
+														<td>
+															<?php echo $invweight;?>
 														</td>
 
 														<td>
@@ -222,12 +231,6 @@
 															<?php echo $Remarks;?>
 														</td>
 
-														<td>
-															<?php echo $invweight;?>
-														</td>
-														<td>
-															<?php echo $condition;?>
-														</td>
 														<td>
 															<div class="hidden-sm hidden-xs action-buttons">
 																
