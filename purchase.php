@@ -101,18 +101,18 @@
 														<th>Date</th>
 														<th>Bill No</th>
 														<th>Party Name</th>
-														<!-- <th>Grade</th> -->
+														<th>Grade</th> 
 														<th>Size(mm)</th>
 														<!-- <th>Shape</th>
 														<th>Surface</th> -->
 														<th>Condition</th>
 														<th>Make</th>
-														<!-- <th>Lot No</th> -->
+														<th>Lot No</th> 
 														<th>Code No</th>
 														<th>Invoice Weight(kg)</th>
 														<th>Inhouse Weight(kg)</th>
 														<th>Balance Weight in Stock(Kg)</th>
-														<!-- <th>Transporter Name</th> -->
+													   <th>Transporter Name</th> 
 														<th>Lorry No</th>
 														<th>Freight Fixed</th>
 														<th>CNF/FOB</th>
@@ -138,18 +138,24 @@
 																$date=$row['date'];
 																$billno=$row['billNo'];
 																$party=$row['party'];
-																/*$grade=$row['grade'];*/
+																$grade=$row['grade'];
 																$size=$row['size'];
 																/*$shape=$row['shape'];
 																$surface=$row['surface'];*/
 																$condition=$row['conditn'];
 																$make=$row['make'];
-																/*$lotno=$row['lotNo'];*/
+																$lotno=$row['lotNo'];
 																$codeno=$row['code'];
 																$inhweight=$row['actualWeight'];
 																$invweight=$row['purchaseWeight'];
 																$balweight=$row['remainingWeight'];
-																/*$transname=$row['party'];*/
+																$row2=$row['transporterId'];
+																$sql2="select companyName from transporter where venorId='$row2'";
+
+																$result2=mysqli_query($conn,$sql2);
+																$row3=mysqli_fetch_array($result2);
+
+																$transname=$row3['companyName'];
 																$lorryno=$row['lorryNo'];
 																$frefixed=$row['freightFixed'];
 																$CNF=$row['cnfFobId'];
@@ -176,9 +182,9 @@
 														<td>
 															<?php echo $party;?>
 														</td>
-														<!-- <td>
+														 <td>
 															<?php echo $grade;?>
-														</td> -->
+														</td> 
 														<td>
 															<?php echo $size;?>
 														</td>
@@ -195,9 +201,9 @@
 															<?php echo $make;?>
 														</td>
 
-														<!-- <td>
+														 <td>
 															<?php echo $lotno;?>
-														</td> -->
+														</td>
 														<td>
 															<?php echo $codeno;?>
 														</td>
@@ -210,9 +216,9 @@
 														<td>
 															<?php echo $balweight;?>
 														</td>
-														<!-- <td>
+														 <td>
 															<?php echo $transname;?>
-														</td> -->
+														</td>
 														<td>
 															<?php echo $lorryno;?>
 														</td>
@@ -306,7 +312,7 @@
 					bAutoWidth: false,
 					"aoColumns": [
 					  { "bSortable": false },
-					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 					  { "bSortable": false }
 					],
 					"aaSorting": [],

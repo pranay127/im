@@ -111,7 +111,7 @@
 														<th>Code No</th>
 														<th>Invoice Weight(kg)</th>
 														<th>Inhouse Weight(kg)</th>
-														<!-- <th>Balance Weight in Stock(Kg)</th> -->
+														<th>Balance Weight in Stock(Kg)</th>
 														<!-- <th>Transporter Name</th> -->
 														<th>heat No</th>
 														<th>Code Date</th>
@@ -147,7 +147,14 @@
 																$codeno=$row['code'];
 																$invweight=$row['invoiceWt'];
 																$inhweight=$row['actualWeight'];
-																$balweight=$row['remainingWeight'];
+																$proId = $row['proId'];
+																$sql2 = "select balanceWt from production where id = '$proId'";
+
+																$result2 = mysqli_query($conn, $sql2);
+																
+																$row2 = mysqli_fetch_array($result2);
+																$balanceWt = $row2['balanceWt'];
+
 																/*$transname=$row['transporterId'];*/
 																$lorryno=$row['lorryNo'];
 																$frefixed=$row['freightFixed'];
@@ -208,10 +215,10 @@
 														<td>
 															<?php echo $inhweight;?>
 														</td>
-<!-- 														<td>
-															<?php echo $balweight;?>
+ 														<td>
+															<?php echo $balanceWt;?>
 														</td>
- -->														<td>
+ 														<td>
 															<?php echo $heatno;?>
 														</td> 
 														<td>
@@ -345,7 +352,7 @@
 					bAutoWidth: false,
 					"aoColumns": [
 					  { "bSortable": false },
-					  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,null,
+					  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,null,null,
 					  { "bSortable": false }
 					],
 					"aaSorting": [],

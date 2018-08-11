@@ -102,10 +102,10 @@
 														<th>Sr No</th>
 														<th>Date</th>
 														<th>New Code</th>
-														<!-- <th>Lot No</th> -->
+														<th>Lot No</th> 
 														<th>Make</th>
-														<!-- <th>Grade</th>
-														<th>Shape</th> -->
+														<th>Grade</th>
+														<th>Shape</th> 
 														<th>Size(mm)</th>
 														<th>RmSize(mm)</th>
 														<th>Heat No</th>
@@ -134,10 +134,10 @@
 																$id=$row['id'];
 																$date=$row['date'];
 																$newcode=$row['newCode'];
-																/*$lotno=$row['lotNo'];*/
+																$lotno=$row['lotNo'];
 																$make=$row['make'];
-																/*$grade=$row['grade'];
-																$shape=$row['shape'];*/
+																$grade=$row['grade'];
+																$shape=$row['shape'];
 																$size=$row['size'];
 																$rmsize=$row['rmsize'];
 																
@@ -171,19 +171,19 @@
 															<?php echo $newcode;?>
 														</td>
 														
-														<!-- <td>
+														 <td>
 															<?php echo $lotno;?>
-														</td> -->
+														</td> 
 														<td>
 															<?php echo $make;?>
 														</td>
-														<!-- <td>
+														 <td>
 															<?php echo $grade;?>
 														</td>
 
 														<td>
 															<?php echo $shape;?>
-														</td> -->
+														</td>
 
 														<td>
 															<?php echo $size;?>
@@ -344,7 +344,7 @@
 					bAutoWidth: false,
 					"aoColumns": [
 					  { "bSortable": false },
-					  null, null, null, null, null, null, null, null, null, null, null, null, null, null,null,
+					  null, null, null, null, null, null, null, null, null, null, null, null, null, null,null,null,null,null,
 					  { "bSortable": false }
 					],
 					"aaSorting": [],

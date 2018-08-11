@@ -135,7 +135,7 @@ $s1date = $st."-04-01";
 														<!-- <th>Balance Weight in Stock(Kg)</th> -->
 														<!-- <th>Transporter Name</th> -->
 														<th>heat No</th>
-														<th>Code Date</th>
+														
 												
 														<th>Lorry No</th>
 														<th>Freight Fixed</th>
@@ -236,9 +236,7 @@ $s1date = $st."-04-01";
  -->														<td>
 															<?php echo $heatno;?>
 														</td> 
-														<td>
-															<?php echo $codedate;?>
-														</td>
+														
 													
 														<td>
 															<?php echo $lorryno;?>
