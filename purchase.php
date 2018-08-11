@@ -138,24 +138,44 @@
 																$date=$row['date'];
 																$billno=$row['billNo'];
 																$party=$row['party'];
-																$grade=$row['grade'];
+																
 																$size=$row['size'];
-																/*$shape=$row['shape'];
-																$surface=$row['surface'];*/
+																
+																/*$surface=$row['surface'];*/
 																$condition=$row['conditn'];
 																$make=$row['make'];
-																$lotno=$row['lotNo'];
+															
 																$codeno=$row['code'];
 																$inhweight=$row['actualWeight'];
 																$invweight=$row['purchaseWeight'];
 																$balweight=$row['remainingWeight'];
 																$row2=$row['transporterId'];
 																$sql2="select companyName from transporter where venorId='$row2'";
-
 																$result2=mysqli_query($conn,$sql2);
 																$row3=mysqli_fetch_array($result2);
-
 																$transname=$row3['companyName'];
+																$row3=$row['grade'];
+																$sql3="select name from m_grade where id='$row3'";
+																$result3=mysqli_query($conn,$sql3);
+																$row4=mysqli_fetch_array($result3);
+																$grade=$row4['name'];
+
+																$row5=$row['lotNo'];
+																$sql4="select lotNo from lotno where id='$row5'";
+																$result4=mysqli_query($conn,$sql4);
+																$row5=mysqli_fetch_array($result4);
+																$lotno=$row5['lotNo'];
+
+
+																$row6=$row['shape'];
+																$sql5="select name from m_shape where id='$row6'";
+																//echo $sql5;
+																$result5=mysqli_query($conn,$sql5);
+																$row7=mysqli_fetch_array($result5);
+																$shape=$row7['name'];
+																
+
+
 																$lorryno=$row['lorryNo'];
 																$frefixed=$row['freightFixed'];
 																$CNF=$row['cnfFobId'];

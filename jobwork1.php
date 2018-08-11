@@ -129,8 +129,8 @@
 																$newcode=$row['newCode'];
 																$lotno=$row['lotNo'];
 																$make=$row['make'];
-																$grade=$row['grade'];
-																$shape=$row['shape'];
+																// $grade=$row['grade'];
+																// $shape=$row['shape'];
 																$size=$row['size'];
 																$rmsize=$row['rmsize'];
 																$totalLoss=$row['totalLoss'];
@@ -143,6 +143,26 @@
 																$Remarks=$row['remark'];
 																$invweight=$row['actualWeight'];
 																$condition=$row['conditn'];
+
+																$row3=$row['grade'];
+																$sql3="select name from m_grade where id='$row3'";
+																$result3=mysqli_query($conn,$sql3);
+																$row4=mysqli_fetch_array($result3);
+																$grade=$row4['name'];
+
+																$row5=$row['lotNo'];
+																$sql4="select lotNo from lotno where id='$row5'";
+																$result4=mysqli_query($conn,$sql4);
+																$row5=mysqli_fetch_array($result4);
+																$lotno=$row5['lotNo'];
+
+
+																$row6=$row['shape'];
+																$sql5="select name from m_shape where id='$row6'";
+																$result5=mysqli_query($conn,$sql5);
+																$row7=mysqli_fetch_array($result5);
+																$shape=$row7['name'];
+																
 															?>
 													<tr>
 														<td class="center">
