@@ -176,7 +176,14 @@ $s1date = $en."-04-01";
 																$CNF=$row['cnfFobId'];
 																$Remarks=$row['remarks'];
 																$code=$row['code'];
+
+																
 															
+
+
+
+
+
 																
 																$query2="select  * from production where fyId = '$fyId' and companyId = '$cId' and `date`< '$sdate' and `date`>'$s1date' and previousCode != newCode and previousCode = '$code'";
 															//	echo $query2;

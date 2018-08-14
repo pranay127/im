@@ -209,7 +209,24 @@ $s1date = $st."-04-01";
 																	
 																$opening = $invweight - $production_transfer - $sales_transfer;
 
+                                                                $row3=$row['grade'];
+																$sql3="select name from m_grade where id='$row3'";
+																$result3=mysqli_query($conn,$sql3);
+																$row4=mysqli_fetch_array($result3);
+																$grade=$row4['name'];
 
+																$row5=$row['lotNo'];
+																$sql4="select lotNo from lotno where id='$row5'";
+																$result4=mysqli_query($conn,$sql4);
+																$row5=mysqli_fetch_array($result4);
+																$lotno=$row5['lotNo'];
+
+
+																$row6=$row['shape'];
+																$sql5="select name from m_shape where id='$row6'";
+																$result5=mysqli_query($conn,$sql5);
+																$row7=mysqli_fetch_array($result5);
+																$shape=$row7['name'];
 
 																
 															?>

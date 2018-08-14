@@ -91,12 +91,6 @@
 											<table id="dynamic-table"  class="table table-striped table-bordered table-hover" >
 												<thead>
 													<tr>
-														<th class="center">
-															<label class="pos-rel">
-																<input type="checkbox" name="checkboxAll" class="ace" />
-																<span class="lbl"></span>
-															</label>
-														</th>
 														<th>Sr No</th>
 														<th>Date</th>
 														<th>Bill No</th>
@@ -183,12 +177,7 @@
 																
 															?>
 													<tr>
-														<td class="center">
-															<label class="pos-rel">
-																<input type="checkbox"  class="ace" name="checkbox[]" value="<?php echo $id; ?>" />
-																<span class="lbl"></span>
-															</label>
-														</td>
+														
 
 														<td><?php echo $count;?></td>
 
@@ -331,7 +320,7 @@
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  { "bSortable": false },
+					  
 					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 					  { "bSortable": false }
 					],

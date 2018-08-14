@@ -122,24 +122,24 @@ $s1date = $st."-04-01";
 														<th>Date</th>
 														<th>Bill No</th>
 														<th>Party Name</th>
-														<!-- <th>Grade</th> -->
+														<th>Grade</th> 
 														<th>Size(mm)</th>
-														<!-- <th>Shape</th> -->
+														 <th>Shape</th> 
 														<!-- <th>Surface</th> -->
 														<th>Condition</th>
 														<th>Make</th>
-														<!-- <th>Lot No</th> -->
+														<th>Lot No</th> 
 														<th>Code No</th>
 														<th>Invoice Weight(kg)</th>
 														<th>Inhouse Weight(kg)</th>
-														<!-- <th>Balance Weight in Stock(Kg)</th> -->
-														<!-- <th>Transporter Name</th> -->
+																										
 														<th>heat No</th>
 														
-												
+												        <th>Transporter Name</th>
 														<th>Lorry No</th>
 														<th>Freight Fixed</th>
 														<th>CNF/FOB</th>
+													    <th>Balance Weight in Stock(Kg)</th> 
 														<th>Remarks</th>
 
 
@@ -183,6 +183,37 @@ $s1date = $st."-04-01";
 																$Remarks=$row['remarks'];
 																$heatno=$row['heatNo'];
 																$codedate=$row['codeDate'];
+
+
+
+
+																$row2=$row['transporterId'];
+																$sql2="select companyName from transporter where venorId='$row2'";
+																$result2=mysqli_query($conn,$sql2);
+																$row3=mysqli_fetch_array($result2);
+																$transname=$row3['companyName'];
+																$row3=$row['grade'];
+																$sql3="select name from m_grade where id='$row3'";
+																$result3=mysqli_query($conn,$sql3);
+																$row4=mysqli_fetch_array($result3);
+																$grade=$row4['name'];
+
+																$row5=$row['lotNo'];
+																$sql4="select lotNo from lotno where id='$row5'";
+																$result4=mysqli_query($conn,$sql4);
+																$row5=mysqli_fetch_array($result4);
+																$lotno=$row5['lotNo'];
+
+
+																$row6=$row['shape'];
+																$sql5="select name from m_shape where id='$row6'";
+																//echo $sql5;
+																$result5=mysqli_query($conn,$sql5);
+																$row7=mysqli_fetch_array($result5);
+																$shape=$row7['name'];
+																
+
+
 														
 															?>
 													<tr>
@@ -199,28 +230,28 @@ $s1date = $st."-04-01";
 														<td>
 															<?php echo $party;?>
 														</td>
-													<!-- 	<td>
+													 	<td>
 															<?php echo $grade;?>
-														</td> -->
+														</td> 
 														<td>
 															<?php echo $size;?>
 														</td>
-														<!-- <td> 
+														 <td> 
 															<?php echo $shape;?>
 														</td>
-														<td>
+														<!-- <td>
 															<?php echo $surface;?>
-														</td> -->
+														</td> --> 
 														<td>
 															<?php echo $condition;?>
 														</td>
 														<td>
 															<?php echo $make;?>
 														</td>
-<!-- 
+ 
 														<td>
 															<?php echo $lotno;?>
-														</td>  -->
+														</td>  
 														<td>
 															<?php echo $codeno;?>
 														</td>
@@ -236,7 +267,9 @@ $s1date = $st."-04-01";
  -->														<td>
 															<?php echo $heatno;?>
 														</td> 
-														
+														 <td>
+															<?php echo $transname;?>
+														</td>
 													
 														<td>
 															<?php echo $lorryno;?>
@@ -247,6 +280,9 @@ $s1date = $st."-04-01";
 														</td>
 														<td>
 															<?php echo $CNF;?>
+														</td>
+														<td>
+															<?php echo $balweight;?>
 														</td>
 														<td>
 															<?php echo $Remarks;?>
@@ -320,7 +356,7 @@ $s1date = $st."-04-01";
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 					],
 					"aaSorting": [],
 					

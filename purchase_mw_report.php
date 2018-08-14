@@ -125,19 +125,20 @@ $s1date = $st."-04-01";
 														<th>Party Name</th>
 													    <th>Grade</th>
 														<th>Size(mm)</th>
-														<!-- <th>Shape</th>
-														<th>Surface</th> -->
-														<th>Condition</th>
+														<th>Shape</th>
+														<!-- <th>Surface</th> -->
+														 <th>Condition</th>
 														<th>Make</th>
 														<th>Lot No</th> 
 														<th>Code No</th>
 														<th>Opening Balance Weight in Stock(Kg)</th>
 														<th>Inhouse Weight</th>
 														<th>Invoice Weight</th>
-														<!-- <th>Transporter Name</th> -->
+														<th>Transporter Name</th>
 														<th>Lorry No</th>
 														<th>Freight Fixed</th>
 														<th>CNF/FOB</th>
+														<th>Balance Weight</th>
 														<th>Remarks</th>
 
 														
@@ -210,6 +211,33 @@ $s1date = $st."-04-01";
 																	
 																$opening = $invweight - $production_transfer - $sales_transfer;
 
+                                                                
+                                                                $row2=$row['transporterId'];
+																$sql2="select companyName from transporter where venorId='$row2'";
+																$result2=mysqli_query($conn,$sql2);
+																$row3=mysqli_fetch_array($result2);
+																$transname=$row3['companyName'];
+																$row3=$row['grade'];
+																$sql3="select name from m_grade where id='$row3'";
+																$result3=mysqli_query($conn,$sql3);
+																$row4=mysqli_fetch_array($result3);
+																$grade=$row4['name'];
+
+																$row5=$row['lotNo'];
+																$sql4="select lotNo from lotno where id='$row5'";
+																$result4=mysqli_query($conn,$sql4);
+																$row5=mysqli_fetch_array($result4);
+																$lotno=$row5['lotNo'];
+
+
+																$row6=$row['shape'];
+																$sql5="select name from m_shape where id='$row6'";
+																//echo $sql5;
+																$result5=mysqli_query($conn,$sql5);
+																$row7=mysqli_fetch_array($result5);
+																$shape=$row7['name'];
+																
+
 
 
 																
@@ -234,9 +262,9 @@ $s1date = $st."-04-01";
 														<td>
 															<?php echo $size;?>
 														</td>
-														<!-- <td>
+														 <td>
 															<?php echo $shape;?>
-														</td>
+														</td><!-- 
 														<td>
 															<?php echo $surface;?>
 														</td> -->
@@ -263,20 +291,22 @@ $s1date = $st."-04-01";
 														<td>
 															<?php echo $invweight;?>
 														</td>
-														<!-- <td>
-															<?php echo $balweight;?>
-														</td>  -->
-														<!-- <td>
+														
+														 <td>
 															<?php echo $transname;?>
-														</td> -->
+														</td> 
 														<td>
 															<?php echo $lorryno;?>
 														</td>
 														<td>
 															<?php echo $frefixed;?>
 														</td>
+														 
 														<td>
 															<?php echo $CNF;?>
+														</td>
+														 <td>
+															<?php echo $balweight;?>
 														</td>
 														<td>
 															<?php echo $Remarks;?>
@@ -325,6 +355,32 @@ $s1date = $st."-04-01";
 																$CNF=$row['cnfFobId'];
 																$Remarks=$row['remarks'];
 																$code=$row['code'];
+
+
+																$row2=$row['transporterId'];
+																$sql2="select companyName from transporter where venorId='$row2'";
+																$result2=mysqli_query($conn,$sql2);
+																$row3=mysqli_fetch_array($result2);
+																$transname=$row3['companyName'];
+																$row3=$row['grade'];
+																$sql3="select name from m_grade where id='$row3'";
+																$result3=mysqli_query($conn,$sql3);
+																$row4=mysqli_fetch_array($result3);
+																$grade=$row4['name'];
+
+																$row5=$row['lotNo'];
+																$sql4="select lotNo from lotno where id='$row5'";
+																$result4=mysqli_query($conn,$sql4);
+																$row5=mysqli_fetch_array($result4);
+																$lotno=$row5['lotNo'];
+
+
+																$row6=$row['shape'];
+																$sql5="select name from m_shape where id='$row6'";
+																//echo $sql5;
+																$result5=mysqli_query($conn,$sql5);
+																$row7=mysqli_fetch_array($result5);
+																$shape=$row7['name'];
 																
 															?>
 													<tr>
@@ -346,12 +402,12 @@ $s1date = $st."-04-01";
 														<td>
 															<?php echo $size;?>
 														</td>
-														<!-- <td>
+														 <td>
 															<?php echo $shape;?>
 														</td>
-														<td>
+														<!-- <td>
 															<?php echo $surface;?>
-														</td> -->
+														</td> --> 
 														<td>
 															<?php echo $condition;?>
 														</td>
@@ -378,9 +434,9 @@ $s1date = $st."-04-01";
 														<!-- <td>
 															<?php echo $balweight;?>
 														</td>  -->
-														<!-- <td>
+														<td>
 															<?php echo $transname;?>
-														</td> -->
+														</td>
 														<td>
 															<?php echo $lorryno;?>
 														</td>
@@ -389,6 +445,9 @@ $s1date = $st."-04-01";
 														</td>
 														<td>
 															<?php echo $CNF;?>
+														</td>
+														 <td>
+															<?php echo $balweight;?>
 														</td>
 														<td>
 															<?php echo $Remarks;?>
@@ -464,8 +523,8 @@ $s1date = $st."-04-01";
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
-					],
+					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+					  ],
 					"aaSorting": [],
 					
 					select: {
