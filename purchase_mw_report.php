@@ -127,7 +127,7 @@ $s1date = $st."-04-01";
 														<th>Size(mm)</th>
 														<th>Shape</th>
 														<!-- <th>Surface</th> -->
-														 <th>Condition</th>
+														<th>Condition</th>
 														<th>Make</th>
 														<th>Lot No</th> 
 														<th>Code No</th>
@@ -169,8 +169,8 @@ $s1date = $st."-04-01";
 																$party=$row['party'];
 																$grade=$row['grade'];
 																$size=$row['size'];
-																/*$shape=$row['shape'];
-																$surface=$row['surface'];*/
+																$shape=$row['shape'];
+																/*$surface=$row['surface'];*/
 																$condition=$row['conditn'];
 																$make=$row['make'];
 																$lotno=$row['lotNo'];
@@ -178,7 +178,7 @@ $s1date = $st."-04-01";
 																$inhweight=$row['actualWeight'];
 																$invweight=$row['purchaseWeight'];
 																$balweight=$row['remainingWeight'];
-																/*$transname=$row['party'];*/
+																$transname=$row['party'];
 																$lorryno=$row['lorryNo'];
 																$frefixed=$row['freightFixed'];
 																$CNF=$row['cnfFobId'];
@@ -211,12 +211,13 @@ $s1date = $st."-04-01";
 																	
 																$opening = $invweight - $production_transfer - $sales_transfer;
 
-                                                                
+
                                                                 $row2=$row['transporterId'];
 																$sql2="select companyName from transporter where venorId='$row2'";
 																$result2=mysqli_query($conn,$sql2);
 																$row3=mysqli_fetch_array($result2);
 																$transname=$row3['companyName'];
+
 																$row3=$row['grade'];
 																$sql3="select name from m_grade where id='$row3'";
 																$result3=mysqli_query($conn,$sql3);
@@ -229,14 +230,12 @@ $s1date = $st."-04-01";
 																$row5=mysqli_fetch_array($result4);
 																$lotno=$row5['lotNo'];
 
-
 																$row6=$row['shape'];
 																$sql5="select name from m_shape where id='$row6'";
 																//echo $sql5;
 																$result5=mysqli_query($conn,$sql5);
 																$row7=mysqli_fetch_array($result5);
 																$shape=$row7['name'];
-																
 
 
 
@@ -320,13 +319,13 @@ $s1date = $st."-04-01";
 
 												<tr>
 													<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-													<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+													<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 												</tr>
 
 
 												<tr>
 													<td><b>Month Entries</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-													<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+													<td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
 												</tr>
 
 												<?php
@@ -355,13 +354,12 @@ $s1date = $st."-04-01";
 																$CNF=$row['cnfFobId'];
 																$Remarks=$row['remarks'];
 																$code=$row['code'];
-
-
-																$row2=$row['transporterId'];
+																 $row2=$row['transporterId'];
 																$sql2="select companyName from transporter where venorId='$row2'";
 																$result2=mysqli_query($conn,$sql2);
 																$row3=mysqli_fetch_array($result2);
 																$transname=$row3['companyName'];
+
 																$row3=$row['grade'];
 																$sql3="select name from m_grade where id='$row3'";
 																$result3=mysqli_query($conn,$sql3);
@@ -374,13 +372,13 @@ $s1date = $st."-04-01";
 																$row5=mysqli_fetch_array($result4);
 																$lotno=$row5['lotNo'];
 
-
 																$row6=$row['shape'];
 																$sql5="select name from m_shape where id='$row6'";
 																//echo $sql5;
 																$result5=mysqli_query($conn,$sql5);
 																$row7=mysqli_fetch_array($result5);
 																$shape=$row7['name'];
+
 																
 															?>
 													<tr>
@@ -396,7 +394,7 @@ $s1date = $st."-04-01";
 														<td>
 															<?php echo $party;?>
 														</td>
-													    <td>
+														 <td>
 															<?php echo $grade;?>
 														</td> 
 														<td>
@@ -404,10 +402,10 @@ $s1date = $st."-04-01";
 														</td>
 														 <td>
 															<?php echo $shape;?>
-														</td>
-														<!-- <td>
+														</td><!-- 
+														<td>
 															<?php echo $surface;?>
-														</td> --> 
+														</td> -->
 														<td>
 															<?php echo $condition;?>
 														</td>
@@ -422,27 +420,26 @@ $s1date = $st."-04-01";
 															<?php echo $codeno;?>
 														</td>
 														<td>
-															<?php echo $invweight;?>
+															<?php echo $opening;?>
 														</td>
-													
+														 
 														<td>
 															<?php echo $inhweight;?>
 														</td>
 														<td>
 															<?php echo $invweight;?>
 														</td>
-														<!-- <td>
-															<?php echo $balweight;?>
-														</td>  -->
-														<td>
+														
+														 <td>
 															<?php echo $transname;?>
-														</td>
+														</td> 
 														<td>
 															<?php echo $lorryno;?>
 														</td>
 														<td>
 															<?php echo $frefixed;?>
 														</td>
+														 
 														<td>
 															<?php echo $CNF;?>
 														</td>
@@ -452,7 +449,6 @@ $s1date = $st."-04-01";
 														<td>
 															<?php echo $Remarks;?>
 														</td>
-
 
 
 													</tr>
@@ -523,8 +519,8 @@ $s1date = $st."-04-01";
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
-					  ],
+					  null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+					],
 					"aaSorting": [],
 					
 					select: {

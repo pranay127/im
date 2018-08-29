@@ -356,7 +356,7 @@ $s1date = $st."-04-01";
 				.DataTable( {
 					bAutoWidth: false,
 					"aoColumns": [
-					  null, null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
+					  null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
 					],
 					"aaSorting": [],
 					
