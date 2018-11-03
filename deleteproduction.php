@@ -8,7 +8,7 @@ include('config.php');
   $cId = $_SESSION['cId'];
 
 
-
+// there are multiple entries when deleted
 if ($conn->connect_error)
 	{
 		 die("Connection failed: " . $conn->connect_error);
